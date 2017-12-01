@@ -7,7 +7,6 @@ import java.net.Socket;
 public class App {
 
     static final int DEFAULT_PORT = 5000;
-    static final String GET_RESPONSE = "HTTP/1.1 OK 200";
     static ServerSocket serverSocket;
 
     public static void main( String[] args ) {
