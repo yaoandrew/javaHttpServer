@@ -3,7 +3,7 @@ package org.yaoandrew;
 import java.io.*;
 import java.net.Socket;
 
-class ClientHandler extends Thread {
+class ClientHandler implements Runnable {
     Socket client;
     static final String SIMPLE_GET_RESPONSE = "HTTP/1.1 200 OK";
 

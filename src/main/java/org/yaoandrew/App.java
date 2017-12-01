@@ -17,7 +17,7 @@ public class App {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(clientSocket);
-                clientHandler.start();
+                new Thread(clientHandler).start();
             }
 
         } catch (IOException e) {
