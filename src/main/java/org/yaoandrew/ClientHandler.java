@@ -5,7 +5,7 @@ import java.net.Socket;
 
 class ClientHandler extends Thread {
     Socket client;
-    static final String SIMPLE_GET_RESPONSE = "HTTP/1.1 OK 200\r\n";
+    static final String SIMPLE_GET_RESPONSE = "HTTP/1.1 200 OK";
 
     ClientHandler (Socket client) {
         this.client = client;
@@ -19,8 +19,9 @@ class ClientHandler extends Thread {
             System.out.println(reader.readLine());
 
             writer.write(SIMPLE_GET_RESPONSE);
-            writer.write("Server: Yao1.0\r\n");
-            writer.write("\r\n");
+            writer.newLine();
+            writer.write("Server: Yao1.0");
+            writer.newLine();
             System.out.println("Response sent");
             writer.close();
             reader.close();
