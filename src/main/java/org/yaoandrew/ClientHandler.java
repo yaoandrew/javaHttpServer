@@ -5,7 +5,6 @@ import java.net.Socket;
 
 class ClientHandler implements Runnable {
     Socket client;
-    static final String SIMPLE_GET_RESPONSE = "HTTP/1.1 200 OK";
 
     ClientHandler (Socket client) {
         this.client = client;
@@ -18,9 +17,12 @@ class ClientHandler implements Runnable {
             System.out.println("Client connected");
             System.out.println(reader.readLine());
 
-            writer.write(SIMPLE_GET_RESPONSE);
+            writer.write(Response.getStatusLine());
             writer.newLine();
             writer.write("Server: Yao1.0");
+            writer.newLine();
+            writer.newLine();
+            writer.write("Hello World");
             writer.newLine();
             System.out.println("Response sent");
             writer.close();
