@@ -1,8 +1,7 @@
 package org.yaoandrew;
 
-import java.io.*;
 import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.IOException;
 
 public class App {
 
@@ -13,12 +12,9 @@ public class App {
         try {
 
             serverSocket = new ServerSocket(DEFAULT_PORT);
+            Server server = new Server(serverSocket);
             System.out.println("Server started...");
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                ClientHandler clientHandler = new ClientHandler(clientSocket);
-                new Thread(clientHandler).start();
-            }
+            server.run();
 
         } catch (IOException e) {
             System.out.println(e);
