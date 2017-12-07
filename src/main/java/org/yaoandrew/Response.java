@@ -2,29 +2,29 @@ package org.yaoandrew;
 
 public class Response {
 
-    private static String statusLine = "HTTP/1.1 200 OK\r\n";
-    private static String headers = "Allow: GET,OPTIONS\r\n";
-    private static String body = "";
-    private static String newLine = "\r\n";
+    private String statusLine = "HTTP/1.1 200 OK\r\n";
+    private String headers = "Allow: GET,OPTIONS\r\n";
+    private String body = "";
+    private String newLine = "\r\n";
 
 
-    static String getStatusLine() {
+    String getStatusLine() {
         return statusLine;
     }
 
-    static String getHeaders() {
+    String getHeaders() {
         return headers;
     }
 
-    static String getSeperator() {
+    String getSeperator() {
         return newLine + newLine;
     }
 
-    static String getNewLine() {
+    String getNewLine() {
         return newLine;
     }
 
-    static String getBody() {
+    String getBody() {
         return body;
     }
 }
