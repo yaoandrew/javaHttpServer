@@ -19,7 +19,6 @@ class ClientHandler implements Runnable {
 
             Request request = new Request (reader.readLine());
             System.out.println("Request received");
-            System.out.println(request.getHttpMethod() + " " + request.getResource());
 
             Response response = new Response();
 
@@ -30,7 +29,6 @@ class ClientHandler implements Runnable {
             System.out.println("Response sent");
             writer.close();
             reader.close();
-
 
         } catch (Exception e) {
             System.out.println(e);

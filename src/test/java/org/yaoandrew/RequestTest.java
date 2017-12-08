@@ -13,4 +13,13 @@ public class RequestTest {
         assertEquals("GET", request.getHttpMethod());
     }
 
+    @Test
+    public void RequestURIParsesIntoObject() {
+        assertEquals("/foobar", request.getResource());
+    }
+
+    @Test
+    public void RequestVersionParsesIntoObject() {
+        assertEquals("HTTP/1.1", request.getHttpVersion());
+    }
 }
