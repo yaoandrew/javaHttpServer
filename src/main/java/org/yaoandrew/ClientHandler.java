@@ -20,6 +20,10 @@ class ClientHandler implements Runnable {
             Request request = new Request (reader.readLine());
             System.out.println("Request received");
 
+            Router router = new Router(request);
+
+            System.out.println(router.getResponder());
+
             Response response = new Response();
 
             writer.write(response.getStatusLine());
