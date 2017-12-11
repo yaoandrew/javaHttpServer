@@ -27,4 +27,8 @@ public class Response {
     String getBody() {
         return body;
     }
+
+    public void setStatusLine(String statusLine) {
+        this.statusLine = statusLine;
+    }
 }
