@@ -10,8 +10,8 @@ public class Router {
 
   private Request request;
   private HashMap<String, RequestHandler> routeResponderMap;
-  Set<String> routes = new HashSet<String>(Arrays.asList("/", "/method_options", "method_options2","/form"));
-  Set <String> methods = new  HashSet<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "OPTIONS"));
+  Set<String> routes = new HashSet<>(Arrays.asList("/", "/method_options", "method_options2","/form"));
+  Set <String> methods = new  HashSet<>(Arrays.asList("GET", "POST", "PUT", "HEAD", "OPTIONS"));
 
   Router(Request request) {
     this.request = request;

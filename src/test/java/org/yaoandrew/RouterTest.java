@@ -50,6 +50,33 @@ public class RouterTest {
   }
 
   @Test
+  public void RouterReturnsCorrectHandlerForPost() {
+    Request request = new Request("POST /foobar HTTP/1.1\r\n");
+    RequestHandler expected = new PostRequestHandler();
+    Router router = new Router(request);
+
+    assertEquals(expected.getClass(), router.getResponder().getClass());
+  }
+
+  @Test
+  public void RouterReturnsCorrectHandlerForPut() {
+    Request request = new Request("PUT /foobar HTTP/1.1\r\n");
+    RequestHandler expected = new PutRequestHandler();
+    Router router = new Router(request);
+
+    assertEquals(expected.getClass(), router.getResponder().getClass());
+  }
+
+  @Test
+  public void RouterReturnsCorrectHandlerForHead() {
+    Request request = new Request("HEAD /foobar HTTP/1.1\r\n");
+    RequestHandler expected = new HeadRequestHandler(true);
+    Router router = new Router(request);
+
+    assertEquals(expected.getClass(), router.getResponder().getClass());
+  }
+
+  @Test
   public void RouterReturnsCorrectHandlerForOptions() {
     Request request = new Request("OPTIONS / HTTP/1.1\r\n");
     RequestHandler expected = new OptionsRequestHandler(request.getResource());
