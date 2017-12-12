@@ -9,9 +9,10 @@ public class GetRequestHandlerTest {
     @Test
     public void GetRequestHandlerReturnsResponse() {
         Request request = new Request ("GET / HTTP/1.1\r\n");
+        Response expected = new Response();
         GetRequestHandler handleGet = new GetRequestHandler();
 
-        assertEquals("GET / HTTP/1.1\r\n", handleGet.getResponse());
+        assertEquals(expected.getClass(), handleGet.getResponse().getClass());
 
 
     }

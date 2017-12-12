@@ -43,16 +43,18 @@ public class RouterTest {
   @Test
   public void RouterReturnsCorrectHandlerForGet() {
     Request request = new Request("GET /foobar HTTP/1.1\r\n");
+    RequestHandler expected = new GetRequestHandler();
     Router router = new Router(request);
 
-    assertEquals("handleGet", router.getResponder());
+    assertEquals(expected.getClass(), router.getResponder().getClass());
   }
 
   @Test
   public void RouterReturnsCorrectHandlerForOptions() {
     Request request = new Request("OPTIONS / HTTP/1.1\r\n");
+    RequestHandler expected = new OptionsRequestHandler();
     Router router = new Router(request);
 
-    assertEquals("handleOptions", router.getResponder());
+    assertEquals(expected.getClass(), router.getResponder().getClass());
   }
 }

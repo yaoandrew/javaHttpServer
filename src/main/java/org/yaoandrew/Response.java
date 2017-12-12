@@ -2,9 +2,9 @@ package org.yaoandrew;
 
 public class Response {
 
-    private String statusLine = "HTTP/1.1 200 OK\r\n";
+    private String statusLine = "";
     private String headers = "Allow: GET,OPTIONS\r\n";
-    private String body = "";
+    private String body = "Hello World";
     private String newLine = "\r\n";
 
 
@@ -30,5 +30,13 @@ public class Response {
 
     public void setStatusLine(String statusLine) {
         this.statusLine = statusLine;
+    }
+
+    public void setHeaders(String headers) {
+        this.headers = headers;
+    }
+
+    public void setbody(String body) {
+        this.body = body;
     }
 }

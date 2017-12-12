@@ -9,8 +9,8 @@ import java.util.Set;
 public class Router {
 
   private Request request;
-  private HashMap<String, GetRequestHandler> routeResponderMap;
-  Set<String> routes = new HashSet<String>(Arrays.asList("/", "/method_options", "/form"));
+  private HashMap<String, RequestHandler> routeResponderMap;
+  Set<String> routes = new HashSet<String>(Arrays.asList("/", "/method_options", "method_options2","/form"));
   Set <String> methods = new  HashSet<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "OPTIONS"));
 
   Router(Request request) {
@@ -26,18 +26,18 @@ public class Router {
   }
 
   private Map createRouteResponderMap() {
-    routeResponderMap = new HashMap<String, GetRequestHandler>();
+    routeResponderMap = new HashMap<>();
     routeResponderMap.put("GET", new GetRequestHandler());
-    //routeResponderMap.put("POST", "handlePost");
-    //routeResponderMap.put("PUT", "handlePut");
-    //routeResponderMap.put("HEAD", "handleHead");
-    //routeResponderMap.put("OPTIONS", "handleOptions");
+    routeResponderMap.put("POST", new PostRequestHandler());
+    routeResponderMap.put("PUT", new PutRequestHandler());
+    routeResponderMap.put("HEAD", new HeadRequestHandler());
+    routeResponderMap.put("OPTIONS", new OptionsRequestHandler());
     return routeResponderMap;
   }
 
-  String getResponder() {
+  RequestHandler getResponder() {
     Map responderMap = createRouteResponderMap();
-    return responderMap.get(request.getHttpMethod());
+    return (RequestHandler)responderMap.get(request.getHttpMethod());
   }
 
 }
