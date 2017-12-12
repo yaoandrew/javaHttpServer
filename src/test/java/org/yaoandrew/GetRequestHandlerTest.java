@@ -10,7 +10,7 @@ public class GetRequestHandlerTest {
     public void GetRequestHandlerReturnsResponse() {
         Request request = new Request ("GET / HTTP/1.1\r\n");
         Response expected = new Response();
-        GetRequestHandler handleGet = new GetRequestHandler();
+        GetRequestHandler handleGet = new GetRequestHandler(true);
 
         assertEquals(expected.getClass(), handleGet.getResponse().getClass());
 

@@ -3,8 +3,8 @@ package org.yaoandrew;
 public class Response {
 
     private String statusLine = "";
-    private String headers = "Allow: GET,OPTIONS\r\n";
-    private String body = "Hello World";
+    private String headers = "";
+    private String body = "";
     private String newLine = "\r\n";
 
 

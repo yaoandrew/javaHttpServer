@@ -27,11 +27,11 @@ public class Router {
 
   private Map createRouteResponderMap() {
     routeResponderMap = new HashMap<>();
-    routeResponderMap.put("GET", new GetRequestHandler());
+    routeResponderMap.put("GET", new GetRequestHandler(isValidRoute()));
     routeResponderMap.put("POST", new PostRequestHandler());
     routeResponderMap.put("PUT", new PutRequestHandler());
-    routeResponderMap.put("HEAD", new HeadRequestHandler());
-    routeResponderMap.put("OPTIONS", new OptionsRequestHandler());
+    routeResponderMap.put("HEAD", new HeadRequestHandler(isValidRoute()));
+    routeResponderMap.put("OPTIONS", new OptionsRequestHandler(request.getResource()));
     return routeResponderMap;
   }
 
