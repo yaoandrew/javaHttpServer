@@ -2,14 +2,12 @@ package org.yaoandrew;
 
 public class GetRequestHandler {
 
-    public GetRequestHandler (Request request) {
-        this.request = request;
-    }
+  Response response;
 
     public String getResponse() {
-       String responseString ;
+        response = new Response();
+        response.setStatusLine("HTTP/1.1 200 OK\r\n");
 
-
-       return responseString;
+       return response.getStatusLine();
     }
 }

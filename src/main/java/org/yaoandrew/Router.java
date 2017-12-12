@@ -9,7 +9,7 @@ import java.util.Set;
 public class Router {
 
   private Request request;
-  private HashMap<String, String> routeResponderMap;
+  private HashMap<String, GetRequestHandler> routeResponderMap;
   Set<String> routes = new HashSet<String>(Arrays.asList("/", "/method_options", "/form"));
   Set <String> methods = new  HashSet<String>(Arrays.asList("GET", "POST", "PUT", "HEAD", "OPTIONS"));
 
@@ -26,18 +26,18 @@ public class Router {
   }
 
   private Map createRouteResponderMap() {
-    routeResponderMap = new HashMap<String, String>();
-    routeResponderMap.put("GET", "handleGet");
-    routeResponderMap.put("POST", "handlePost");
-    routeResponderMap.put("PUT", "handlePut");
-    routeResponderMap.put("HEAD", "handleHead");
-    routeResponderMap.put("OPTIONS", "handleOptions");
+    routeResponderMap = new HashMap<String, GetRequestHandler>();
+    routeResponderMap.put("GET", new GetRequestHandler());
+    //routeResponderMap.put("POST", "handlePost");
+    //routeResponderMap.put("PUT", "handlePut");
+    //routeResponderMap.put("HEAD", "handleHead");
+    //routeResponderMap.put("OPTIONS", "handleOptions");
     return routeResponderMap;
   }
 
   String getResponder() {
-    Map routes = createRouteResponderMap();
-    return (String)routes.get(request.getHttpMethod());
+    Map responderMap = createRouteResponderMap();
+    return responderMap.get(request.getHttpMethod());
   }
 
 }

@@ -24,12 +24,11 @@ class ClientHandler implements Runnable {
 
             System.out.println(router.getResponder());
 
-            Response response = new Response();
 
-            writer.write(response.getStatusLine());
-            writer.write(response.getHeaders());
-            writer.write(response.getSeperator());
-            writer.write(response.getNewLine());
+            //writer.write(response.getStatusLine());
+            //writer.write(response.getHeaders());
+            //writer.write(response.getSeperator());
+            //writer.write(response.getNewLine());
             System.out.println("Response sent");
             writer.close();
             reader.close();

@@ -1,5 +1,7 @@
 package org.yaoandrew;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 public class GetRequestHandlerTest {
@@ -7,9 +9,9 @@ public class GetRequestHandlerTest {
     @Test
     public void GetRequestHandlerReturnsResponse() {
         Request request = new Request ("GET / HTTP/1.1\r\n");
-        GetRequestHandler handleGet = new GetRequestHandler(request);
+        GetRequestHandler handleGet = new GetRequestHandler();
 
-        assertEqual (expected, handleGet.getResponse);
+        assertEquals("GET / HTTP/1.1\r\n", handleGet.getResponse());
 
 
     }
