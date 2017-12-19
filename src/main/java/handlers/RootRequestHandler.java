@@ -1,4 +1,6 @@
-package org.yaoandrew;
+package handlers;
+
+import messages.Response;
 
 public class RootRequestHandler implements RequestHandler{
     private String[] supportedHttpMethods;

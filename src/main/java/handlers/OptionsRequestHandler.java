@@ -1,4 +1,6 @@
-package org.yaoandrew;
+package handlers;
+
+import messages.Response;
 
 public class OptionsRequestHandler implements RequestHandler {
     String[] supportedHttpMethods;

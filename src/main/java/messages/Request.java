@@ -1,4 +1,6 @@
-package org.yaoandrew;
+package messages;
+
+import parsers.RequestParser;
 
 public class Request {
 

@@ -1,4 +1,4 @@
-package org.yaoandrew;
+package messages;
 
 public class Response {
 
@@ -8,23 +8,23 @@ public class Response {
     private String newLine = "\r\n";
 
 
-    String getStatusLine() {
+    public String getStatusLine() {
         return statusLine;
     }
 
-    String getHeaders() {
+    public String getHeaders() {
         return headers;
     }
 
-    String getSeperator() {
+    public String getSeperator() {
         return newLine + newLine;
     }
 
-    String getNewLine() {
+    public String getNewLine() {
         return newLine;
     }
 
-    String getBody() {
+    public String getBody() {
         return body;
     }
 

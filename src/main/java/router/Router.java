@@ -1,7 +1,14 @@
-package org.yaoandrew;
+package router;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import handlers.RequestHandler;
+import handlers.RootRequestHandler;
+import handlers.FormDataHandler;
+import handlers.OptionsRequestHandler;
+import handlers.BadRouteHandler;
+import messages.Request;
 
 public class Router {
 
@@ -16,7 +23,7 @@ public class Router {
     return routeAndHandlerMap;
   }
 
-  RequestHandler getResponder(Request request) {
+  public RequestHandler getResponder(Request request) {
     Map responderMap = createRouteAndHandlerMap();
     if (responderMap.get(request.getUri()) == null) {
       return new BadRouteHandler();

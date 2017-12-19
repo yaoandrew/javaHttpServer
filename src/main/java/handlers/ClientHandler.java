@@ -1,12 +1,15 @@
-package org.yaoandrew;
+package handlers;
 
 import java.io.*;
 import java.net.Socket;
 
-class ClientHandler implements Runnable {
+import messages.Request;
+import router.Router;
+
+public class ClientHandler implements Runnable {
     Socket client;
 
-    ClientHandler(Socket client) {
+    public ClientHandler(Socket client) {
         this.client = client;
     }
 

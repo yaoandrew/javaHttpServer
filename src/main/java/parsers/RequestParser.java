@@ -1,4 +1,4 @@
-package org.yaoandrew;
+package parsers;
 
 public class RequestParser {
 
