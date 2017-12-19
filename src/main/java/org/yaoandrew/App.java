@@ -8,16 +8,12 @@ public class App {
     static final int DEFAULT_PORT = 5000;
     static ServerSocket serverSocket;
 
-    public static void main( String[] args ) {
-        try {
+    public static void main( String[] args ) throws IOException {
 
             serverSocket = new ServerSocket(DEFAULT_PORT);
             Server server = new Server(serverSocket);
             System.out.println("Server started...");
             server.run();
 
-        } catch (IOException e) {
-            System.out.println(e);
-        }
     }
 }

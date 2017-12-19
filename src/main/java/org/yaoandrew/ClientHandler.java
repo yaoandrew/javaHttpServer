@@ -20,9 +20,9 @@ class ClientHandler implements Runnable {
             Request request = new Request (reader.readLine());
             System.out.println("Request received");
 
-            Router router = new Router(request);
+            Router router = new Router();
 
-            RequestHandler handler = router.getResponder();
+            RequestHandler handler = router.getResponder(request);
             writer.write(handler.getResponse().getStatusLine());
             writer.write(handler.getResponse().getHeaders());
             writer.write(handler.getResponse().getSeperator());
@@ -32,7 +32,7 @@ class ClientHandler implements Runnable {
             writer.close();
             reader.close();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println(e);
         }
 

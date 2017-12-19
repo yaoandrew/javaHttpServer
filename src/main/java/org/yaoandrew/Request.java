@@ -9,13 +9,13 @@ public class Request {
     public Request (String requestString) {
         this.setHttpMethod(RequestParser.getHttpMethod(requestString));
         this.setHttpVersion(RequestParser.getHttpVersion(requestString));
-        this.setResource(RequestParser.getURI(requestString));
+        this.setUri(RequestParser.getURI(requestString));
     }
 
-    public String getResource() {
+    public String getUri() {
         return uri;
     }
-    public void setResource(String uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 

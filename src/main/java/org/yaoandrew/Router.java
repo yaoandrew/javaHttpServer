@@ -10,34 +10,33 @@ public class Router {
 
   private Request request;
   private HashMap<String, RequestHandler> routeResponderMap;
+  private HashMap<String, RequestHandler> routeAndHandlerMap;
   Set<String> routes = new HashSet<>(Arrays.asList("/", "/method_options", "method_options2","/form"));
   Set <String> methods = new  HashSet<>(Arrays.asList("GET", "POST", "PUT", "HEAD", "OPTIONS"));
 
-  Router(Request request) {
-    this.request = request;
-  }
-
   boolean isValidRoute() {
-    return routes.contains(request.getResource());
+    return routes.contains(request.getUri());
   }
 
   boolean isValidMethod() {
     return methods.contains(request.getHttpMethod());
   }
 
-  private Map createRouteResponderMap() {
-    routeResponderMap = new HashMap<>();
-    routeResponderMap.put("GET", new GetRequestHandler(isValidRoute()));
-    routeResponderMap.put("POST", new PostRequestHandler());
-    routeResponderMap.put("PUT", new PutRequestHandler());
-    routeResponderMap.put("HEAD", new HeadRequestHandler(isValidRoute()));
-    routeResponderMap.put("OPTIONS", new OptionsRequestHandler(request.getResource()));
-    return routeResponderMap;
+  private Map createRouteAndHandlerMap() {
+    routeAndHandlerMap = new HashMap<>();
+    routeAndHandlerMap.put("/", new RootRequestHandler(new String[] {"GET", "POST", "PUT", "HEAD"}));
+    routeAndHandlerMap.put("/form", new FormDataHandler(new String[] {"GET", "POST", "PUT", "HEAD"}));
+
+    return routeAndHandlerMap;
   }
 
-  RequestHandler getResponder() {
-    Map responderMap = createRouteResponderMap();
-    return (RequestHandler)responderMap.get(request.getHttpMethod());
+  RequestHandler getResponder(Request request) {
+    Map responderMap = createRouteAndHandlerMap();
+    if (responderMap.get(request.getUri()) == null) {
+      return new BadRouteHandler();
+    } else {
+       return (RequestHandler) responderMap.get(request.getUri());
+      }
   }
 
 }

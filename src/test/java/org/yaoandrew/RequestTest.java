@@ -15,7 +15,7 @@ public class RequestTest {
 
     @Test
     public void RequestURIParsesIntoObject() {
-        assertEquals("/foobar", request.getResource());
+        assertEquals("/foobar", request.getUri());
     }
 
     @Test

@@ -15,7 +15,7 @@ public class Server {
         while (true) {
             Socket clientSocket = serverSocket.accept();
             ClientHandler clientHandler = new ClientHandler(clientSocket);
-            new Thread(clientHandler).start();
+            (new Thread(clientHandler)).start();
         }
 
     }

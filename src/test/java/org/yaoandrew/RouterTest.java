@@ -11,7 +11,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsTrueIfValidRoute() {
     Request request = new Request ("GET / HTTP/1.1\r\n");
-    Router router = new Router (request);
+    Router router = new Router ();
 
     assertTrue(router.isValidRoute());
   }
@@ -19,7 +19,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsFalseIfRouteNotValid() {
     Request request = new Request ("GET /foobar HTTP/1.1\r\n");
-    Router router = new Router (request);
+    Router router = new Router ();
 
     assertFalse(router.isValidRoute());
   }
@@ -27,7 +27,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsTrueIfMethodValid() {
     Request request = new Request("GET /foobar HTTP/1.1\r\n");
-    Router router = new Router(request);
+    Router router = new Router();
 
     assertTrue(router.isValidMethod());
   }
@@ -35,7 +35,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsFalseIfMethodNotValid() {
     Request request = new Request("FOO /foobar HTTP/1.1\r\n");
-    Router router = new Router(request);
+    Router router = new Router();
 
     assertFalse(router.isValidMethod());
   }
@@ -44,44 +44,45 @@ public class RouterTest {
   public void RouterReturnsCorrectHandlerForGet() {
     Request request = new Request("GET /foobar HTTP/1.1\r\n");
     RequestHandler expected = new GetRequestHandler(true);
-    Router router = new Router(request);
+    Router router = new Router();
 
-    assertEquals(expected.getClass(), router.getResponder().getClass());
+    assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
 
   @Test
   public void RouterReturnsCorrectHandlerForPost() {
     Request request = new Request("POST /foobar HTTP/1.1\r\n");
     RequestHandler expected = new PostRequestHandler();
-    Router router = new Router(request);
+    Router router = new Router();
 
-    assertEquals(expected.getClass(), router.getResponder().getClass());
+    assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
 
   @Test
   public void RouterReturnsCorrectHandlerForPut() {
     Request request = new Request("PUT /foobar HTTP/1.1\r\n");
     RequestHandler expected = new PutRequestHandler();
-    Router router = new Router(request);
+    Router router = new Router();
 
-    assertEquals(expected.getClass(), router.getResponder().getClass());
+    assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
 
   @Test
   public void RouterReturnsCorrectHandlerForHead() {
     Request request = new Request("HEAD /foobar HTTP/1.1\r\n");
     RequestHandler expected = new HeadRequestHandler(true);
-    Router router = new Router(request);
+    Router router = new Router();
 
-    assertEquals(expected.getClass(), router.getResponder().getClass());
+    assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
 
   @Test
   public void RouterReturnsCorrectHandlerForOptions() {
     Request request = new Request("OPTIONS / HTTP/1.1\r\n");
-    RequestHandler expected = new OptionsRequestHandler(request.getResource());
-    Router router = new Router(request);
+    RequestHandler expected = new OptionsRequestHandler(request.getUri());
+    Router router = new Router();
 
-    assertEquals(expected.getClass(), router.getResponder().getClass());
+    assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
+
 }
