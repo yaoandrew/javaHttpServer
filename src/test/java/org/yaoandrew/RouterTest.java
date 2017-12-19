@@ -3,74 +3,31 @@ package org.yaoandrew;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class RouterTest {
 
   @Test
-  public void RouterReturnsTrueIfValidRoute() {
-    Request request = new Request ("GET / HTTP/1.1\r\n");
-    Router router = new Router ();
+  public void RouterReturnsCorrectHandlerForGoodRoute() {
+    Request request = new Request("GET / HTTP/1.1\r\n");
+    RequestHandler expected = new RootRequestHandler(new String []{"GET"});
+    Router router = new Router();
 
-    assertTrue(router.isValidRoute());
+    assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
 
   @Test
-  public void RouterReturnsFalseIfRouteNotValid() {
-    Request request = new Request ("GET /foobar HTTP/1.1\r\n");
-    Router router = new Router ();
-
-    assertFalse(router.isValidRoute());
-  }
-
-  @Test
-  public void RouterReturnsTrueIfMethodValid() {
+  public void RouterReturnsCorrectHandlerForBadRoute() {
     Request request = new Request("GET /foobar HTTP/1.1\r\n");
-    Router router = new Router();
-
-    assertTrue(router.isValidMethod());
-  }
-
-  @Test
-  public void RouterReturnsFalseIfMethodNotValid() {
-    Request request = new Request("FOO /foobar HTTP/1.1\r\n");
-    Router router = new Router();
-
-    assertFalse(router.isValidMethod());
-  }
-
-  @Test
-  public void RouterReturnsCorrectHandlerForGet() {
-    Request request = new Request("GET /foobar HTTP/1.1\r\n");
-    RequestHandler expected = new GetRequestHandler(true);
+    RequestHandler expected = new BadRouteHandler();
     Router router = new Router();
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
 
   @Test
-  public void RouterReturnsCorrectHandlerForPost() {
-    Request request = new Request("POST /foobar HTTP/1.1\r\n");
-    RequestHandler expected = new PostRequestHandler();
-    Router router = new Router();
-
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
-  }
-
-  @Test
-  public void RouterReturnsCorrectHandlerForPut() {
-    Request request = new Request("PUT /foobar HTTP/1.1\r\n");
-    RequestHandler expected = new PutRequestHandler();
-    Router router = new Router();
-
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
-  }
-
-  @Test
-  public void RouterReturnsCorrectHandlerForHead() {
-    Request request = new Request("HEAD /foobar HTTP/1.1\r\n");
-    RequestHandler expected = new HeadRequestHandler(true);
+  public void RouterReturnsCorrectHandlerForForm() {
+    Request request = new Request("GET /form HTTP/1.1\r\n");
+    RequestHandler expected = new FormDataHandler(new String[]{"GET", "PUT", "POST"});
     Router router = new Router();
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());
@@ -78,11 +35,10 @@ public class RouterTest {
 
   @Test
   public void RouterReturnsCorrectHandlerForOptions() {
-    Request request = new Request("OPTIONS / HTTP/1.1\r\n");
-    RequestHandler expected = new OptionsRequestHandler(request.getUri());
+    Request request = new Request("OPTIONS /method_options HTTP/1.1\r\n");
+    RequestHandler expected = new OptionsRequestHandler(new String[]{"GET", "PUT", "POST"});
     Router router = new Router();
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
-
 }
