@@ -13,6 +13,7 @@ public class RootRequestHandler implements RequestHandler{
     public Response getResponse() {
         Response response = new Response();
         response.setStatusLine("HTTP/1.1 200 OK\r\n");
+        response.setHeaders("Allow: GET,OPTIONS");
 
         return response;
     }

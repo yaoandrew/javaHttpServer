@@ -14,5 +14,4 @@ public class RequestParser {
   public static String getHttpVersion(String requestString) {
     return requestString.split("\\s")[2];
   }
-
 }

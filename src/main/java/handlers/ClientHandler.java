@@ -26,9 +26,13 @@ public class ClientHandler implements Runnable {
             Router router = new Router();
 
             RequestHandler handler = router.getResponder(request);
+
             writer.write(handler.getResponse().getStatusLine());
-            writer.write(handler.getResponse().getHeaders());
-            writer.write(handler.getResponse().getSeperator());
+
+            if (handler.getResponse().getHeaders().length()>0){
+              writer.write(handler.getResponse().getHeaders());
+            }
+
             writer.write(handler.getResponse().getSeperator());
             writer.write(handler.getResponse().getBody());
             System.out.println("Response sent");
@@ -38,6 +42,5 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             System.out.println(e);
         }
-
     }
 }

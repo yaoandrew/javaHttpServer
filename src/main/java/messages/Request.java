@@ -36,4 +36,11 @@ public class Request {
         this.httpMethod = httpMethod;
     }
 
+    public Boolean hasParams() {
+        if (uri.contains("?")){
+            return true;
+        }
+            return false;
+
+    }
 }
