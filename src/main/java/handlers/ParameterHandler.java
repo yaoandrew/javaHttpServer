@@ -13,7 +13,7 @@ public class ParameterHandler implements RequestHandler {
   public ParameterHandler (Request request) {
 
     if(request.hasParams()) {
-      String rawParams = ParameterParser.parseUri(request.getUri());
+      String rawParams = ParameterParser.parseUri(request.getRawUri());
       String[] paramList = ParameterParser.parseRawParams(rawParams);
       for (String param : paramList){
         try {
@@ -29,7 +29,7 @@ public class ParameterHandler implements RequestHandler {
   public Response getResponse() {
     Response response = new Response();
     response.setStatusLine("HTTP/1.1 200 OK\r\n");
-    response.setbody(parameterValues);
+    response.setBody(parameterValues);
 
     return response;
   }

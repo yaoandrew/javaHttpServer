@@ -30,10 +30,10 @@ public class Router {
 
   public RequestHandler getResponder(Request request) {
     Map responderMap = createRouteAndHandlerMap(request);
-    if (responderMap.get(request.getUri()) == null) {
+    if (responderMap.get(request.getRawUri()) == null) {
       return new BadRouteHandler();
     } else {
-       return (RequestHandler) responderMap.get(request.getUri());
+       return (RequestHandler) responderMap.get(request.getRawUri());
       }
   }
 

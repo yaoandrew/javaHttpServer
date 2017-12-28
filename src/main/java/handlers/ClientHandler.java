@@ -33,7 +33,7 @@ public class ClientHandler implements Runnable {
               writer.write(handler.getResponse().getHeaders());
             }
 
-            writer.write(handler.getResponse().getSeperator());
+            writer.write(handler.getResponse().getSeparator());
             writer.write(handler.getResponse().getBody());
             System.out.println("Response sent");
             writer.close();

@@ -16,7 +16,7 @@ public class Response {
         return headers;
     }
 
-    public String getSeperator() {
+    public String getSeparator() {
         return newLine + newLine;
     }
 
@@ -36,7 +36,7 @@ public class Response {
         this.headers = headers;
     }
 
-    public void setbody(String body) {
+    public void setBody(String body) {
         this.body = body;
     }
 }

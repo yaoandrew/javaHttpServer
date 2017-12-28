@@ -11,11 +11,11 @@ public class CookieHandler implements RequestHandler {
   public CookieHandler (Request request) {
 
     if(request.hasParams()) {
-      String rawCookie = CookieParser.parseUri(request.getUri());
+      String rawCookie = CookieParser.parseUri(request.getRawUri());
       cookieValue = CookieParser.parseRawCookie(rawCookie);
     }
 
-    if (request.getUri().contains("type")){
+    if (request.hasCookies()){
       setCookie = true;
     }
 
@@ -24,11 +24,11 @@ public class CookieHandler implements RequestHandler {
     Response response = new Response();
     if (setCookie) {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
-      response.setbody("Eat");
+      response.setBody("Eat");
       response.setHeaders("Set-Cookie: chocolate");
     } else {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
-      response.setbody("mmmm chocolate");
+      response.setBody("mmmm chocolate");
     }
 
     return response;
