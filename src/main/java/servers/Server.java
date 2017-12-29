@@ -1,8 +1,11 @@
-package org.yaoandrew;
+package servers;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import handlers.ClientHandler;
+
 
 public class Server {
     static ServerSocket serverSocket;
@@ -15,7 +18,7 @@ public class Server {
         while (true) {
             Socket clientSocket = serverSocket.accept();
             ClientHandler clientHandler = new ClientHandler(clientSocket);
-            new Thread(clientHandler).start();
+            (new Thread(clientHandler)).start();
         }
 
     }

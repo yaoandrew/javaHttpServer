@@ -1,12 +1,16 @@
-package org.yaoandrew;
+package handlers;
 
 import java.io.*;
 import java.net.Socket;
 
-class ClientHandler implements Runnable {
+import javax.swing.plaf.synth.SynthTextAreaUI;
+import messages.Request;
+import router.Router;
+
+public class ClientHandler implements Runnable {
     Socket client;
 
-    ClientHandler(Socket client) {
+    public ClientHandler(Socket client) {
         this.client = client;
     }
 
@@ -20,21 +24,25 @@ class ClientHandler implements Runnable {
             Request request = new Request (reader.readLine());
             System.out.println("Request received");
 
-            Router router = new Router(request);
+            Router router = new Router();
 
-            RequestHandler handler = router.getResponder();
+            RequestHandler handler = router.getResponder(request);
+
             writer.write(handler.getResponse().getStatusLine());
-            writer.write(handler.getResponse().getHeaders());
-            writer.write(handler.getResponse().getSeperator());
-            writer.write(handler.getResponse().getSeperator());
+
+            if (handler.getResponse().getHeaders().length()>0){
+              writer.write(handler.getResponse().getHeaders());
+                System.out.println(handler.getResponse().getHeaders());
+            }
+
+            writer.write(handler.getResponse().getSeparator());
             writer.write(handler.getResponse().getBody());
             System.out.println("Response sent");
             writer.close();
             reader.close();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println(e);
         }
-
     }
 }
