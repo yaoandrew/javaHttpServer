@@ -21,4 +21,7 @@ public class RequestParser {
   public static String getParams(String requestString) {
     return requestString.split("\\s")[1].split("\\?")[1];
   }
+  public static String getSimpleUri(String requestString) {
+    return requestString.split("\\s")[1].split("\\?")[0];
+  }
 }

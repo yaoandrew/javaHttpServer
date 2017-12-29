@@ -11,8 +11,7 @@ public class CookieHandler implements RequestHandler {
   public CookieHandler (Request request) {
 
     if(request.hasParams()) {
-      String rawCookie = CookieParser.parseUri(request.getRawUri());
-      cookieValue = CookieParser.parseRawCookie(rawCookie);
+      cookieValue = request.getCookie();
     }
 
     if (request.hasCookies()){
@@ -25,7 +24,7 @@ public class CookieHandler implements RequestHandler {
     if (setCookie) {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
       response.setBody("Eat");
-      response.setHeaders("Set-Cookie: chocolate");
+      response.setHeaders("Set-Cookie: " + cookieValue);
     } else {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
       response.setBody("mmmm chocolate");

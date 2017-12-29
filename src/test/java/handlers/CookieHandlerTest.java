@@ -1,5 +1,6 @@
 package handlers;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -38,5 +39,4 @@ public class CookieHandlerTest {
 
     assertEquals(expected, actual);
   }
-
 }

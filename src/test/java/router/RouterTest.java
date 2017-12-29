@@ -42,4 +42,22 @@ public class RouterTest {
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
+
+  @Test
+  public void RouterReturnsCorrectHandlerForCookies() {
+    Request request = new Request("GET /cookie HTTP/1.1\r\n");
+    RequestHandler expected = new CookieHandler(request);
+    Router router = new Router();
+
+    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+  }
+
+  @Test
+  public void RouterReturnsCorrectHandlerForParameterRequests() {
+    Request request = new Request("GET /parameters?variable1=abc HTTP/1.1\r\n");
+    RequestHandler expected = new ParameterHandler(request);
+    Router router = new Router();
+
+    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+  }
 }

@@ -1,9 +1,9 @@
+package messages;
+
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-
-import messages.Request;
 
 public class RequestTest {
 
@@ -33,4 +33,44 @@ public class RequestTest {
         assertTrue(request.hasCookies());
     }
 
+    @Test
+    public void RequestHasCookiesReturnsCoookieValue() {
+        String cookieUri = "GET /cookie?type=vanilla HTTP/1.1";
+        Request request = new Request(cookieUri);
+
+        assertEquals("vanilla", request.getCookie());
+
+    }
+
+    @Test
+    public void RequestHasParamsReturnsTrue() {
+        String paramUri = "GET /params?variable1=abc HTTP/1.1";
+        Request request = new Request(paramUri);
+
+        assertTrue(request.hasParams());
+    }
+
+    @Test
+    public void RequestHasParamsReturnsParamValue() {
+        String paramUri = "GET /params?variable1=abc HTTP/1.1";
+        Request request = new Request(paramUri);
+
+        assertEquals("variable1=abc", request.getParams());
+    }
+
+    @Test
+    public void RequestWithParamsReturnsSimpleURI() {
+        String paramUri = "GET /parameters?variable1=abc HTTP/1.1";
+        Request request = new Request(paramUri);
+
+        assertEquals("/parameters", request.getSimpleUri());
+    }
+
+    @Test
+    public void RequestWithoutParamsReturnsSimpleURI() {
+        String uri = "GET /hello HTTP/1.1";
+        Request request = new Request(uri);
+
+        assertEquals("/hello", request.getSimpleUri());
+    }
 }

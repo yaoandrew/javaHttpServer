@@ -20,10 +20,6 @@ public class Response {
         return newLine + newLine;
     }
 
-    public String getNewLine() {
-        return newLine;
-    }
-
     public String getBody() {
         return body;
     }

@@ -3,6 +3,7 @@ package handlers;
 import java.io.*;
 import java.net.Socket;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import messages.Request;
 import router.Router;
 
@@ -31,6 +32,7 @@ public class ClientHandler implements Runnable {
 
             if (handler.getResponse().getHeaders().length()>0){
               writer.write(handler.getResponse().getHeaders());
+                System.out.println(handler.getResponse().getHeaders());
             }
 
             writer.write(handler.getResponse().getSeparator());

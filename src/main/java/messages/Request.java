@@ -7,6 +7,7 @@ public class Request {
     private String httpMethod;
     private String rawUri;
     private String httpVersion;
+    private String simpleUri;
     private String cookie;
     private String params;
 
@@ -14,6 +15,7 @@ public class Request {
         this.setHttpMethod(RequestParser.getHttpMethod(requestString));
         this.setHttpVersion(RequestParser.getHttpVersion(requestString));
         this.setRawUri(RequestParser.getRawUri(requestString));
+        this.setSimpleUri(RequestParser.getSimpleUri(requestString));
 
         setRequestParams(requestString);
     }
@@ -42,7 +44,7 @@ public class Request {
 
     public void setRequestParams(String requestParams) {
       if (hasCookies()) {
-        setCookie(RequestParser.getParams(requestParams));
+        setCookie(RequestParser.getParams(requestParams).split("=")[1]);
       }
 
       if (hasParams()) {
@@ -64,6 +66,14 @@ public class Request {
 
     public void setParams(String params) {
       this.params = params;
+    }
+
+    public String getSimpleUri() {
+      return simpleUri;
+    }
+
+    public void setSimpleUri(String uri) {
+      this.simpleUri = uri;
     }
 
     public Boolean hasParams() {
