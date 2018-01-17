@@ -24,4 +24,7 @@ public class RequestParser {
   public static String getSimpleUri(String requestString) {
     return requestString.split("\\s")[1].split("\\?")[0];
   }
+  public static String[] getStatusHeaders(String requestString) {
+      return requestString.split("\r\n");
+  }
 }
