@@ -73,4 +73,13 @@ public class RequestTest {
 
         assertEquals("/hello", request.getSimpleUri());
     }
+
+    @Test
+    public void RequestObjectSetsHeaderString() {
+        String rawRequest = "GET /hello HTTP/1.1\r\nHello: World\r\nContent: text\r\n\r\nbody";
+        String[] expectedHeader = {"Hello: World", "Content: text"};
+        Request request = new Request(rawRequest);
+
+        assertEquals(expectedHeader, request.getRawHeaders());
+    }
 }
