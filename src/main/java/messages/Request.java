@@ -1,6 +1,7 @@
 package messages;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import parsers.RequestParser;
 
@@ -11,25 +12,29 @@ public class Request {
   private String httpVersion;
   private String simpleUri;
   private String cookie;
-  private String params;
-  private String[] rawHeaders;
+  private String[] params;
+  private HashMap<String, String> headers = new HashMap<>();
 
-  public String[] getRawHeaders() {
-    return rawHeaders;
+  public Request() {
+
+
+
   }
 
-  public void setRawHeaders(String[] headers) {
-    this.rawHeaders = headers;
-  }
-
-  public Request(String requestString) {
+  /** public Request(String requestString) {
     this.setHttpMethod(RequestParser.getHttpMethod(requestString));
     this.setHttpVersion(RequestParser.getHttpVersion(requestString));
     this.setRawUri(RequestParser.getRawUri(requestString));
     this.setSimpleUri(RequestParser.getSimpleUri(requestString));
-    this.setRawHeaders(RequestParser.getStatusHeaders(requestString));
 
-    setRequestParams(requestString);
+  } */
+
+  public void setHeader(String key, String value) {
+    this.headers.put(key, value);
+  }
+
+  public String getHeaderValue(String key) {
+    return this.headers.get(key);
   }
 
   public String getRawUri() {
@@ -56,7 +61,7 @@ public class Request {
   public void setHttpMethod(String httpMethod) {
     this.httpMethod = httpMethod;
   }
-
+/**
   public void setRequestParams(String requestParams) {
     if (hasCookies()) {
       setCookie(RequestParser.getParams(requestParams).split("=")[1]);
@@ -67,6 +72,8 @@ public class Request {
     }
   }
 
+ */
+
   public String getCookie() {
     return cookie;
   }
@@ -75,11 +82,11 @@ public class Request {
     this.cookie = cookie;
   }
 
-  public String getParams() {
+  public String[] getParams() {
     return params;
   }
 
-  public void setParams(String params) {
+  public void setParams(String[] params) {
     this.params = params;
   }
 

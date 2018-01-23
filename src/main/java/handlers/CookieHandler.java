@@ -10,7 +10,7 @@ public class CookieHandler implements RequestHandler {
 
   public CookieHandler (Request request) {
 
-    if(request.hasParams()) {
+    if(request.hasCookies()) {
       cookieValue = request.getCookie();
     }
 

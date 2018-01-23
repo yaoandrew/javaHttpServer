@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import messages.Request;
 import messages.Response;
-import parsers.ParameterParser;
 
 
 public class ParameterHandler implements RequestHandler {
@@ -13,8 +12,7 @@ public class ParameterHandler implements RequestHandler {
   public ParameterHandler (Request request) {
 
     if(request.hasParams()) {
-      String rawParams = ParameterParser.parseUri(request.getRawUri());
-      String[] paramList = ParameterParser.parseRawParams(rawParams);
+      String[] paramList = request.getParams();
       for (String param : paramList){
         try {
           parameterValues += URLDecoder.decode(param.replace("=", " = "), "UTF-8");
