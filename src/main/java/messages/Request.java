@@ -1,9 +1,6 @@
 package messages;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import parsers.RequestParser;
 
 public class Request {
 
@@ -14,20 +11,6 @@ public class Request {
   private String cookie;
   private String[] params;
   private HashMap<String, String> headers = new HashMap<>();
-
-  public Request() {
-
-
-
-  }
-
-  /** public Request(String requestString) {
-    this.setHttpMethod(RequestParser.getHttpMethod(requestString));
-    this.setHttpVersion(RequestParser.getHttpVersion(requestString));
-    this.setRawUri(RequestParser.getRawUri(requestString));
-    this.setSimpleUri(RequestParser.getSimpleUri(requestString));
-
-  } */
 
   public void setHeader(String key, String value) {
     this.headers.put(key, value);
@@ -61,18 +44,6 @@ public class Request {
   public void setHttpMethod(String httpMethod) {
     this.httpMethod = httpMethod;
   }
-/**
-  public void setRequestParams(String requestParams) {
-    if (hasCookies()) {
-      setCookie(RequestParser.getParams(requestParams).split("=")[1]);
-    }
-
-    if (hasParams()) {
-      setParams(RequestParser.getParams(requestParams));
-    }
-  }
-
- */
 
   public String getCookie() {
     return cookie;
@@ -99,18 +70,11 @@ public class Request {
   }
 
   public Boolean hasParams() {
-    if (rawUri.contains("?")) {
-      return true;
-    }
-    return false;
+    return rawUri.contains("?");
   }
 
   public Boolean hasCookies() {
-    if (rawUri.contains("type")) {
-      return true;
-    }
-    return false;
+    return rawUri.contains("type");
   }
-
 }
 

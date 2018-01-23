@@ -3,7 +3,7 @@ package handlers;
 import messages.Response;
 
 public class OptionsRequestHandler implements RequestHandler {
-    String[] supportedHttpMethods;
+    private String[] supportedHttpMethods;
 
     public OptionsRequestHandler (String[] supportedHttpMethods){
         this.supportedHttpMethods = supportedHttpMethods;

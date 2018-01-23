@@ -7,7 +7,7 @@ import messages.Response;
 
 
 public class ParameterHandler implements RequestHandler {
-  String parameterValues = "";
+  private String parameterValues = "";
 
   public ParameterHandler (Request request) {
 

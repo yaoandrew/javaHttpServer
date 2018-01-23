@@ -2,11 +2,10 @@ package handlers;
 
 import messages.Request;
 import messages.Response;
-import parsers.CookieParser;
 
 public class CookieHandler implements RequestHandler {
-  Boolean setCookie = false;
-  String cookieValue = null;
+  private Boolean setCookie = false;
+  private String cookieValue = null;
 
   public CookieHandler (Request request) {
 

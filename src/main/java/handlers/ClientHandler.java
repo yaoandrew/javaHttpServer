@@ -3,14 +3,13 @@ package handlers;
 import java.io.*;
 import java.net.Socket;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import messages.Request;
 import parsers.RequestParser;
 import router.Router;
 
 public class ClientHandler implements Runnable {
 
-  Socket client;
+  private Socket client;
 
   public ClientHandler(Socket client) {
     this.client = client;
