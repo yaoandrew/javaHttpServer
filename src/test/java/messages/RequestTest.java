@@ -1,6 +1,8 @@
 package messages;
 
+import java.util.Arrays;
 import org.junit.Test;
+import parsers.RequestParser;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -8,7 +10,9 @@ import static org.junit.Assert.assertEquals;
 public class RequestTest {
 
     String testString = "GET /foobar HTTP/1.1";
-    Request request = new Request(testString);
+    RequestParser parser = new RequestParser();
+
+    Request request = parser.parse(testString);
 
     @Test
     public void RequestHttpMethodParsesIntoObject() {
@@ -28,7 +32,7 @@ public class RequestTest {
     @Test
     public void RequestHasCookiesReturnsTrue() {
         String cookieUri = "GET /cookie?type=vanilla HTTP/1.1";
-        Request request = new Request(cookieUri);
+        Request request = parser.parse(cookieUri);
 
         assertTrue(request.hasCookies());
     }
@@ -36,7 +40,7 @@ public class RequestTest {
     @Test
     public void RequestHasCookiesReturnsCoookieValue() {
         String cookieUri = "GET /cookie?type=vanilla HTTP/1.1";
-        Request request = new Request(cookieUri);
+        Request request = parser.parse(cookieUri);
 
         assertEquals("vanilla", request.getCookie());
 
@@ -45,7 +49,7 @@ public class RequestTest {
     @Test
     public void RequestHasParamsReturnsTrue() {
         String paramUri = "GET /params?variable1=abc HTTP/1.1";
-        Request request = new Request(paramUri);
+        Request request = parser.parse(paramUri);
 
         assertTrue(request.hasParams());
     }
@@ -53,15 +57,16 @@ public class RequestTest {
     @Test
     public void RequestHasParamsReturnsParamValue() {
         String paramUri = "GET /params?variable1=abc HTTP/1.1";
-        Request request = new Request(paramUri);
+        Request request = parser.parse(paramUri);
+        String[] expected = {"variable1=abc"};
 
-        assertEquals("variable1=abc", request.getParams());
+        assertTrue(Arrays.equals(expected, request.getParams()));
     }
 
     @Test
     public void RequestWithParamsReturnsSimpleURI() {
         String paramUri = "GET /parameters?variable1=abc HTTP/1.1";
-        Request request = new Request(paramUri);
+        Request request = parser.parse(paramUri);
 
         assertEquals("/parameters", request.getSimpleUri());
     }
@@ -69,17 +74,8 @@ public class RequestTest {
     @Test
     public void RequestWithoutParamsReturnsSimpleURI() {
         String uri = "GET /hello HTTP/1.1";
-        Request request = new Request(uri);
+        Request request = parser.parse(uri);
 
         assertEquals("/hello", request.getSimpleUri());
-    }
-
-    @Test
-    public void RequestObjectSetsHeaderString() {
-        String rawRequest = "GET /hello HTTP/1.1\r\nHello: World\r\nContent: text\r\n\r\nbody";
-        String[] expectedHeader = {"Hello: World", "Content: text"};
-        Request request = new Request(rawRequest);
-
-        assertEquals(expectedHeader, request.getRawHeaders());
     }
 }
