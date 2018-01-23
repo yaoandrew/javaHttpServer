@@ -3,9 +3,9 @@ package  handlers;
 import messages.Response;
 
 public class FormDataHandler implements RequestHandler {
-    private String [] supportedHttpMethods;
+    private String[] supportedHttpMethods;
 
-    public FormDataHandler (String [] supportedHttpMethods) {
+    public FormDataHandler (String[] supportedHttpMethods) {
         this.supportedHttpMethods = supportedHttpMethods;
     }
 
