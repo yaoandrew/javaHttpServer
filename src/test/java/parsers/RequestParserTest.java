@@ -1,6 +1,5 @@
 package parsers;
 
-import java.util.Arrays;
 import messages.Request;
 import org.junit.Test;
 
@@ -9,14 +8,14 @@ import static org.junit.Assert.assertEquals;
 
 public class RequestParserTest {
 
-  RequestParser parser = new RequestParser();
+  private RequestParser parser = new RequestParser();
 
   @Test
   public void ParserTakesRawRequestStringAndReturnsRequestObject() {
 
     String testString = "GET /foobar HTTP/1.1";
 
-    assertTrue(parser.parse(testString) instanceof Request);
+    assertTrue(parser.parse(testString) != null);
   }
 
   @Test
@@ -58,19 +57,9 @@ public class RequestParserTest {
   public void ParserSetsParamsInRequestObject() {
 
     String testStringWithParams = "POST /params?greeting=hello HTTP/1.1";
-    String[] expected = {"greeting=hello"};
+    String expected = "hello";
 
-    assertTrue(Arrays.equals(expected, parser.parse(testStringWithParams).getParams()));
-
-  }
-
-  @Test
-  public void ParserSetsMultipleParamsInRequestObject() {
-
-    String testStringWithParams = "POST /params?greeting=hello&variable2=more HTTP/1.1";
-    String[] expected = {"greeting=hello", "variable2=more"};
-
-    assertTrue(Arrays.equals(expected, parser.parse(testStringWithParams).getParams()));
+    assertEquals(expected, parser.parse(testStringWithParams).getParamValue("greeting"));
 
   }
 

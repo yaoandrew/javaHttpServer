@@ -9,8 +9,8 @@ public class Request {
   private String httpVersion;
   private String simpleUri;
   private String cookie;
-  private String[] params;
-  private HashMap<String, String> headers = new HashMap<>();
+  HashMap<String, String> params = new HashMap<>();
+  HashMap<String, String> headers = new HashMap<>();
 
   public void setHeader(String key, String value) {
     this.headers.put(key, value);
@@ -53,12 +53,16 @@ public class Request {
     this.cookie = cookie;
   }
 
-  public String[] getParams() {
-    return params;
+  public String getParamValue(String key) {
+    return this.params.get(key);
   }
 
-  public void setParams(String[] params) {
-    this.params = params;
+  public HashMap<String, String> getParamMap() {
+    return this.params;
+  }
+
+  public void setParamValue(String key, String value) {
+    this.params.put(key, value);
   }
 
   public String getSimpleUri() {

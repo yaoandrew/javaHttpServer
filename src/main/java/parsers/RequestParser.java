@@ -36,8 +36,12 @@ public class RequestParser {
 
     if (request.hasParams()) {
       request.setSimpleUri(request.getRawUri().split("\\?")[0]);
-      String[] params = request.getRawUri().split("\\?")[1].split("&");
-      request.setParams(params);
+      List <String>params = Arrays.asList(request.getRawUri().split("\\?")[1].split("&"));
+      Iterator<String> iterator = params.listIterator();
+      while (iterator.hasNext()) {
+        String[] param = iterator.next().split("=");
+        request.setParamValue(param[0].trim(), param[1].trim());
+      }
     }
 
     if (request.hasCookies()) {
