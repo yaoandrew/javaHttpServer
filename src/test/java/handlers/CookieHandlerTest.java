@@ -24,7 +24,7 @@ public class CookieHandlerTest {
   public void CookieHandlerReturnsCorrectHeader() {
     String requestString = "GET /cookie?type=chocolate HTTP/1.1";
     CookieHandler ch = new CookieHandler(parser.parse(requestString));
-    String expected = "Set-Cookie: chocolate";
+    String expected = "Set-Cookie: type=chocolate";
     String actual = ch.getResponse().getHeaders();
 
     assertEquals(expected, actual);

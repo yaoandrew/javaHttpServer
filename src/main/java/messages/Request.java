@@ -78,7 +78,7 @@ public class Request {
   }
 
   public Boolean hasCookies() {
-    return rawUri.contains("type");
+    return rawUri.contains("cookie?");
   }
 }
 

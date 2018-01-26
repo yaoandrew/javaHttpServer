@@ -68,6 +68,6 @@ public class RequestParserTest {
 
     String testStringWithParams = "POST /cookie?type=chocolate HTTP/1.1";
 
-    assertEquals("chocolate", parser.parse(testStringWithParams).getCookie());
+    assertEquals("type=chocolate", parser.parse(testStringWithParams).getCookie());
   }
 }
