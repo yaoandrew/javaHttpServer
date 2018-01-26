@@ -23,9 +23,7 @@ public class ClientHandler implements Runnable {
       System.out.println("Client connected");
 
       RequestParser parser = new RequestParser();
-
       Request parsedRequest = parser.parse(reader.readLine());
-
       System.out.println("Request received");
 
       Router router = new Router();

@@ -1,6 +1,5 @@
 package messages;
 
-import java.util.Arrays;
 import org.junit.Test;
 import parsers.RequestParser;
 
@@ -58,9 +57,9 @@ public class RequestTest {
     public void RequestHasParamsReturnsParamValue() {
         String paramUri = "GET /params?variable1=abc HTTP/1.1";
         Request request = parser.parse(paramUri);
-        String[] expected = {"variable1=abc"};
+        String expected = "abc";
 
-        assertTrue(Arrays.equals(expected, request.getParams()));
+        assertEquals(expected, request.getParamValue("variable1"));
     }
 
     @Test
@@ -78,4 +77,5 @@ public class RequestTest {
 
         assertEquals("/hello", request.getSimpleUri());
     }
+
 }
