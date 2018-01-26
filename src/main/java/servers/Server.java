@@ -8,9 +8,9 @@ import handlers.ClientHandler;
 
 
 public class Server {
-    static ServerSocket serverSocket;
+    private static ServerSocket serverSocket;
 
-    public Server (ServerSocket serverSocket) {
+    Server (ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
 

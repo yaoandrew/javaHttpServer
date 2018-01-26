@@ -20,13 +20,12 @@ public class ClientHandler implements Runnable {
 
       BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
       BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-      System.out.println("Client connected");
-
+      Router router = new Router();
       RequestParser parser = new RequestParser();
+
       Request parsedRequest = parser.parse(reader.readLine());
       System.out.println("Request received");
 
-      Router router = new Router();
 
       RequestHandler handler = router.getResponder(parsedRequest);
 
