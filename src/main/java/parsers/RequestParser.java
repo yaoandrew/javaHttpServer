@@ -13,7 +13,7 @@ public class RequestParser {
     Request request = new Request();
 
     String[] requestParts = rawRequest.split("\r\n\r\n");
-    List <String>statusLineParts = Arrays.asList(requestParts[0].split("\r\n"));
+    List <String> statusLineAndHeaders = Arrays.asList(requestParts[0].split("\r\n"));
 
     //has body info
     if (requestParts.length > 2) {
@@ -21,18 +21,18 @@ public class RequestParser {
     }
 
     //has headers
-    if (statusLineParts.size() > 1) {
-      Iterator<String> iterator = statusLineParts.listIterator(1);
+    if (statusLineAndHeaders.size() > 1) {
+      Iterator<String> iterator = statusLineAndHeaders.listIterator(1);
       while (iterator.hasNext()) {
         String[] head = iterator.next().split(":");
         request.setHeader(head[0].trim(), head[1].trim());
       }
     }
 
-    request.setHttpMethod(statusLineParts.get(0).split("\\s")[0]);
-    request.setRawUri(statusLineParts.get(0).split("\\s")[1]);
-    request.setSimpleUri(statusLineParts.get(0).split("\\s")[1]);
-    request.setHttpVersion(statusLineParts.get(0).split("\\s")[2]);
+    request.setHttpMethod(statusLineAndHeaders.get(0).split("\\s")[0]);
+    request.setRawUri(statusLineAndHeaders.get(0).split("\\s")[1]);
+    request.setSimpleUri(statusLineAndHeaders.get(0).split("\\s")[1]);
+    request.setHttpVersion(statusLineAndHeaders.get(0).split("\\s")[2]);
 
     if (request.hasParams()) {
       request.setSimpleUri(request.getRawUri().split("\\?")[0]);
@@ -45,7 +45,7 @@ public class RequestParser {
     }
 
     if (request.hasCookies()) {
-      request.setCookie(request.getRawUri().split("\\?")[1].split("=")[1]);
+      request.setCookie(request.getRawUri().split("\\?")[1]);
     }
 
     return request;

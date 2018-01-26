@@ -41,7 +41,7 @@ public class RequestTest {
         String cookieUri = "GET /cookie?type=vanilla HTTP/1.1";
         Request request = parser.parse(cookieUri);
 
-        assertEquals("vanilla", request.getCookie());
+        assertEquals("type=vanilla", request.getCookie());
 
     }
 
