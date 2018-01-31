@@ -16,7 +16,7 @@ public class RequestParser {
     List <String> statusLineAndHeaders = Arrays.asList(requestParts[0].split("\r\n"));
 
     //has body info
-    if (requestParts.length > 2) {
+    if (requestParts.length > 1) {
       bodyData = requestParts[1];
     }
 
@@ -42,10 +42,6 @@ public class RequestParser {
         String[] param = iterator.next().split("=");
         request.setParamValue(param[0].trim(), param[1].trim());
       }
-    }
-
-    if (request.hasCookies()) {
-      request.setCookie(request.getRawUri().split("\\?")[1]);
     }
 
     return request;

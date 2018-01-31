@@ -33,7 +33,7 @@ public class CookieHandlerTest {
 
   @Test
   public void CookieHandlerUsesCookie() {
-    String requestString = "GET /eat_cookie HTTP/1.1";
+    String requestString = "GET /eat_cookie HTTP/1.1\r\nCookie: type=chocolate\r\n";
     CookieHandler ch = new CookieHandler(parser.parse(requestString));
     String expected = "mmmm chocolate";
     String actual = ch.getResponse().getBody();

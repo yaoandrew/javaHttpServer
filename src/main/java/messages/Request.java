@@ -20,6 +20,10 @@ public class Request {
     return this.headers.get(key);
   }
 
+  public HashMap<String, String> getHeadersMap() {
+    return this.headers;
+  }
+
   public String getRawUri() {
     return rawUri;
   }
@@ -75,10 +79,6 @@ public class Request {
 
   public Boolean hasParams() {
     return rawUri.contains("?");
-  }
-
-  public Boolean hasCookies() {
-    return rawUri.contains("cookie?");
   }
 }
 

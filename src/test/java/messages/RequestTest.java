@@ -1,5 +1,6 @@
 package messages;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import parsers.RequestParser;
 
@@ -33,15 +34,15 @@ public class RequestTest {
         String cookieUri = "GET /cookie?type=vanilla HTTP/1.1";
         Request request = parser.parse(cookieUri);
 
-        assertTrue(request.hasCookies());
+        assertTrue(request.getParamValue("type").equals("vanilla") );
     }
 
     @Test
-    public void RequestHasCookiesReturnsCoookieValue() {
+    public void RequestHasCookiesReturnsCookieValue() {
         String cookieUri = "GET /cookie?type=vanilla HTTP/1.1";
         Request request = parser.parse(cookieUri);
 
-        assertEquals("type=vanilla", request.getCookie());
+        assertEquals("vanilla", request.getParamValue("type"));
 
     }
 
