@@ -62,12 +62,4 @@ public class RequestParserTest {
     assertEquals(expected, parser.parse(testStringWithParams).getParamValue("greeting"));
 
   }
-
-  @Test
-  public void ParserSetsCookieInRequestObject() {
-
-    String testStringWithParams = "POST /cookie?type=chocolate HTTP/1.1";
-
-    assertEquals("type=chocolate", parser.parse(testStringWithParams).getCookie());
-  }
 }

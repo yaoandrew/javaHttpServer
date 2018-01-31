@@ -18,27 +18,45 @@ public class ClientHandler implements Runnable {
   public void run() {
     try {
 
+//wrap inside reader
+      String rawRequest = "";
       BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
       BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
       Router router = new Router();
       RequestParser parser = new RequestParser();
+      rawRequest += reader.readLine();
+      rawRequest += "\r\n";
 
-      Request parsedRequest = parser.parse(reader.readLine());
+      while (reader.ready()){
+        rawRequest += (char) reader.read();
+      }
+
+
+//return a raw request
+
+      System.out.println(rawRequest);
+
+      Request parsedRequest = parser.parse(rawRequest);
+
       System.out.println("Request received");
 
-
       RequestHandler handler = router.getResponder(parsedRequest);
+
+
+//wrap inside a writer
 
       writer.write(handler.getResponse().getStatusLine());
 
       if (handler.getResponse().getHeaders().length() > 0) {
         writer.write(handler.getResponse().getHeaders());
-        System.out.println(handler.getResponse().getHeaders());
       }
 
       writer.write(handler.getResponse().getSeparator());
       writer.write(handler.getResponse().getBody());
       System.out.println("Response sent");
+
+//clean up
+
       writer.close();
       reader.close();
 
