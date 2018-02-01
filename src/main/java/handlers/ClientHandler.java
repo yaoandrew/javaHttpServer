@@ -35,9 +35,12 @@ public class ClientHandler implements Runnable {
 
 //return a raw request
 
-      System.out.println(rawRequest);
+      System.out.println("RAW REQUEST: " + rawRequest);
 
       Request parsedRequest = parser.parse(rawRequest);
+
+      System.out.println("Request data: " + parsedRequest.getBody());
+
 
       System.out.println("Request received");
 
@@ -57,9 +60,10 @@ public class ClientHandler implements Runnable {
       writer.write(response.getSeparator());
 
       if (response.getBody() != null){
+        System.out.println("Response data: " + response.getBody());
         writer.write(response.getBody());
       }
-      System.out.println("Response sent");
+      System.out.println("Response sent\r\n\r\n-------------");
 
 //clean up
 
