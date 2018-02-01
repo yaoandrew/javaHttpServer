@@ -17,7 +17,7 @@ public class RequestParser {
 
     //has body info
     if (requestParts.length > 1) {
-      bodyData = requestParts[1];
+      request.setBody(requestParts[1]);
     }
 
     //has headers
