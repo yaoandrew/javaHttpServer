@@ -9,6 +9,7 @@ public class Request {
   private String httpVersion;
   private String simpleUri;
   private String cookie;
+  private String body;
   HashMap<String, String> params = new HashMap<>();
   HashMap<String, String> headers = new HashMap<>();
 
@@ -30,6 +31,14 @@ public class Request {
 
   public void setRawUri(String rawUri) {
     this.rawUri = rawUri;
+  }
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
   }
 
   public String getHttpVersion() {

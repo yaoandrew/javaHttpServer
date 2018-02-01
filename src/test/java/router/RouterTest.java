@@ -32,7 +32,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsCorrectHandlerForForm() {
     Request request = parser.parse("GET /form HTTP/1.1\r\n");
-    RequestHandler expected = new FormDataHandler(new String[]{"GET", "PUT", "POST"});
+    RequestHandler expected = new FormDataHandler(new String[]{"GET", "PUT", "POST"}, request);
     Router router = new Router();
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());

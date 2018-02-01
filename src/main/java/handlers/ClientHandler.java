@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.Socket;
 
 import messages.Request;
+import messages.Response;
 import parsers.RequestParser;
 import router.Router;
 
@@ -45,14 +46,19 @@ public class ClientHandler implements Runnable {
 
 //wrap inside a writer
 
-      writer.write(handler.getResponse().getStatusLine());
+      Response response = handler.getResponse();
 
-      if (handler.getResponse().getHeaders().length() > 0) {
-        writer.write(handler.getResponse().getHeaders());
+      writer.write(response.getStatusLine());
+
+      if (response.getHeaders().length() > 0) {
+        writer.write(response.getHeaders());
       }
 
-      writer.write(handler.getResponse().getSeparator());
-      writer.write(handler.getResponse().getBody());
+      writer.write(response.getSeparator());
+
+      if (response.getBody() != null){
+        writer.write(response.getBody());
+      }
       System.out.println("Response sent");
 
 //clean up
