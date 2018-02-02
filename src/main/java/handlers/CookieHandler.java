@@ -7,10 +7,12 @@ public class CookieHandler implements RequestHandler {
   private Boolean setCookie = false;
   private Boolean headerHasCookie = false;
   private String cookieValue = null;
-  private Request request;
 
-  public CookieHandler (Request request) {
-    this.request = request;
+
+
+  public Response getResponse(Request request) {
+    Response response = new Response();
+
     if (request.getParamMap().size() >= 1) {
       request.getParamMap().entrySet().stream().forEach(entry -> cookieValue = entry.getKey() + "=" + entry.getValue());
       setCookie = true;
@@ -20,10 +22,6 @@ public class CookieHandler implements RequestHandler {
       cookieValue = request.getHeaderValue("Cookie");
       headerHasCookie = true;
     }
-   }
-
-  public Response getResponse() {
-    Response response = new Response();
     if (setCookie) {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
       response.setBody("Eat");

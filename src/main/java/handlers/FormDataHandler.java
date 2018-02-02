@@ -6,23 +6,18 @@ import messages.Response;
 public class FormDataHandler implements RequestHandler {
   private String[] supportedHttpMethods;
   private Response response = new Response();
-
-  public String getFormData() {
-    return formData;
-  }
-
-  public void setFormData(String formData) {
-    this.formData = formData;
-  }
-
   String formData;
 
-  public FormDataHandler (String[] supportedHttpMethods, Request request) {
+  public FormDataHandler (String[] supportedHttpMethods) {
     this.supportedHttpMethods = supportedHttpMethods;
-    this.formData = request.getBody();
+    this.formData = "";
   }
 
-  public Response getResponse() {
+
+  public Response getResponse(Request request) {
+    if (request.getHttpMethod().equals("POST") || request.getHttpMethod().equals("PUT") || request.getHttpMethod().equals("DELETE")) {
+      formData = request.getBody();
+    }
     response.setStatusLine("HTTP/1.1 200 OK\r\n");
     response.setBody(formData);
 

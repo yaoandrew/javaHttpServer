@@ -15,9 +15,9 @@ public class FormDataHandlerTest {
     RequestParser parser = new RequestParser();
     Request request = parser.parse(requestWithData);
 
-    FormDataHandler fdh = new FormDataHandler(new String[]{"GET", "DELETE", "PUT", "POST"}, request);
+    FormDataHandler fdh = new FormDataHandler(new String[]{"GET", "DELETE", "PUT", "POST"});
 
-    assertEquals("HTTP/1.1 200 OK\r\n", fdh.getResponse().getStatusLine());
+    assertEquals("HTTP/1.1 200 OK\r\n", fdh.getResponse(request).getStatusLine());
   }
 
   @Test
@@ -27,8 +27,8 @@ public class FormDataHandlerTest {
     RequestParser parser = new RequestParser();
     Request request = parser.parse(requestWithData);
 
-    FormDataHandler fdh = new FormDataHandler(new String[] {"GET", "DELETE", "PUT", "POST"}, request);
+    FormDataHandler fdh = new FormDataHandler(new String[] {"GET", "DELETE", "PUT", "POST"});
 
-    assertEquals("data=fatcat", fdh.getResponse().getBody());
+    assertEquals("data=fatcat", fdh.getResponse(request).getBody());
   }
 }
