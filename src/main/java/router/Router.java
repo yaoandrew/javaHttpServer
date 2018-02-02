@@ -2,6 +2,7 @@ package router;
 
 import handlers.CookieHandler;
 import handlers.ParameterHandler;
+import handlers.TeapotHandler;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public class Router {
     routeAndHandlerMap.put("/cookie", new CookieHandler());
     routeAndHandlerMap.put("/eat_cookie", new CookieHandler());
     routeAndHandlerMap.put("/parameters", new ParameterHandler());
+    routeAndHandlerMap.put("/coffee", new TeapotHandler());
+    routeAndHandlerMap.put("/tea", new TeapotHandler());
     return routeAndHandlerMap;
   }
 
