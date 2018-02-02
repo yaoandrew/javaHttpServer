@@ -11,9 +11,11 @@ import router.Router;
 public class ClientHandler implements Runnable {
 
   private Socket client;
+  private Router router;
 
-  public ClientHandler(Socket client) {
+  public ClientHandler(Socket client, Router router) {
     this.client = client;
+    this.router = router;
   }
 
   public void run() {
@@ -23,7 +25,6 @@ public class ClientHandler implements Runnable {
       String rawRequest = "";
       BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
       BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-      Router router = new Router();
       RequestParser parser = new RequestParser();
       rawRequest += reader.readLine();
       rawRequest += "\r\n";
@@ -45,6 +46,7 @@ public class ClientHandler implements Runnable {
       System.out.println("Request received");
 
       RequestHandler handler = router.getResponder(parsedRequest);
+
 
 
 //wrap inside a writer
