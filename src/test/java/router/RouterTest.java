@@ -32,7 +32,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsCorrectHandlerForForm() {
     Request request = parser.parse("GET /form HTTP/1.1\r\n");
-    RequestHandler expected = new FormDataHandler(new String[]{"GET", "PUT", "POST"}, request);
+    RequestHandler expected = new FormDataHandler(new String[]{"GET", "PUT", "POST"});
     Router router = new Router();
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());
@@ -50,7 +50,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsCorrectHandlerForCookies() {
     Request request = parser.parse("GET /cookie HTTP/1.1\r\n");
-    RequestHandler expected = new CookieHandler(request);
+    RequestHandler expected = new CookieHandler();
     Router router = new Router();
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());
@@ -59,7 +59,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsCorrectHandlerForParameterRequests() {
     Request request = parser.parse("GET /parameters?variable1=abc HTTP/1.1\r\n");
-    RequestHandler expected = new ParameterHandler(request);
+    RequestHandler expected = new ParameterHandler();
     Router router = new Router();
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());

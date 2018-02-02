@@ -51,7 +51,7 @@ public class ClientHandler implements Runnable {
 
 //wrap inside a writer
 
-      Response response = handler.getResponse();
+      Response response = handler.getResponse(parsedRequest);
 
       writer.write(response.getStatusLine());
 

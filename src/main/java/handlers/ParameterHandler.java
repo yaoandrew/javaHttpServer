@@ -10,7 +10,9 @@ import messages.Response;
 public class ParameterHandler implements RequestHandler {
   private String parameterValues = "";
 
-  public ParameterHandler (Request request) {
+
+  public Response getResponse(Request request) {
+    Response response = new Response();
     if(request.hasParams()) {
       for (Map.Entry<String, String> entry : request.getParamMap().entrySet()){
         try {
@@ -21,10 +23,6 @@ public class ParameterHandler implements RequestHandler {
         }
       }
     }
-  }
-
-  public Response getResponse() {
-    Response response = new Response();
     response.setStatusLine("HTTP/1.1 200 OK\r\n");
     response.setBody(parameterValues);
 
