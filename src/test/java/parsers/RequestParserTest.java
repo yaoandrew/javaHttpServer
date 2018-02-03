@@ -1,49 +1,65 @@
+package parsers;
 
 import messages.Request;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
-import parsers.RequestParser;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class RequestParserTest {
 
-String testString = "GET /foobar HTTP/1.1";
+  private RequestParser parser = new RequestParser();
 
-    @Test
-    public void ParserReturnsHTTPMethod() {
-      assertEquals("GET", RequestParser.getHttpMethod(testString));
-    }
+  @Test
+  public void ParserTakesRawRequestStringAndReturnsRequestObject() {
 
-    @Test
-    public void ParserReturnsURI() {
-      assertEquals("/foobar", RequestParser.getURI(testString));
-    }
+    String testString = "GET /foobar HTTP/1.1";
 
-    @Test
-    public void ParserReturnsRawUri() {
-      String testStringWithParams = "POST /params?greeting=hello HTTP/1.1";
-      String expected = "/params?greeting=hello";
+    assertTrue(parser.parse(testString) != null);
+  }
 
-      assertEquals(expected, RequestParser.getRawUri(testStringWithParams));
+  @Test
+  public void ParserSetsHttpMethodInRequestObject() {
 
-    }
+    String testString = "GET /aboutus HTTP/1.1";
 
-    @Test
-    public void ParserReturnsURIWithoutParam() {
-      String testStringWithParams = "POST /params?greeting=hello HTTP/1.1";
+    assertEquals("GET", parser.parse(testString).getHttpMethod());
+  }
 
-      assertEquals("/params", RequestParser.getURI(testStringWithParams));
-    }
+  @Test
+  public void ParserSetsURIInRequestObject() {
 
-    @Test
-    public void ParserReturnsHTTPVersion() {
-      assertEquals("HTTP/1.1", RequestParser.getHttpVersion(testString));
-    }
+    String testString = "GET /aboutus HTTP/1.1";
 
-    @Test
-    public void ParserReturnsParams() {
-      String testStringWithParams = "POST /params?greeting=hello HTTP/1.1";
+    assertEquals("/aboutus", parser.parse(testString).getRawUri());
 
-      assertEquals("greeting=hello", RequestParser.getParams(testStringWithParams));
-    }
+  }
+
+  @Test
+  public void ParserSetsHTTPVersionInRequestObject() {
+
+    String testString = "GET /aboutus HTTP/1.1";
+
+    assertEquals("HTTP/1.1", parser.parse(testString).getHttpVersion());
+
+  }
+
+  @Test
+  public void ParserSetsHeadersInRequestObject() {
+
+    String testString = "GET /aboutus HTTP/1.1\r\nHello : World\r\nContent : text\r\n\r\n";
+
+    assertEquals("text", parser.parse(testString).getHeaderValue("Content"));
+
+  }
+
+  @Test
+  public void ParserSetsParamsInRequestObject() {
+
+    String testStringWithParams = "POST /params?greeting=hello HTTP/1.1";
+    String expected = "hello";
+
+    assertEquals(expected, parser.parse(testStringWithParams).getParamValue("greeting"));
+
+  }
 }

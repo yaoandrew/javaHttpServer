@@ -1,9 +1,8 @@
 package handlers;
+import messages.Request;
 import messages.Response;
 
 public interface RequestHandler {
-   public Response getResponse();
-
-
+  Response getResponse(Request request);
 
 }

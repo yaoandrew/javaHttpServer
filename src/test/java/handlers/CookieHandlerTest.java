@@ -3,16 +3,18 @@ package handlers;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import messages.Request;
+import parsers.RequestParser;
 
 public class CookieHandlerTest {
 
+  private RequestParser parser = new RequestParser();
+
   @Test
   public void CookieHandlerReturnsCorrectBody() {
-    Request request = new Request("GET /cookie?type=chocolate HTTP/1.1");
-    CookieHandler ch = new CookieHandler(request);
+    String requestString = "GET /cookie?type=chocolate HTTP/1.1";
+    CookieHandler ch = new CookieHandler();
     String expected = "Eat";
-    String actual = ch.getResponse().getBody();
+    String actual = ch.getResponse(parser.parse(requestString)).getBody();
 
     assertEquals(expected, actual);
 
@@ -20,10 +22,10 @@ public class CookieHandlerTest {
 
   @Test
   public void CookieHandlerReturnsCorrectHeader() {
-    Request request = new Request("GET /cookie?type=chocolate HTTP/1.1");
-    CookieHandler ch = new CookieHandler(request);
-    String expected = "Set-Cookie: chocolate";
-    String actual = ch.getResponse().getHeaders();
+    String requestString = "GET /cookie?type=chocolate HTTP/1.1";
+    CookieHandler ch = new CookieHandler();
+    String expected = "Set-Cookie: type=chocolate";
+    String actual = ch.getResponse(parser.parse(requestString)).getHeaders();
 
     assertEquals(expected, actual);
 
@@ -31,10 +33,10 @@ public class CookieHandlerTest {
 
   @Test
   public void CookieHandlerUsesCookie() {
-    Request request = new Request("GET /eat_cookie HTTP/1.1");
-    CookieHandler ch = new CookieHandler(request);
+    String requestString = "GET /eat_cookie HTTP/1.1\r\nCookie: type=chocolate\r\n";
+    CookieHandler ch = new CookieHandler();
     String expected = "mmmm chocolate";
-    String actual = ch.getResponse().getBody();
+    String actual = ch.getResponse(parser.parse(requestString)).getBody();
 
     assertEquals(expected, actual);
   }

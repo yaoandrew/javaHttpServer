@@ -3,46 +3,77 @@ package handlers;
 import java.io.*;
 import java.net.Socket;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import messages.Request;
+import messages.Response;
+import parsers.RequestParser;
 import router.Router;
 
 public class ClientHandler implements Runnable {
-    Socket client;
 
-    public ClientHandler(Socket client) {
-        this.client = client;
+  private Socket client;
+  private Router router;
+
+  public ClientHandler(Socket client, Router router) {
+    this.client = client;
+    this.router = router;
+  }
+
+  public void run() {
+    try {
+
+//wrap inside reader
+      String rawRequest = "";
+      BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+      RequestParser parser = new RequestParser();
+      rawRequest += reader.readLine();
+      rawRequest += "\r\n";
+
+      while (reader.ready()){
+        rawRequest += (char) reader.read();
+      }
+
+
+//return a raw request
+
+      System.out.println("RAW REQUEST: " + rawRequest);
+
+      Request parsedRequest = parser.parse(rawRequest);
+
+      System.out.println("Request data: " + parsedRequest.getBody());
+
+
+      System.out.println("Request received");
+
+      RequestHandler handler = router.getResponder(parsedRequest);
+
+
+
+//wrap inside a writer
+
+      Response response = handler.getResponse(parsedRequest);
+
+      writer.write(response.getStatusLine());
+
+      if (response.getHeaders().length() > 0) {
+        writer.write(response.getHeaders());
+      }
+
+      writer.write(response.getSeparator());
+
+      if (response.getBody() != null){
+        System.out.println("Response data: " + response.getBody());
+        writer.write(response.getBody());
+      }
+      System.out.println("Response sent\r\n\r\n-------------");
+
+//clean up
+
+      writer.close();
+      reader.close();
+
+    } catch (IOException e) {
+      System.out.println(e);
     }
-
-    public void run() {
-        try {
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-            System.out.println("Client connected");
-
-            Request request = new Request (reader.readLine());
-            System.out.println("Request received");
-
-            Router router = new Router();
-
-            RequestHandler handler = router.getResponder(request);
-
-            writer.write(handler.getResponse().getStatusLine());
-
-            if (handler.getResponse().getHeaders().length()>0){
-              writer.write(handler.getResponse().getHeaders());
-                System.out.println(handler.getResponse().getHeaders());
-            }
-
-            writer.write(handler.getResponse().getSeparator());
-            writer.write(handler.getResponse().getBody());
-            System.out.println("Response sent");
-            writer.close();
-            reader.close();
-
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
+  }
 }

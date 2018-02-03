@@ -2,32 +2,35 @@ package handlers;
 
 import messages.Request;
 import messages.Response;
-import parsers.CookieParser;
 
 public class CookieHandler implements RequestHandler {
-  Boolean setCookie = false;
-  String cookieValue = null;
+  private Boolean setCookie = false;
+  private Boolean headerHasCookie = false;
+  private String cookieValue = null;
 
-  public CookieHandler (Request request) {
 
-    if(request.hasParams()) {
-      cookieValue = request.getCookie();
-    }
 
-    if (request.hasCookies()){
+  public Response getResponse(Request request) {
+    Response response = new Response();
+
+    if (request.getParamMap().size() >= 1) {
+      request.getParamMap().entrySet().stream().forEach(entry -> cookieValue = entry.getKey() + "=" + entry.getValue());
       setCookie = true;
     }
 
-  }
-  public Response getResponse() {
-    Response response = new Response();
+    if (request.getHeadersMap().containsKey("Cookie")) {
+      cookieValue = request.getHeaderValue("Cookie");
+      headerHasCookie = true;
+    }
     if (setCookie) {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
       response.setBody("Eat");
       response.setHeaders("Set-Cookie: " + cookieValue);
     } else {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
-      response.setBody("mmmm chocolate");
+      if (headerHasCookie) {
+        response.setBody("mmmm " + cookieValue.split("=")[1]);
+      }
     }
 
     return response;
