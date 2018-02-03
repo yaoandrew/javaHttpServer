@@ -24,7 +24,5 @@ public class Server {
       ClientHandler clientHandler = new ClientHandler(clientSocket, router);
       (new Thread(clientHandler)).start();
     }
-
   }
-
 }

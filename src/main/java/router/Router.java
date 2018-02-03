@@ -1,12 +1,13 @@
+
 package router;
 
 import handlers.CookieHandler;
 import handlers.ParameterHandler;
+import handlers.RequestHandler;
 import handlers.TeapotHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-import handlers.RequestHandler;
 import handlers.RootRequestHandler;
 import handlers.FormDataHandler;
 import handlers.OptionsRequestHandler;
@@ -31,13 +32,16 @@ public class Router {
     return routeAndHandlerMap;
   }
 
-  Map responderMap = createRouteAndHandlerMap();
+  Map handlerMap = createRouteAndHandlerMap();
 
   public RequestHandler getResponder(Request request) {
-    if (responderMap.get(request.getSimpleUri()) == null) {
-      return new BadRouteHandler();
+    if (handlerMap.get(request.getSimpleUri()) == null) {
+//      should we serve a file?
+//        serve file
+//      else
+        return new BadRouteHandler();
     } else {
-       return (RequestHandler) responderMap.get(request.getSimpleUri());
+       return (RequestHandler) handlerMap.get(request.getSimpleUri());
       }
   }
 }
