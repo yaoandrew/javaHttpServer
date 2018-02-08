@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public class CliArgParser {
     private String[] args;
-    private HashMap<String, String>
 
     public CliArgParser(String[] args){
         parse(args);
@@ -17,6 +16,6 @@ public class CliArgParser {
     }
 
     String getValue(String key){
-        return value;
+        return key;
     }
 }
