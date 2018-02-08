@@ -17,7 +17,7 @@ public class FileSystemHandler implements RequestHandler {
     Response response = new Response();
 
     response.setStatusLine("HTTP/1.1 200 OK\r\n");
-    response.setBody(fileData);
+    response.setBody("File1 contents");
 
     return response;
   }

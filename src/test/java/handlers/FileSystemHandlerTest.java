@@ -20,21 +20,19 @@ public class FileSystemHandlerTest {
   public void FileSystemHandlerTestReturnsResponseBody() throws IOException {
 
     String requestString = "GET /file1 HTTP/1.1";
-
     RequestParser parser = new RequestParser();
 
     //setup mock file in test to send in response
     File serverFile = tempFolder.newFile("file1");
     FileWriter fileWriter = new FileWriter(serverFile);
-    fileWriter.write("file1 contents");
+    fileWriter.write("File1 contents");
     fileWriter.flush();
     fileWriter.close();
 
     FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
-
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
-    assertEquals("file1 contents", fileResponse.getBody());
+    assertEquals("File1 contents", fileResponse.getBody());
 
   }
 
