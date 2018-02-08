@@ -19,7 +19,10 @@ public class FormDataHandler implements RequestHandler {
       formData = request.getBody();
     }
     response.setStatusLine("HTTP/1.1 200 OK\r\n");
-    response.setBody(formData);
+    if (formData == null){
+      formData = "";
+    }
+    response.setBody(formData.getBytes());
 
     return response;
   }
