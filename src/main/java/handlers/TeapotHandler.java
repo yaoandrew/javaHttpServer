@@ -45,12 +45,12 @@ public class TeapotHandler implements RequestHandler {
 
     if (request.getSimpleUri().equals("/coffee")) {
       response.setStatusLine("HTTP/1.1 418 I'm a teapot\r\n");
-      response.setBody("I'm a teapot\r\n" + angryPot);
+      response.setBody(("I'm a teapot\r\n" + angryPot).getBytes());
     }
 
     if (request.getSimpleUri().equals("/tea")) {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
-      response.setBody(teapot);
+      response.setBody(teapot.getBytes());
     }
 
     return response;

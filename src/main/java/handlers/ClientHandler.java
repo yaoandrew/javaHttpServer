@@ -24,7 +24,7 @@ public class ClientHandler implements Runnable {
 //wrap inside reader
       String rawRequest = "";
       BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
+      OutputStream writer = client.getOutputStream();
       RequestParser parser = new RequestParser();
       rawRequest += reader.readLine();
       rawRequest += "\r\n";
@@ -53,16 +53,16 @@ public class ClientHandler implements Runnable {
 
       Response response = handler.getResponse(parsedRequest);
 
-      writer.write(response.getStatusLine());
+      writer.write(response.getStatusLine().getBytes());
 
       if (response.getHeaders().length() > 0) {
-        writer.write(response.getHeaders());
+        writer.write(response.getHeaders().getBytes());
       }
 
-      writer.write(response.getSeparator());
+      writer.write(response.getSeparator().getBytes());
 
       if (response.getBody() != null){
-        System.out.println("Response data: " + response.getBody());
+        System.out.println("Response data: " + response.getBody().toString());
         writer.write(response.getBody());
       }
       System.out.println("Response sent\r\n\r\n-------------");
