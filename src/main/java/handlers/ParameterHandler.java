@@ -24,7 +24,7 @@ public class ParameterHandler implements RequestHandler {
       }
     }
     response.setStatusLine("HTTP/1.1 200 OK\r\n");
-    response.setBody(parameterValues);
+    response.setBody(parameterValues.getBytes());
 
     return response;
   }

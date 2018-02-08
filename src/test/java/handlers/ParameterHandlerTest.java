@@ -18,14 +18,14 @@ public class ParameterHandlerTest {
 
   @Test
   public void ParameterHandlerResponseContainsVariable1() {
-    String actualBody = ph.getResponse(parsedRequest).getBody();
+    String actualBody = new String (ph.getResponse(parsedRequest).getBody());
 
     assertTrue(actualBody.contains(expectedBodyVar1));
   }
 
   @Test
   public void ParameterHandlerResponseContainsVariable2() {
-    String actualBody = ph.getResponse(parsedRequest).getBody();
+    String actualBody = new String (ph.getResponse(parsedRequest).getBody());
 
     assertTrue(actualBody.contains(expectedBodyVar2));
   }

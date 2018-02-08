@@ -14,7 +14,7 @@ public class CookieHandlerTest {
     String requestString = "GET /cookie?type=chocolate HTTP/1.1";
     CookieHandler ch = new CookieHandler();
     String expected = "Eat";
-    String actual = ch.getResponse(parser.parse(requestString)).getBody();
+    String actual = new String (ch.getResponse(parser.parse(requestString)).getBody());
 
     assertEquals(expected, actual);
 
@@ -36,7 +36,7 @@ public class CookieHandlerTest {
     String requestString = "GET /eat_cookie HTTP/1.1\r\nCookie: type=chocolate\r\n";
     CookieHandler ch = new CookieHandler();
     String expected = "mmmm chocolate";
-    String actual = ch.getResponse(parser.parse(requestString)).getBody();
+    String actual = new String (ch.getResponse(parser.parse(requestString)).getBody());
 
     assertEquals(expected, actual);
   }
