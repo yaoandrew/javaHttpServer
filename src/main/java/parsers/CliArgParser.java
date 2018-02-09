@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 public class CliArgParser {
     private static String switchIndicator = "-";
+    private static String dirSwitch = "-d";
+    private static String portSwitch = "-p";
+
     HashMap<String, String> argumentMap = new HashMap<>();
 
     public CliArgParser(String[] args){
@@ -16,6 +19,22 @@ public class CliArgParser {
             argumentMap.put (arguments[i], arguments[i+1]);
           }
         }
+    }
+
+    public Boolean hasUserDirSet(){
+        return argumentMap.containsKey(dirSwitch);
+    }
+
+    public Boolean hasUserPortSet() {
+        return argumentMap.containsKey(portSwitch);
+    }
+
+    public String getUserDir() {
+        return argumentMap.get(dirSwitch);
+    }
+
+    public String getUserPort() {
+        return argumentMap.get(portSwitch);
     }
 
     String getValue(String key){
