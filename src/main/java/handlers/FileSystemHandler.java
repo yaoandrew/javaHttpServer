@@ -1,6 +1,8 @@
 package handlers;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import messages.Request;
 import messages.Response;
 
@@ -17,7 +19,11 @@ public class FileSystemHandler implements RequestHandler {
     Response response = new Response();
 
     response.setStatusLine("HTTP/1.1 200 OK\r\n");
-    response.setBody("File1 contents");
+    try {
+      response.setBody(Files.readAllBytes(file.toPath()));
+    } catch (IOException e) {
+      System.out.println(e);
+    }
 
     return response;
   }

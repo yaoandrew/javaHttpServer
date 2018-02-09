@@ -36,8 +36,10 @@ public class Router {
 
   public RequestHandler getResponder(Request request) {
     if (handlerMap.get(request.getSimpleUri()) == null) {
-//      should we serve a file?
-//        serve file
+//      should we serve a file? check file exists in default dir
+//        return response with file data in body
+//        if file does'nt exist but directory does
+//        return response with dir contents
 //      else
         return new BadRouteHandler();
     } else {
