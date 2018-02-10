@@ -2,22 +2,28 @@ package servers;
 
 import java.net.ServerSocket;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import parsers.CliArgParser;
 
 public class App {
 
-  private static int DEFAULT_PORT = 5000;
-  private static String DEFAULT_DIR = System.getProperty("user.home") + "/public";
+  private static int SERVER_PORT = 5000;
+  private static String SERVER_DIR = System.getProperty("user.home") + "/public";
 
   public static void main( String[] args ) throws IOException {
 
     CliArgParser cliArgParser = new CliArgParser(args);
-    ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
-    Server server = new Server(serverSocket);
+    if (cliArgParser.hasUserDirSet()) {
+      SERVER_DIR = cliArgParser.getUserDir();
+    }
+
+    if (cliArgParser.hasUserPortSet()) {
+      SERVER_PORT = Integer.parseInt(cliArgParser.getUserPort());
+    }
+
+    ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
+    Server server = new Server(serverSocket, SERVER_DIR);
     System.out.println("Server started...");
-    System.out.println("Using: " + DEFAULT_DIR);
+    System.out.println("Using: " + SERVER_DIR +" on port " + SERVER_PORT);
     server.run();
   }
 }

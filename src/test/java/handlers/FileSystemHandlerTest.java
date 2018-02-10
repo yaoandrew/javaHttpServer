@@ -18,25 +18,68 @@ public class FileSystemHandlerTest {
   @Rule
   public TemporaryFolder tempFolder = new TemporaryFolder();
 
-  @Ignore
-  public void FileSystemHandlerTestReturnsResponseBody() throws IOException {
+  @Test
+  public void FileSystemHandlerTestReturnsCorrectContentTypeJPG() throws IOException {
 
-    String requestString = "GET /file1 HTTP/1.1";
+    String requestString = "GET /image.jpeg HTTP/1.1";
     RequestParser parser = new RequestParser();
-
-    //setup mock file in test to send in response
-    File serverFile = tempFolder.newFile("file1");
-    FileWriter fileWriter = new FileWriter(serverFile);
-    fileWriter.write("File1 contents");
-    fileWriter.flush();
-    fileWriter.close();
-
-    byte[] actualFile = Files.readAllBytes(serverFile.toPath());
+    File serverFile = tempFolder.newFile("image.jpeg");
 
     FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
-    assertEquals(actualFile, fileResponse.getBody());
+    assertEquals("Content-type: image/jpeg", fileResponse.getHeaders());
+  }
 
+  @Test
+  public void FileSystemHandlerTestReturnsCorrectContentTypePNG() throws IOException {
+
+    String requestString = "GET /image.png HTTP/1.1";
+    RequestParser parser = new RequestParser();
+    File serverFile = tempFolder.newFile("image.png");
+
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
+    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+
+    assertEquals("Content-type: image/png", fileResponse.getHeaders());
+  }
+
+  @Test
+  public void FileSystemHandlerTestReturnsCorrectContentTypeGIF() throws IOException {
+
+    String requestString = "GET /image.gif HTTP/1.1";
+    RequestParser parser = new RequestParser();
+    File serverFile = tempFolder.newFile("image.gif");
+
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
+    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+
+    assertEquals("Content-type: image/gif", fileResponse.getHeaders());
+  }
+
+  @Test
+  public void FileSystemHandlerTestReturnsCorrectContentTypeTXT() throws IOException {
+
+    String requestString = "GET /text-file.txt HTTP/1.1";
+    RequestParser parser = new RequestParser();
+    File serverFile = tempFolder.newFile("text-file.txt");
+
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
+    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+
+    assertEquals("Content-type: text/plain", fileResponse.getHeaders());
+  }
+
+  @Test
+  public void FileSystemHandlerTestReturnsCorrectContentTypeNoExtension() throws IOException {
+
+    String requestString = "GET /file1 HTTP/1.1";
+    RequestParser parser = new RequestParser();
+    File serverFile = tempFolder.newFile("file1");
+
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
+    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+
+    assertEquals("Content-type: application/octet-stream", fileResponse.getHeaders());
   }
 }

@@ -2,9 +2,11 @@
 package router;
 
 import handlers.CookieHandler;
+import handlers.FileSystemHandler;
 import handlers.ParameterHandler;
 import handlers.RequestHandler;
 import handlers.TeapotHandler;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,11 @@ import messages.Request;
 public class Router {
 
   private HashMap<String, RequestHandler> routeAndHandlerMap;
+  private String serverDir;
+
+  public Router (String serverDir){
+    this.serverDir = serverDir;
+  }
 
   private Map createRouteAndHandlerMap() {
     routeAndHandlerMap = new HashMap<>();
@@ -36,14 +43,19 @@ public class Router {
 
   public RequestHandler getResponder(Request request) {
     if (handlerMap.get(request.getSimpleUri()) == null) {
-//      should we serve a file? check file exists in default dir
-//        return response with file data in body
-//        if file does'nt exist but directory does
-//        return response with dir contents
-//      else
+
+      File file = new File(serverDir + request.getSimpleUri());
+      System.out.println("This is the file: " + file.toString());
+      System.out.println("Does the file exist? " + file.exists());
+
+      if(file.exists() || file.isDirectory()){
+        FileSystemHandler fileSystemHandler = new FileSystemHandler(file);
+        return fileSystemHandler;
+      }
         return new BadRouteHandler();
+
     } else {
        return (RequestHandler) handlerMap.get(request.getSimpleUri());
-      }
+    }
   }
 }
