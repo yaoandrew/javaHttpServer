@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable {
       writer.write(response.getSeparator().getBytes());
 
       if (response.getBody() != null){
-        System.out.println("Response data: " + new String (response.getBody()));
+        System.out.println("Response data: " + response.getBody().toString());
         writer.write(response.getBody());
       }
       System.out.println("Response sent\r\n\r\n-------------");
