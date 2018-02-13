@@ -1,21 +1,27 @@
 package router;
 
+import java.io.IOException;
+import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 import messages.Request;
 import handlers.*;
+import org.junit.rules.TemporaryFolder;
 import parsers.RequestParser;
 
 public class RouterTest {
 
   RequestParser parser = new RequestParser();
-  String serverDir = "/Users/andrew";
+  String serverDir = "/tmp";
+
+  @Rule
+  public TemporaryFolder tempFolder = new TemporaryFolder();
 
   @Test
-  public void RouterReturnsCorrectHandlerForGoodRoute() {
+  public void RouterReturnsCorrectHandlerForGoodRoute() throws IOException {
     Request request = parser.parse("GET / HTTP/1.1\r\n");
-    RequestHandler expected = new RootRequestHandler(new String []{"GET"});
+    RequestHandler expected = new DirectoryHandler(tempFolder.newFolder());
     Router router = new Router(serverDir);
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());
