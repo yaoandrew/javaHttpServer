@@ -29,6 +29,7 @@ public class Router {
     routeAndHandlerMap.put("/coffee", new TeapotHandler());
     routeAndHandlerMap.put("/tea", new TeapotHandler());
     routeAndHandlerMap.put("/redirect", new RedirectHandler());
+    routeAndHandlerMap.put("/partial_content.txt", new PartialContentHandler());
     return routeAndHandlerMap;
   }
 

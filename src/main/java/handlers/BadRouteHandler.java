@@ -1,7 +1,5 @@
 package handlers;
 
-import static messages.HTTPStatus.NOT_FOUND;
-
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
