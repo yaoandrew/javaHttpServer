@@ -35,7 +35,7 @@ public class Router {
 
   Map handlerMap = createRouteAndHandlerMap();
 
-  public RequestHandler getResponder(Request request) {
+  public RequestHandler getHandler(Request request) {
     if (handlerMap.get(request.getSimpleUri()) == null) {
 
       File file = new File(serverDir + request.getSimpleUri());

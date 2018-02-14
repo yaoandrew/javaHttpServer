@@ -24,7 +24,7 @@ public class RouterTest {
     RequestHandler expected = new DirectoryHandler(tempFolder.newFolder());
     Router router = new Router(serverDir);
 
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+    assertEquals(expected.getClass(), router.getHandler(request).getClass());
   }
 
   @Test
@@ -33,7 +33,7 @@ public class RouterTest {
     RequestHandler expected = new BadRouteHandler();
     Router router = new Router(serverDir);
 
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+    assertEquals(expected.getClass(), router.getHandler(request).getClass());
   }
 
   @Test
@@ -42,7 +42,7 @@ public class RouterTest {
     RequestHandler expected = new FormDataHandler(new String[]{"GET", "PUT", "POST"});
     Router router = new Router(serverDir);
 
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+    assertEquals(expected.getClass(), router.getHandler(request).getClass());
   }
 
   @Test
@@ -51,7 +51,7 @@ public class RouterTest {
     RequestHandler expected = new OptionsRequestHandler(new String[]{"GET", "PUT", "POST"});
     Router router = new Router(serverDir);
 
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+    assertEquals(expected.getClass(), router.getHandler(request).getClass());
   }
 
   @Test
@@ -60,7 +60,7 @@ public class RouterTest {
     RequestHandler expected = new CookieHandler();
     Router router = new Router(serverDir);
 
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+    assertEquals(expected.getClass(), router.getHandler(request).getClass());
   }
 
   @Test
@@ -69,7 +69,7 @@ public class RouterTest {
     RequestHandler expected = new ParameterHandler();
     Router router = new Router(serverDir);
 
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+    assertEquals(expected.getClass(), router.getHandler(request).getClass());
   }
 
   @Test
@@ -78,7 +78,7 @@ public class RouterTest {
     RequestHandler expected = new RedirectHandler();
     Router router = new Router(serverDir);
 
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+    assertEquals(expected.getClass(), router.getHandler(request).getClass());
   }
 
   @Test
@@ -87,6 +87,6 @@ public class RouterTest {
     RequestHandler expected = new PartialContentHandler();
     Router router = new Router(serverDir);
 
-    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+    assertEquals(expected.getClass(), router.getHandler(request).getClass());
   }
 }
