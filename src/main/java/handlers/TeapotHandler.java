@@ -1,5 +1,6 @@
 package handlers;
 
+import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
@@ -44,12 +45,12 @@ public class TeapotHandler implements RequestHandler {
     Response response = new Response();
 
     if (request.getSimpleUri().equals("/coffee")) {
-      response.setStatusLine("HTTP/1.1 418 I'm a teapot\r\n");
+      response.setStatusLine(HTTPStatus.IM_A_TEAPOT.getStatusLine());
       response.setBody(("I'm a teapot\r\n" + angryPot).getBytes());
     }
 
     if (request.getSimpleUri().equals("/tea")) {
-      response.setStatusLine("HTTP/1.1 200 OK\r\n");
+      response.setStatusLine(HTTPStatus.OK.getStatusLine());
       response.setBody(teapot.getBytes());
     }
 

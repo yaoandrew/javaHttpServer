@@ -12,6 +12,7 @@ public class App {
   public static void main( String[] args ) throws IOException {
 
     CliArgParser cliArgParser = new CliArgParser(args);
+
     if (cliArgParser.hasUserDirSet()) {
       SERVER_DIR = cliArgParser.getUserDir();
     }

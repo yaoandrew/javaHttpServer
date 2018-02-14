@@ -13,7 +13,7 @@ public class RedirectHandlerTest {
   @Test
   public void RedirectHandlerSetsStatusCode304(){
 
-    String expectedStatusLine =  "HTTP/1.1 302 FOUND\r\n";
+    String expectedStatusLine =  "HTTP/1.1 302 Found";
 
     assertEquals(expectedStatusLine, redirectHandler.getResponse(parser.parse(rawRequest)).getStatusLine());
 

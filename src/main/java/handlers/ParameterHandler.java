@@ -3,6 +3,7 @@ package handlers;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Map;
+import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
@@ -23,7 +24,7 @@ public class ParameterHandler implements RequestHandler {
         }
       }
     }
-    response.setStatusLine("HTTP/1.1 200 OK\r\n");
+    response.setStatusLine(HTTPStatus.OK.getStatusLine());
     response.setBody(parameterValues.getBytes());
 
     return response;

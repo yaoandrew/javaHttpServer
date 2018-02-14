@@ -49,7 +49,7 @@ public class TeapotHandlerTest {
   public void TeapotHandlerReturnsStatus418() {
     String coffeeRequestString = "GET /coffee HTTP/1.1";
     RequestHandler tph = new TeapotHandler();
-    String expectedStatus = "HTTP/1.1 418 I'm a teapot\r\n";
+    String expectedStatus = "HTTP/1.1 418 I'm a Teapot";
 
     Response response = tph.getResponse(parser.parse(coffeeRequestString));
 
@@ -70,7 +70,7 @@ public class TeapotHandlerTest {
   public void TeapotHandlerReturnsCorrectStatusForTea() {
     String teaRequestString = "GET /tea HTTP/1.1";
     RequestHandler tph = new TeapotHandler();
-    String expectedStatus = "HTTP/1.1 200 OK\r\n";
+    String expectedStatus = "HTTP/1.1 200 OK";
 
     Response response = tph.getResponse(parser.parse(teaRequestString));
 
