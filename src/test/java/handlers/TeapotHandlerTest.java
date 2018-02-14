@@ -63,7 +63,7 @@ public class TeapotHandlerTest {
 
     Response response = tph.getResponse(parser.parse(coffeeRequestString));
 
-    assertEquals("I'm a teapot\r\n" + angryPot, response.getBody());
+    assertEquals("I'm a teapot\r\n" + angryPot, new String (response.getBody()));
   }
 
   @Test
@@ -84,7 +84,7 @@ public class TeapotHandlerTest {
 
     Response response = tph.getResponse(parser.parse(teaRequestString));
 
-    assertEquals(teapot, response.getBody());
+    assertEquals(teapot, new String (response.getBody()));
   }
 
 }

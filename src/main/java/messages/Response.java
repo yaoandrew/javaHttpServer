@@ -4,7 +4,7 @@ public class Response {
 
     private String statusLine = "";
     private String headers = "";
-    private String body = "";
+    private byte[] body;
     private String newLine = "\r\n";
 
 
@@ -20,7 +20,7 @@ public class Response {
         return newLine + newLine;
     }
 
-    public String getBody() {
+    public byte[] getBody() {
         return body;
     }
 
@@ -32,7 +32,7 @@ public class Response {
         this.headers = headers;
     }
 
-    public void setBody(String body) {
+    public void setBody(byte[] body) {
         this.body = body;
     }
 }

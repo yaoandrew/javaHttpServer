@@ -24,12 +24,12 @@ public class CookieHandler implements RequestHandler {
     }
     if (setCookie) {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
-      response.setBody("Eat");
+      response.setBody("Eat".getBytes());
       response.setHeaders("Set-Cookie: " + cookieValue);
     } else {
       response.setStatusLine("HTTP/1.1 200 OK\r\n");
       if (headerHasCookie) {
-        response.setBody("mmmm " + cookieValue.split("=")[1]);
+        response.setBody(("mmmm " + cookieValue.split("=")[1]).getBytes());
       }
     }
 

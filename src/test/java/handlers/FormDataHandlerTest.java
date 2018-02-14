@@ -29,6 +29,6 @@ public class FormDataHandlerTest {
 
     FormDataHandler fdh = new FormDataHandler(new String[] {"GET", "DELETE", "PUT", "POST"});
 
-    assertEquals("data=fatcat", fdh.getResponse(request).getBody());
+    assertEquals("data=fatcat", new String (fdh.getResponse(request).getBody()));
   }
 }
