@@ -26,7 +26,7 @@ public class FileSystemHandler implements RequestHandler {
     if (file.getName().contains(".txt")){
       isTxtFile = true;
     }
-   //need to redo header [] to set content length
+   //need to redo response header [] to set content length
     contentLength = file.length();
 
   }

@@ -15,7 +15,7 @@ public class CookieHandler implements RequestHandler {
     Response response = new Response();
 
     if (request.getParamMap().size() >= 1) {
-      request.getParamMap().entrySet().stream().forEach(entry -> cookieValue = entry.getKey() + "=" + entry.getValue());
+      request.getParamMap().entrySet().forEach(entry -> cookieValue = entry.getKey() + "=" + entry.getValue());
       setCookie = true;
     }
 
