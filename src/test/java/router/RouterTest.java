@@ -71,4 +71,13 @@ public class RouterTest {
 
     assertEquals(expected.getClass(), router.getResponder(request).getClass());
   }
+
+  @Test
+  public void RouterReturnsCorrectHandlerForRedirect() {
+    Request request = parser.parse("GET /redirect HTTP/1.1\r\n");
+    RequestHandler expected = new RedirectHandler();
+    Router router = new Router(serverDir);
+
+    assertEquals(expected.getClass(), router.getResponder(request).getClass());
+  }
 }
