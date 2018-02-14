@@ -16,6 +16,7 @@ public class FileSystemHandler implements RequestHandler {
 
   public FileSystemHandler (File file){
     this.file = file;
+
     if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName().contains(".gif")){
       isImageFile = true;
       imageFileExtension = file.getName().split("\\.")[1];
