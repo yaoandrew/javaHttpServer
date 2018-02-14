@@ -43,7 +43,7 @@ public class ClientHandler implements Runnable {
       System.out.println("Request data: " + parsedRequest.getBody());
       System.out.println("Request received");
 
-      RequestHandler handler = router.getResponder(parsedRequest);
+      RequestHandler handler = router.getHandler(parsedRequest);
 
 
 //wrap inside a writer
