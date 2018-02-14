@@ -28,6 +28,7 @@ public class Router {
     routeAndHandlerMap.put("/parameters", new ParameterHandler());
     routeAndHandlerMap.put("/coffee", new TeapotHandler());
     routeAndHandlerMap.put("/tea", new TeapotHandler());
+    routeAndHandlerMap.put("/redirect", new RedirectHandler());
     return routeAndHandlerMap;
   }
 
