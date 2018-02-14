@@ -50,6 +50,7 @@ public class ClientHandler implements Runnable {
 
       Response response = handler.getResponse(parsedRequest);
       writer.write(response.getStatusLine().getBytes());
+      writer.write(System.lineSeparator().getBytes());
 
       if (response.getHeaders().length() > 0) {
         writer.write(response.getHeaders().getBytes());

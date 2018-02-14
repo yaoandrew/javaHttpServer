@@ -1,5 +1,6 @@
 package handlers;
 
+import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
@@ -8,7 +9,7 @@ public class RedirectHandler implements RequestHandler{
   @Override
   public Response getResponse(Request request) {
     Response response = new Response();
-    response.setStatusLine("HTTP/1.1 302 FOUND\r\n");
+    response.setStatusLine(HTTPStatus.FOUND.getStatusLine());
     response.setHeaders("Location: /");
     return response;
   }

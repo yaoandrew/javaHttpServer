@@ -1,6 +1,7 @@
 package handlers;
 
 import java.util.Arrays;
+import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 import java.io.File;
@@ -20,7 +21,7 @@ public class DirectoryHandler implements RequestHandler {
 
     Arrays.sort(sortedDirContents);
 
-    response.setStatusLine("HTTP/1.1 200 OK\r\n");
+    response.setStatusLine(HTTPStatus.OK.getStatusLine());
     response.setHeaders("Content-Type: text/html; charset=utf-8");
 
     bodyContents.append("<!DOCTYPE html><html>");

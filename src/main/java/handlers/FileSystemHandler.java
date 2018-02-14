@@ -3,6 +3,7 @@ package handlers;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
@@ -35,7 +36,7 @@ public class FileSystemHandler implements RequestHandler {
   public Response getResponse(Request request) {
     Response response = new Response();
 
-    response.setStatusLine("HTTP/1.1 200 OK\r\n");
+    response.setStatusLine(HTTPStatus.OK.getStatusLine());
 
     if (isImageFile) {
       response.setHeaders("Content-type: image/" + imageFileExtension);

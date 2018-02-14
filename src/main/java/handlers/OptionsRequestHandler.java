@@ -1,5 +1,6 @@
 package handlers;
 
+import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
@@ -12,7 +13,7 @@ public class OptionsRequestHandler implements RequestHandler {
 
     public Response getResponse(Request request) {
         Response response = new Response();
-        response.setStatusLine("HTTP/1.1 200 OK\r\n");
+        response.setStatusLine(HTTPStatus.OK.getStatusLine());
         response.setHeaders("Allow: GET,HEAD,POST,OPTIONS,PUT\r\n");
 
         return response;

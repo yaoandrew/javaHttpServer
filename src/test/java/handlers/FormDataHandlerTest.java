@@ -17,7 +17,7 @@ public class FormDataHandlerTest {
 
     FormDataHandler fdh = new FormDataHandler(new String[]{"GET", "DELETE", "PUT", "POST"});
 
-    assertEquals("HTTP/1.1 200 OK\r\n", fdh.getResponse(request).getStatusLine());
+    assertEquals("HTTP/1.1 200 OK", fdh.getResponse(request).getStatusLine());
   }
 
   @Test

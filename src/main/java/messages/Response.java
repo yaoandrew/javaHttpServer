@@ -5,7 +5,7 @@ public class Response {
     private String statusLine = "";
     private String headers = "";
     private byte[] body;
-    private String newLine = "\r\n";
+    private String newLine = System.lineSeparator();
 
 
     public String getStatusLine() {
