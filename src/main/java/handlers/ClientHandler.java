@@ -2,7 +2,6 @@ package handlers;
 
 import java.io.*;
 import java.net.Socket;
-
 import messages.Request;
 import messages.Response;
 import parsers.RequestParser;
