@@ -80,13 +80,4 @@ public class RouterTest {
 
     assertEquals(expected.getClass(), router.getHandler(request).getClass());
   }
-
-  @Test
-  public void RouterReturnsCorrectHandlerForPartialContent() {
-    Request request = parser.parse("GET /partial_content.txt HTTP/1.1\r\n");
-    RequestHandler expected = new PartialContentHandler();
-    Router router = new Router(serverDir);
-
-    assertEquals(expected.getClass(), router.getHandler(request).getClass());
-  }
 }
