@@ -44,7 +44,7 @@ public class Router {
       System.out.println("This is the path: " + file.toString());
       System.out.println("Does the path exist? " + file.exists());
 
-      if(isPartialContentRequest(request)){
+      if(isPartialContentRequest(request) & isValidPathAndFile(file)){
         PartialContentHandler partialContentHandler = new PartialContentHandler(file);
         return partialContentHandler;
       }
