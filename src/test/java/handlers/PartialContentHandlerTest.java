@@ -71,7 +71,7 @@ public class PartialContentHandlerTest {
   }
 
   @Test
-  public void PartialContentHandlerCanHandleBadRangeInput() throws IOException {
+  public void PartialContentHandlerCanHandleInvalidNumericRangeInput() throws IOException {
 
     String rawRequest = "GET /partial_content.txt HTTP/1.1\r\nRange: bytes=4-88\r\n";
     File file = temporaryFolder.newFile("partial_content.txt");
@@ -84,4 +84,31 @@ public class PartialContentHandlerTest {
 
   }
 
+  @Test
+  public void PartialContentHandlerCanHandleInvalidRangeInput() throws IOException {
+
+    String rawRequest = "GET /partial_content.txt HTTP/1.1\r\nRange: bytes=blah\r\n";
+    File file = temporaryFolder.newFile("partial_content.txt");
+    String content = "This is a file that contains text to read part of in order to fulfill a 206. ";
+    Files.write(file.toPath(), content.getBytes());
+    PartialContentHandler partialContentHandler = new PartialContentHandler(file);
+
+    assertThat(partialContentHandler.getResponse((parser.parse(rawRequest))).getStatusLine(),
+        equalTo("HTTP/1.1 416 Range Not Satisfiable"));
+
+  }
+
+  @Test
+  public void PartialContentHandlerCanHandleInvalidRangeWithADash() throws IOException {
+
+    String rawRequest = "GET /partial_content.txt HTTP/1.1\r\nRange: bytes=-blah\r\n";
+    File file = temporaryFolder.newFile("partial_content.txt");
+    String content = "This is a file that contains text to read part of in order to fulfill a 206. ";
+    Files.write(file.toPath(), content.getBytes());
+    PartialContentHandler partialContentHandler = new PartialContentHandler(file);
+
+    assertThat(partialContentHandler.getResponse((parser.parse(rawRequest))).getStatusLine(),
+        equalTo("HTTP/1.1 416 Range Not Satisfiable"));
+
+  }
 }

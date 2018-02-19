@@ -26,19 +26,25 @@ public class PartialContentHandler extends FileSystemHandler {
 
   public Response getResponse(Request request) {
     Response response = new Response();
-    parseRange(request.getHeaderValue("Range"));
+    String rangeValues = request.getHeaderValue("Range").replace("bytes=", "");
 
     try {
       fullContent = readFileContents();
     } catch (Exception e){
       System.out.println("Failed to read file");
+//      response.setStatusLine(HTTPStatus.NOT_FOUND.getStatusLine());
     }
 
-    if (rangeIsValid()) {
-      partialContent = getPartialContent(fullContent, beginOfRange, endOfRange);
-      response.setStatusLine(HTTPStatus.PARTIAL_CONTENT.getStatusLine());
-      response.setHeaders("Content-type: text/plain");
-      response.setBody(partialContent);
+    if (rangeIsValid(rangeValues)) {
+      parseRange(rangeValues);
+      if ((beginOfRange >= 0 & beginOfRange < contentLength) & (endOfRange > beginOfRange & endOfRange < contentLength)) {
+        partialContent = getPartialContent(fullContent, beginOfRange, endOfRange);
+        response.setStatusLine(HTTPStatus.PARTIAL_CONTENT.getStatusLine());
+        response.setHeaders("Content-type: text/plain");
+        response.setBody(partialContent);
+      } else {
+        response.setStatusLine(HTTPStatus.RANGE_NOT_SATISFIABLE.getStatusLine());
+      }
     } else {
       response.setStatusLine(HTTPStatus.RANGE_NOT_SATISFIABLE.getStatusLine());
     }
@@ -46,8 +52,7 @@ public class PartialContentHandler extends FileSystemHandler {
       return response;
   }
 
-  void parseRange(String unparsedRange) {
-      String rangeValues = unparsedRange.replace("bytes=", "");
+  void parseRange(String rangeValues) {
 
       if (rangeValues.startsWith("-")){
         beginOfRange = contentLength - (new Integer(rangeValues.split("-")[1])) ;
@@ -69,8 +74,18 @@ public class PartialContentHandler extends FileSystemHandler {
     return contentLength;
   }
 
-  Boolean rangeIsValid() {
-    return (beginOfRange >= 0 & beginOfRange < contentLength) & (endOfRange > beginOfRange & endOfRange <= contentLength);
+  Boolean rangeIsValid(String rangeValues) {
+    // check if rangeValues contains a -
+    // check if split parts can be integers
+    // range values match rules
+    if (!rangeValues.contains("-")) {
+      return false;
+    }
+
+    if (!isProperlyFormattedRange(rangeValues)) {
+      return false;
+    }
+    return true;
   }
 
   byte[] getPartialContent (byte[] content, int begin, int end){
@@ -81,4 +96,29 @@ public class PartialContentHandler extends FileSystemHandler {
   byte[] readFileContents() throws IOException {
     return Files.readAllBytes(file.toPath());
   }
+
+  Boolean isProperlyFormattedRange(String rangeValues) {
+    if (rangeValues.startsWith("-")){
+      try {
+        Integer.parseInt(rangeValues.split("-")[1]);
+      } catch (NumberFormatException e) {
+        return false;
+      }
+    } else if (rangeValues.endsWith("-")){
+      try {
+        Integer.parseInt(rangeValues.split("-")[0]);
+      } catch (NumberFormatException e) {
+        return false;
+      }
+    } else {
+      try {
+        Integer.parseInt(rangeValues.split("-")[0]);
+        Integer.parseInt(rangeValues.split("-")[1]);
+      } catch (NumberFormatException e) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 }
