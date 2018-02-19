@@ -10,7 +10,6 @@ import messages.Response;
 
 public class PartialContentHandler extends FileSystemHandler {
 
-  private String unparsedRange;
   private int contentLength;
   private File file;
   int beginOfRange;
@@ -27,8 +26,7 @@ public class PartialContentHandler extends FileSystemHandler {
 
   public Response getResponse(Request request) {
 
-    unparsedRange = request.getHeaderValue("Range");
-    parseRange(unparsedRange);
+    parseRange(request.getHeaderValue("Range"));
 
     try {
       fullContent = readFileContents();
