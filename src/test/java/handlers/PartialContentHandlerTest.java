@@ -7,7 +7,8 @@ import static org.junit.Assert.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
+import messages.HTTPStatus;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -19,96 +20,74 @@ public class PartialContentHandlerTest {
   public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   RequestParser parser = new RequestParser();
+  PartialContentHandler partialContentHandler;
+  private String content;
+
+  @Before
+  public void setup() throws IOException {
+    content = "This is a file that contains text to read part of in order to fulfill a 206. ";
+    File file = temporaryFolder.newFile("partial_content.txt");
+    Files.write(file.toPath(), content.getBytes());
+    partialContentHandler = new PartialContentHandler(file);
+  }
 
   @Test
-  public void PartialContentHandlerCanDetermineContentLength() throws IOException {
-
-    File file = temporaryFolder.newFile("partial_content.txt");
-    String content = "This is a file that contains text to read part of in order to fulfill a 206. ";
-    Files.write(file.toPath(), content.getBytes());
-    PartialContentHandler partialContentHandler = new PartialContentHandler(file);
+  public void DeterminesContentLength() {
 
     assertEquals(content.getBytes().length, partialContentHandler.getContentLength());
   }
 
   @Test
-  public void PartialContentHandlerCanReturnFullRangeGiven() throws IOException {
+  public void ReturnsFullRangeGiven() {
 
     String rawRequest = "GET /partial_content.txt HTTP/1.1\r\nRange: bytes=0-4\r\n";
-    File file = temporaryFolder.newFile("partial_content.txt");
-    String content = "This is a file that contains text to read part of in order to fulfill a 206. ";
-    Files.write(file.toPath(), content.getBytes());
-    PartialContentHandler partialContentHandler = new PartialContentHandler(file);
 
-    assertThat(partialContentHandler.getResponse(parser.parse(rawRequest)).getBody(),
-        equalTo(Arrays.copyOfRange(content.getBytes(), 0, 5)));
+    assertThat(new String (partialContentHandler.getResponse(parser.parse(rawRequest)).getBody()),
+        equalTo(content.substring(0, 5)));
   }
 
   @Test
-  public void PartialContentHandlerCanReturnEndRangeGiven() throws IOException {
+  public void ReturnsEndRangeGiven() {
 
     String rawRequest = "GET /partial_content.txt HTTP/1.1\r\nRange: bytes=-6\r\n";
-    File file = temporaryFolder.newFile("partial_content.txt");
-    String content = "This is a file that contains text to read part of in order to fulfill a 206. ";
-    Files.write(file.toPath(), content.getBytes());
-    PartialContentHandler partialContentHandler = new PartialContentHandler(file);
 
-    assertThat(partialContentHandler.getResponse(parser.parse(rawRequest)).getBody(),
-        equalTo(Arrays.copyOfRange(content.getBytes(), 71, 77)));
+    assertThat(new String (partialContentHandler.getResponse(parser.parse(rawRequest)).getBody()),
+        equalTo(content.substring(71, 77)));
   }
 
   @Test
-  public void PartialContentHandlerCanReturnBeginRangeGiven() throws IOException {
+  public void ReturnsBeginRangeGiven() {
 
     String rawRequest = "GET /partial_content.txt HTTP/1.1\r\nRange: bytes=4-\r\n";
-    File file = temporaryFolder.newFile("partial_content.txt");
-    String content = "This is a file that contains text to read part of in order to fulfill a 206. ";
-    Files.write(file.toPath(), content.getBytes());
-    PartialContentHandler partialContentHandler = new PartialContentHandler(file);
 
-    assertThat(partialContentHandler.getResponse(parser.parse(rawRequest)).getBody(),
-      equalTo(Arrays.copyOfRange(content.getBytes(), 4, 77)));
+    assertThat(new String(partialContentHandler.getResponse(parser.parse(rawRequest)).getBody()),
+      equalTo(content.substring(4, 77)));
   }
 
   @Test
-  public void PartialContentHandlerCanHandleInvalidNumericRangeInput() throws IOException {
+  public void HandlesInvalidNumericRangeInput() {
 
     String rawRequest = "GET /partial_content.txt HTTP/1.1\r\nRange: bytes=4-88\r\n";
-    File file = temporaryFolder.newFile("partial_content.txt");
-    String content = "This is a file that contains text to read part of in order to fulfill a 206. ";
-    Files.write(file.toPath(), content.getBytes());
-    PartialContentHandler partialContentHandler = new PartialContentHandler(file);
 
     assertThat(partialContentHandler.getResponse((parser.parse(rawRequest))).getStatusLine(),
-      equalTo("HTTP/1.1 416 Range Not Satisfiable"));
-
+      equalTo(HTTPStatus.RANGE_NOT_SATISFIABLE.getStatusLine()));
   }
 
   @Test
-  public void PartialContentHandlerCanHandleInvalidRangeInput() throws IOException {
+  public void HandlesInvalidRangeInput() {
 
     String rawRequest = "GET /partial_content.txt HTTP/1.1\r\nRange: bytes=blah\r\n";
-    File file = temporaryFolder.newFile("partial_content.txt");
-    String content = "This is a file that contains text to read part of in order to fulfill a 206. ";
-    Files.write(file.toPath(), content.getBytes());
-    PartialContentHandler partialContentHandler = new PartialContentHandler(file);
 
     assertThat(partialContentHandler.getResponse((parser.parse(rawRequest))).getStatusLine(),
-        equalTo("HTTP/1.1 416 Range Not Satisfiable"));
-
+        equalTo(HTTPStatus.RANGE_NOT_SATISFIABLE.getStatusLine()));
   }
 
   @Test
-  public void PartialContentHandlerCanHandleInvalidRangeWithADash() throws IOException {
+  public void HandlesInvalidRangeWithADash() {
 
     String rawRequest = "GET /partial_content.txt HTTP/1.1\r\nRange: bytes=-blah\r\n";
-    File file = temporaryFolder.newFile("partial_content.txt");
-    String content = "This is a file that contains text to read part of in order to fulfill a 206. ";
-    Files.write(file.toPath(), content.getBytes());
-    PartialContentHandler partialContentHandler = new PartialContentHandler(file);
 
     assertThat(partialContentHandler.getResponse((parser.parse(rawRequest))).getStatusLine(),
-        equalTo("HTTP/1.1 416 Range Not Satisfiable"));
-
+        equalTo(HTTPStatus.RANGE_NOT_SATISFIABLE.getStatusLine()));
   }
 }
