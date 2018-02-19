@@ -25,7 +25,7 @@ public class PartialContentHandler extends FileSystemHandler {
   }
 
   public Response getResponse(Request request) {
-
+    Response response = new Response();
     parseRange(request.getHeaderValue("Range"));
 
     try {
@@ -34,12 +34,14 @@ public class PartialContentHandler extends FileSystemHandler {
       System.out.println("Failed to read file");
     }
 
-    partialContent = getPartialContent(fullContent, beginOfRange, endOfRange);
-
-    Response response = new Response();
+    if (rangeIsValid()) {
+      partialContent = getPartialContent(fullContent, beginOfRange, endOfRange);
       response.setStatusLine(HTTPStatus.PARTIAL_CONTENT.getStatusLine());
       response.setHeaders("Content-type: text/plain");
       response.setBody(partialContent);
+    } else {
+      response.setStatusLine(HTTPStatus.RANGE_NOT_SATISFIABLE.getStatusLine());
+    }
 
       return response;
   }
@@ -65,6 +67,10 @@ public class PartialContentHandler extends FileSystemHandler {
 
   long getContentLength() {
     return contentLength;
+  }
+
+  Boolean rangeIsValid() {
+    return (beginOfRange >= 0 & beginOfRange < contentLength) & (endOfRange > beginOfRange & endOfRange <= contentLength);
   }
 
   byte[] getPartialContent (byte[] content, int begin, int end){
