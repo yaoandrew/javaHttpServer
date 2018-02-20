@@ -12,10 +12,15 @@ public class PartialContentHandler extends FileSystemHandler {
 
   private int contentLength;
   private File file;
-  int beginOfRange;
-  int endOfRange;
   byte[] fullContent;
   byte[] partialContent;
+
+  enum Range {
+    FULL_RANGE,
+    VALUE_TO_END,
+    VALUE_FROM_END
+  }
+
 
   public PartialContentHandler(File file){
     super(file);
@@ -35,8 +40,15 @@ public class PartialContentHandler extends FileSystemHandler {
 //      response.setStatusLine(HTTPStatus.NOT_FOUND.getStatusLine());
     }
 
+    //if range = full
+      // if rangeIsValid(FULL, rangeValues)
+        // respond 206
+    // ...
+
     if (rangeIsValid(rangeValues)) {
-      parseRange(rangeValues);
+      int beginOfRange = getBeginOfRange(rangeValues);
+      int endOfRange = getEndOfRange(rangeValues);
+
       if ((beginOfRange >= 0 & beginOfRange < contentLength) & (endOfRange > beginOfRange & endOfRange < contentLength)) {
         partialContent = getPartialContent(fullContent, beginOfRange, endOfRange);
         response.setStatusLine(HTTPStatus.PARTIAL_CONTENT.getStatusLine());
@@ -52,21 +64,29 @@ public class PartialContentHandler extends FileSystemHandler {
       return response;
   }
 
-  void parseRange(String rangeValues) {
+  Range getRangeType(String rangeValues) {
+    if (rangeValues.startsWith("-")) {
+      return Range.VALUE_TO_END;
+    } else if (rangeValues.endsWith("-")) {
+      return Range.VALUE_FROM_END;
+    } else {
+      return Range.FULL_RANGE;
+    }
+  }
 
-      if (rangeValues.startsWith("-")){
-        beginOfRange = contentLength - (new Integer(rangeValues.split("-")[1])) ;
-        endOfRange = contentLength - 1;
-      }
+  int getBeginOfRange(String rangeValues) {
+    if (rangeValues.startsWith("-")) {
+      return contentLength - (new Integer(rangeValues.split("-")[1])) ;
+    } else {
+      return new Integer(rangeValues.split("-")[0]);
+    }
+  }
 
-      else if (rangeValues.endsWith("-")){
-        beginOfRange = new Integer(rangeValues.split("-")[0]);
-        endOfRange =  contentLength - 1;
-      }
-
-      else {
-        beginOfRange = new Integer(rangeValues.split("-")[0]);
-        endOfRange = new Integer(rangeValues.split("-")[1]);
+  int getEndOfRange(String rangeValues) {
+      if (rangeValues.startsWith("-") || rangeValues.endsWith("-")){
+        return contentLength - 1;
+      } else {
+        return new Integer(rangeValues.split("-")[1]);
       }
   }
 
@@ -75,29 +95,6 @@ public class PartialContentHandler extends FileSystemHandler {
   }
 
   Boolean rangeIsValid(String rangeValues) {
-    // check if rangeValues contains a -
-    // check if split parts can be integers
-    // range values match rules
-    if (!rangeValues.contains("-")) {
-      return false;
-    }
-
-    if (!isProperlyFormattedRange(rangeValues)) {
-      return false;
-    }
-    return true;
-  }
-
-  byte[] getPartialContent (byte[] content, int begin, int end){
-    return Arrays.copyOfRange(content, begin, end + 1);
-  }
-
-
-  byte[] readFileContents() throws IOException {
-    return Files.readAllBytes(file.toPath());
-  }
-
-  Boolean isProperlyFormattedRange(String rangeValues) {
     if (rangeValues.startsWith("-")){
       try {
         Integer.parseInt(rangeValues.split("-")[1]);
@@ -121,4 +118,12 @@ public class PartialContentHandler extends FileSystemHandler {
     return true;
   }
 
+  byte[] getPartialContent (byte[] content, int begin, int end){
+    return Arrays.copyOfRange(content, begin, end + 1);
+  }
+
+
+  byte[] readFileContents() throws IOException {
+    return Files.readAllBytes(file.toPath());
+  }
 }
