@@ -90,10 +90,6 @@ public class PartialContentHandler extends FileSystemHandler {
       }
   }
 
-  long getContentLength() {
-    return contentLength;
-  }
-
   Boolean rangeIsValid(String rangeValues) {
     if (rangeValues.startsWith("-")){
       try {

@@ -1,7 +1,6 @@
 package handlers;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -29,12 +28,6 @@ public class PartialContentHandlerTest {
     File file = temporaryFolder.newFile("partial_content.txt");
     Files.write(file.toPath(), content.getBytes());
     partialContentHandler = new PartialContentHandler(file);
-  }
-
-  @Test
-  public void DeterminesContentLength() {
-
-    assertEquals(content.getBytes().length, partialContentHandler.getContentLength());
   }
 
   @Test
