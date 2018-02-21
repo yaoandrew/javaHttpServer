@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
@@ -21,8 +22,7 @@ public class PartialContentHandler extends FileSystemHandler {
     VALUE_FROM_END
   }
 
-
-  public PartialContentHandler(File file){
+  public PartialContentHandler(File file) {
     super(file);
     this.file = file;
 
@@ -45,7 +45,7 @@ public class PartialContentHandler extends FileSystemHandler {
         // respond 206
     // ...
 
-    if (rangeIsValid(rangeValues)) {
+    if (canBeParsedIntoRealNumber(rangeValues)) {
       int beginOfRange = getBeginOfRange(rangeValues);
       int endOfRange = getEndOfRange(rangeValues);
 
@@ -76,7 +76,7 @@ public class PartialContentHandler extends FileSystemHandler {
 
   int getBeginOfRange(String rangeValues) {
     if (rangeValues.startsWith("-")) {
-      return contentLength - (new Integer(rangeValues.split("-")[1])) ;
+      return contentLength - (new Integer(rangeValues.split("-")[1]));
     } else {
       return new Integer(rangeValues.split("-")[0]);
     }
@@ -90,34 +90,20 @@ public class PartialContentHandler extends FileSystemHandler {
       }
   }
 
-  Boolean rangeIsValid(String rangeValues) {
-    if (rangeValues.startsWith("-")){
-      try {
-        Integer.parseInt(rangeValues.split("-")[1]);
-      } catch (NumberFormatException e) {
-        return false;
-      }
-    } else if (rangeValues.endsWith("-")){
-      try {
-        Integer.parseInt(rangeValues.split("-")[0]);
-      } catch (NumberFormatException e) {
-        return false;
-      }
-    } else {
-      try {
-        Integer.parseInt(rangeValues.split("-")[0]);
-        Integer.parseInt(rangeValues.split("-")[1]);
-      } catch (NumberFormatException e) {
-        return false;
-      }
+  Boolean canBeParsedIntoRealNumber(String rangeValues) {
+    if (rangeValues.startsWith("-")) {
+      return Pattern.matches("-\\d+", rangeValues);
     }
-    return true;
+    if (rangeValues.endsWith("-")) {
+      return Pattern.matches("\\d+-", rangeValues);
+    } else {
+      return Pattern.matches("\\d+-\\d+", rangeValues);
+    }
   }
 
-  byte[] getPartialContent (byte[] content, int begin, int end){
+  byte[] getPartialContent (byte[] content, int begin, int end) {
     return Arrays.copyOfRange(content, begin, end + 1);
   }
-
 
   byte[] readFileContents() throws IOException {
     return Files.readAllBytes(file.toPath());
