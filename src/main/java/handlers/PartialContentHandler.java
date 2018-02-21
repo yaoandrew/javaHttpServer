@@ -16,9 +16,26 @@ public class PartialContentHandler extends FileSystemHandler {
   private byte[] fullContent;
 
   enum Range {
-    FULL_RANGE,
-    VALUE_TO_END,
-    VALUE_FROM_END
+    FULL_RANGE {
+      @Override
+      boolean canBeParsedToNumber(String rangeValues) {
+        return Pattern.matches("\\d+-\\d+", rangeValues);
+      }
+    },
+    VALUE_TO_END {
+      @Override
+      boolean canBeParsedToNumber(String rangeValues) {
+        return Pattern.matches("-\\d+", rangeValues);
+      }
+    },
+    VALUE_FROM_END {
+      @Override
+      boolean canBeParsedToNumber(String rangeValues) {
+        return Pattern.matches("\\d+-", rangeValues);
+      }
+
+    };
+    abstract boolean canBeParsedToNumber(String rangeValues);
   }
 
   public PartialContentHandler(File file) {
@@ -41,7 +58,7 @@ public class PartialContentHandler extends FileSystemHandler {
       return response;
     }
 
-    if (canBeParsedIntoRealNumber(rangeValues, rangeType)) {
+    if (canBeParsedToNumber(rangeValues, rangeType)) {
       int beginOfRange = parseBeginOfRange(rangeValues, rangeType);
       int endOfRange = parseEndOfRange(rangeValues, rangeType);
 
@@ -86,14 +103,14 @@ public class PartialContentHandler extends FileSystemHandler {
       }
   }
 
-  private Boolean canBeParsedIntoRealNumber(String rangeValues, Range rangeType) {
+  private Boolean canBeParsedToNumber(String rangeValues, Range rangeType) {
     if (rangeType == Range.VALUE_TO_END) {
-      return Pattern.matches("-\\d+", rangeValues);
+      return Range.VALUE_TO_END.canBeParsedToNumber(rangeValues);
     }
     if (rangeType == Range.VALUE_FROM_END) {
-      return Pattern.matches("\\d+-", rangeValues);
+      return Range.VALUE_FROM_END.canBeParsedToNumber(rangeValues);
     } else {
-      return Pattern.matches("\\d+-\\d+", rangeValues);
+      return Range.FULL_RANGE.canBeParsedToNumber(rangeValues);
     }
   }
 
