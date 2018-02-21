@@ -31,17 +31,19 @@ public class PartialContentHandler extends FileSystemHandler {
     Response response = new Response();
     contentLength = (int)file.length();
     String rangeValues = request.getHeaderValue("Range").replace("bytes=", "");
+    Range rangeType = getRangeType(rangeValues);
 
     try {
       fullContent = readFileContents();
-    } catch (Exception e){
+    } catch (IOException e){
       System.out.println("Failed to read file");
-//      response.setStatusLine(HTTPStatus.NOT_FOUND.getStatusLine());
+      response.setStatusLine(HTTPStatus.NOT_FOUND.getStatusLine());
+      return response;
     }
 
-    if (canBeParsedIntoRealNumber(rangeValues)) {
-      int beginOfRange = getBeginOfRange(rangeValues);
-      int endOfRange = getEndOfRange(rangeValues);
+    if (canBeParsedIntoRealNumber(rangeValues, rangeType)) {
+      int beginOfRange = parseBeginOfRange(rangeValues, rangeType);
+      int endOfRange = parseEndOfRange(rangeValues, rangeType);
 
       if (rangeIsValid(beginOfRange, endOfRange)) {
         partialContent = getPartialContent(fullContent, beginOfRange, endOfRange);
@@ -68,27 +70,27 @@ public class PartialContentHandler extends FileSystemHandler {
     }
   }
 
-  private int getBeginOfRange(String rangeValues) {
-    if (rangeValues.startsWith("-")) {
+  private int parseBeginOfRange(String rangeValues, Range rangeType) {
+    if (rangeType == Range.VALUE_TO_END) {
       return contentLength - (new Integer(rangeValues.split("-")[1]));
     } else {
       return new Integer(rangeValues.split("-")[0]);
     }
   }
 
-  private int getEndOfRange(String rangeValues) {
-      if (rangeValues.startsWith("-") || rangeValues.endsWith("-")){
+  private int parseEndOfRange(String rangeValues, Range rangeType) {
+      if (rangeType == Range.VALUE_TO_END || rangeType == Range.VALUE_FROM_END) {
         return contentLength - 1;
       } else {
         return new Integer(rangeValues.split("-")[1]);
       }
   }
 
-  private Boolean canBeParsedIntoRealNumber(String rangeValues) {
-    if (rangeValues.startsWith("-")) {
+  private Boolean canBeParsedIntoRealNumber(String rangeValues, Range rangeType) {
+    if (rangeType == Range.VALUE_TO_END) {
       return Pattern.matches("-\\d+", rangeValues);
     }
-    if (rangeValues.endsWith("-")) {
+    if (rangeType == Range.VALUE_FROM_END) {
       return Pattern.matches("\\d+-", rangeValues);
     } else {
       return Pattern.matches("\\d+-\\d+", rangeValues);
