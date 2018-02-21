@@ -13,8 +13,7 @@ public class PartialContentHandler extends FileSystemHandler {
 
   private int contentLength;
   private File file;
-  byte[] fullContent;
-  byte[] partialContent;
+  private byte[] fullContent;
 
   enum Range {
     FULL_RANGE,
@@ -25,12 +24,12 @@ public class PartialContentHandler extends FileSystemHandler {
   public PartialContentHandler(File file) {
     super(file);
     this.file = file;
-
-    contentLength = (int)file.length();
   }
 
   public Response getResponse(Request request) {
+    byte[] partialContent;
     Response response = new Response();
+    contentLength = (int)file.length();
     String rangeValues = request.getHeaderValue("Range").replace("bytes=", "");
 
     try {
@@ -40,16 +39,11 @@ public class PartialContentHandler extends FileSystemHandler {
 //      response.setStatusLine(HTTPStatus.NOT_FOUND.getStatusLine());
     }
 
-    //if range = full
-      // if rangeIsValid(FULL, rangeValues)
-        // respond 206
-    // ...
-
     if (canBeParsedIntoRealNumber(rangeValues)) {
       int beginOfRange = getBeginOfRange(rangeValues);
       int endOfRange = getEndOfRange(rangeValues);
 
-      if ((beginOfRange >= 0 & beginOfRange < contentLength) & (endOfRange > beginOfRange & endOfRange < contentLength)) {
+      if (rangeIsValid(beginOfRange, endOfRange)) {
         partialContent = getPartialContent(fullContent, beginOfRange, endOfRange);
         response.setStatusLine(HTTPStatus.PARTIAL_CONTENT.getStatusLine());
         response.setHeaders("Content-type: text/plain");
@@ -61,10 +55,10 @@ public class PartialContentHandler extends FileSystemHandler {
       response.setStatusLine(HTTPStatus.RANGE_NOT_SATISFIABLE.getStatusLine());
     }
 
-      return response;
+    return response;
   }
 
-  Range getRangeType(String rangeValues) {
+  private Range getRangeType(String rangeValues) {
     if (rangeValues.startsWith("-")) {
       return Range.VALUE_TO_END;
     } else if (rangeValues.endsWith("-")) {
@@ -74,7 +68,7 @@ public class PartialContentHandler extends FileSystemHandler {
     }
   }
 
-  int getBeginOfRange(String rangeValues) {
+  private int getBeginOfRange(String rangeValues) {
     if (rangeValues.startsWith("-")) {
       return contentLength - (new Integer(rangeValues.split("-")[1]));
     } else {
@@ -82,7 +76,7 @@ public class PartialContentHandler extends FileSystemHandler {
     }
   }
 
-  int getEndOfRange(String rangeValues) {
+  private int getEndOfRange(String rangeValues) {
       if (rangeValues.startsWith("-") || rangeValues.endsWith("-")){
         return contentLength - 1;
       } else {
@@ -90,7 +84,7 @@ public class PartialContentHandler extends FileSystemHandler {
       }
   }
 
-  Boolean canBeParsedIntoRealNumber(String rangeValues) {
+  private Boolean canBeParsedIntoRealNumber(String rangeValues) {
     if (rangeValues.startsWith("-")) {
       return Pattern.matches("-\\d+", rangeValues);
     }
@@ -101,11 +95,15 @@ public class PartialContentHandler extends FileSystemHandler {
     }
   }
 
-  byte[] getPartialContent (byte[] content, int begin, int end) {
+  private Boolean rangeIsValid(int begin, int end) {
+    return (begin>= 0 & begin < contentLength) & (end > begin & end < contentLength);
+  }
+
+  private byte[] getPartialContent (byte[] content, int begin, int end) {
     return Arrays.copyOfRange(content, begin, end + 1);
   }
 
-  byte[] readFileContents() throws IOException {
+  private byte[] readFileContents() throws IOException {
     return Files.readAllBytes(file.toPath());
   }
 }
