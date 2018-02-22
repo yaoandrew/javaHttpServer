@@ -33,7 +33,6 @@ public class PartialContentHandler extends FileSystemHandler {
       boolean canBeParsedToNumber(String rangeValues) {
         return Pattern.matches("\\d+-", rangeValues);
       }
-
     };
     abstract boolean canBeParsedToNumber(String rangeValues);
   }
