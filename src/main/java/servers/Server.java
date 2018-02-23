@@ -7,7 +7,6 @@ import java.net.Socket;
 import handlers.ClientHandler;
 import router.Router;
 
-
 public class Server {
 
   private ServerSocket serverSocket;

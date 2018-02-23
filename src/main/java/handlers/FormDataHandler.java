@@ -1,5 +1,6 @@
 package  handlers;
 
+import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
@@ -18,7 +19,7 @@ public class FormDataHandler implements RequestHandler {
     if (request.getHttpMethod().equals("POST") || request.getHttpMethod().equals("PUT") || request.getHttpMethod().equals("DELETE")) {
       formData = request.getBody();
     }
-    response.setStatusLine("HTTP/1.1 200 OK\r\n");
+    response.setStatusLine(HTTPStatus.OK.getStatusLine());
     if (formData == null){
       formData = "";
     }

@@ -1,5 +1,6 @@
 package handlers;
 
+import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
@@ -13,7 +14,7 @@ public class RootRequestHandler implements RequestHandler{
     @Override
     public Response getResponse(Request request) {
         Response response = new Response();
-        response.setStatusLine("HTTP/1.1 200 OK\r\n");
+        response.setStatusLine(HTTPStatus.OK.getStatusLine());
         response.setHeaders("Allow: GET,OPTIONS");
 
         return response;

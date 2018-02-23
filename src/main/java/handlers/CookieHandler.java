@@ -1,5 +1,6 @@
 package handlers;
 
+import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
@@ -14,7 +15,7 @@ public class CookieHandler implements RequestHandler {
     Response response = new Response();
 
     if (request.getParamMap().size() >= 1) {
-      request.getParamMap().entrySet().stream().forEach(entry -> cookieValue = entry.getKey() + "=" + entry.getValue());
+      request.getParamMap().entrySet().forEach(entry -> cookieValue = entry.getKey() + "=" + entry.getValue());
       setCookie = true;
     }
 
@@ -23,11 +24,11 @@ public class CookieHandler implements RequestHandler {
       headerHasCookie = true;
     }
     if (setCookie) {
-      response.setStatusLine("HTTP/1.1 200 OK\r\n");
+      response.setStatusLine(HTTPStatus.OK.getStatusLine());
       response.setBody("Eat".getBytes());
       response.setHeaders("Set-Cookie: " + cookieValue);
     } else {
-      response.setStatusLine("HTTP/1.1 200 OK\r\n");
+      response.setStatusLine(HTTPStatus.OK.getStatusLine());
       if (headerHasCookie) {
         response.setBody(("mmmm " + cookieValue.split("=")[1]).getBytes());
       }

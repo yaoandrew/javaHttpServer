@@ -2,7 +2,6 @@ package handlers;
 
 import java.io.*;
 import java.net.Socket;
-
 import messages.Request;
 import messages.Response;
 import parsers.RequestParser;
@@ -43,13 +42,14 @@ public class ClientHandler implements Runnable {
       System.out.println("Request data: " + parsedRequest.getBody());
       System.out.println("Request received");
 
-      RequestHandler handler = router.getResponder(parsedRequest);
+      RequestHandler handler = router.getHandler(parsedRequest);
 
 
 //wrap inside a writer
 
       Response response = handler.getResponse(parsedRequest);
       writer.write(response.getStatusLine().getBytes());
+      writer.write(System.lineSeparator().getBytes());
 
       if (response.getHeaders().length() > 0) {
         writer.write(response.getHeaders().getBytes());
