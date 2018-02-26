@@ -19,10 +19,11 @@ public class Server {
 
   public void run() throws IOException {
     Router router = new Router(serverDir);
+    MyLogger myLogger = new MyLogger();
 
     while (true) {
       Socket clientSocket = serverSocket.accept();
-      ClientHandler clientHandler = new ClientHandler(clientSocket, router);
+      ClientHandler clientHandler = new ClientHandler(clientSocket, router, myLogger);
       (new Thread(clientHandler)).start();
     }
   }

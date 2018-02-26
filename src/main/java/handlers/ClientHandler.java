@@ -6,15 +6,18 @@ import messages.Request;
 import messages.Response;
 import parsers.RequestParser;
 import router.Router;
+import servers.MyLogger;
 
 public class ClientHandler implements Runnable {
 
   private Socket client;
   private Router router;
+  private MyLogger myLogger;
 
-  public ClientHandler(Socket client, Router router) {
+  public ClientHandler(Socket client, Router router, MyLogger myLogger) {
     this.client = client;
     this.router = router;
+    this.myLogger = myLogger;
   }
 
   public void run() {
@@ -38,6 +41,8 @@ public class ClientHandler implements Runnable {
       System.out.println("RAW REQUEST: " + rawRequest);
 
       Request parsedRequest = parser.parse(rawRequest);
+
+      myLogger.add(parsedRequest.getHttpMethod() + " " + parsedRequest.getRawUri() + " " +parsedRequest.getHttpVersion());
 
       System.out.println("Request data: " + parsedRequest.getBody());
       System.out.println("Request received");
