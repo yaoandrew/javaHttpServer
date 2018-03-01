@@ -8,27 +8,20 @@ import messages.HTTPStatus;
 import messages.Request;
 import org.junit.Test;
 import parsers.RequestParser;
+import servers.MyLogger;
 
 public class LogFileHandlerTest {
-  @Test
-  public void Sends401ForRequestWithoutAuthorization() {
-    String rawRequest = "GET /logs HTTP/1.1";
-    RequestParser parser = new RequestParser();
-    Request request = parser.parse(rawRequest);
-    LogFileHandler logFileHandler = new LogFileHandler();
-
-    assertEquals (HTTPStatus.UNAUTHORIZED.getStatusLine(), logFileHandler.getResponse(request).getStatusLine());
-  }
 
   @Test
-  public void SendsAuthenticationTypeForRequestWithoutAuthorization() {
-    String rawRequest = "GET /logs HTTP/1.1";
+  public void ReturnsLogFileData() {
     RequestParser parser = new RequestParser();
-    Request request = parser.parse(rawRequest);
+    String rawRequest = "GET /foobar HTTP/1.1";
     LogFileHandler logFileHandler = new LogFileHandler();
+    MyLogger myLogger = MyLogger.getInstance();
 
-    assertThat (logFileHandler.getResponse(request).getHeaders(), containsString("WWW-Authenticate: Basic"));
+    Request request = parser.parse(rawRequest);
+    myLogger.add(request.getSimpleUri());
+
+    assertEquals(request.getSimpleUri(), new String (logFileHandler.getResponse(request).getBody()));
   }
-
-
 }
