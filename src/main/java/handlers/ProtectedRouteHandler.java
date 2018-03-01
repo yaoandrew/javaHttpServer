@@ -1,13 +1,17 @@
 package handlers;
 
+import java.util.Arrays;
+import java.util.Base64;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
 public class ProtectedRouteHandler implements RequestHandler {
 
-  RequestHandler authorizedHandler;
-  String realm = "Access to protected endpoint";
+  private RequestHandler authorizedHandler;
+  private String realm = "Access to protected endpoint";
+  private static String USERNAME = "admin";
+  private static String PASSWORD = "hunter2";
 
   public ProtectedRouteHandler (RequestHandler handler) {
     this.authorizedHandler = handler;
@@ -24,11 +28,21 @@ public class ProtectedRouteHandler implements RequestHandler {
     return response;
   }
 
-  Boolean isAuthorized(Request request) {
-    if (request.getHeaderValue("Authorization") != null) {
+  private Boolean isAuthorized(Request request) {
+    if (request.getHeaderValue("Authorization") != null && isValidUser(getUserInfo(request.getHeaderValue("Authorization")))) {
       return true;
     } else {
       return false;
     }
   }
+
+  private Boolean isValidUser(String userInfo) {
+    return Arrays.equals(Base64.getMimeDecoder().decode(userInfo.getBytes()), (USERNAME + ":" + PASSWORD).getBytes());
+  }
+
+  private String getUserInfo(String headerValue) {
+    return headerValue.split("\\s")[1];
+  }
+
+
 }
