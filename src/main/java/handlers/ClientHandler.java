@@ -12,12 +12,10 @@ public class ClientHandler implements Runnable {
 
   private Socket client;
   private Router router;
-  private MyLogger myLogger;
 
-  public ClientHandler(Socket client, Router router, MyLogger myLogger) {
+  public ClientHandler(Socket client, Router router) {
     this.client = client;
     this.router = router;
-    this.myLogger = myLogger;
   }
 
   public void run() {
@@ -34,6 +32,8 @@ public class ClientHandler implements Runnable {
       while (reader.ready()){
         rawRequest += (char) reader.read();
       }
+
+      MyLogger myLogger = MyLogger.getInstance();
 
 
 //return a raw request
