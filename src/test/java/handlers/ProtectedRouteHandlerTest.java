@@ -25,7 +25,7 @@ public class ProtectedRouteHandlerTest {
 
   @Test
   public void ReturnsCorrectHandlerWhenRequestContainsAnyAuthenticationData() {
-    String rawRequest = "GET /coffee HTTP/1.1\r\nAuthorization: Basic YWRtaW4gaHVudGVy\r\n";
+    String rawRequest = "GET /coffee HTTP/1.1\r\nAuthorization: Basic YWRtaW46aHVudGVyMg==\r\n";
     RequestParser parser = new RequestParser();
     Request request = parser.parse(rawRequest);
     TeapotHandler teapotHandler = new TeapotHandler();
