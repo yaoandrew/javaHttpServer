@@ -38,7 +38,7 @@ public class PartialContentHandler extends FileSystemHandler {
   }
 
   public PartialContentHandler(File file) {
-    super(file);
+    super(new String[] {"GET"}, file);
     this.file = file;
   }
 

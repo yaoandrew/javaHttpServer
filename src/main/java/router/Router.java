@@ -49,7 +49,7 @@ public class Router {
       }
 
       if(isValidPathAndFile(file)){
-        return new FileSystemHandler(file);
+        return new FileSystemHandler(new String[] {"GET"}, file);
       }
 
       if(isValidPathAndDirectory(file)){

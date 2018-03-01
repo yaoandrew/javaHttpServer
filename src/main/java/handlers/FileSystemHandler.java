@@ -13,10 +13,12 @@ public class FileSystemHandler implements RequestHandler {
   private Boolean isTxtFile = false;
   private String imageFileExtension;
   private long contentLength;
+  private String[] supportedHttpMethods;
 
 
-  public FileSystemHandler (File file){
+  public FileSystemHandler (String[] supportedHttpMethods, File file){
     this.file = file;
+    this.supportedHttpMethods = supportedHttpMethods;
 
     if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName().contains(".gif")){
       isImageFile = true;
@@ -36,26 +38,32 @@ public class FileSystemHandler implements RequestHandler {
   public Response getResponse(Request request) {
     Response response = new Response();
 
-    response.setStatusLine(HTTPStatus.OK.getStatusLine());
+    if (requestIsSupported(supportedHttpMethods, request.getHttpMethod())) {
 
-    if (isImageFile) {
-      response.setHeaders("Content-type: image/" + imageFileExtension);
+      response.setStatusLine(HTTPStatus.OK.getStatusLine());
+
+      if (isImageFile) {
+        response.setHeaders("Content-type: image/" + imageFileExtension);
+      }
+
+      if (isTxtFile) {
+        response.setHeaders("Content-type: text/plain");
+      }
+
+      if (!isTxtFile && !isImageFile) {
+        response.setHeaders("Content-type: application/octet-stream");
+      }
+
+      try {
+        response.setBody(Files.readAllBytes(file.toPath()));
+      } catch (IOException e) {
+        System.out.println(e);
+      }
+
+      return response;
+    } else {
+      response.setStatusLine(HTTPStatus.NOT_ALLOWED.getStatusLine());
+      return response;
     }
-
-    if (isTxtFile) {
-      response.setHeaders("Content-type: text/plain");
-    }
-
-    if (!isTxtFile && !isImageFile) {
-      response.setHeaders("Content-type: application/octet-stream");
-    }
-
-    try {
-      response.setBody(Files.readAllBytes(file.toPath()));
-    } catch (IOException e) {
-      System.out.println(e);
-    }
-
-    return response;
   }
 }
