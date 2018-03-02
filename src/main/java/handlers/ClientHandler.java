@@ -6,6 +6,7 @@ import messages.Request;
 import messages.Response;
 import parsers.RequestParser;
 import router.Router;
+import servers.MyLogger;
 
 public class ClientHandler implements Runnable {
 
@@ -32,12 +33,16 @@ public class ClientHandler implements Runnable {
         rawRequest += (char) reader.read();
       }
 
+      MyLogger myLogger = MyLogger.getInstance();
+
 
 //return a raw request
 
       System.out.println("RAW REQUEST: " + rawRequest);
 
       Request parsedRequest = parser.parse(rawRequest);
+
+      myLogger.add(parsedRequest.getHttpMethod() + " " + parsedRequest.getRawUri() + " " +parsedRequest.getHttpVersion());
 
       System.out.println("Request data: " + parsedRequest.getBody());
       System.out.println("Request received");

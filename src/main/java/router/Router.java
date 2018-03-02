@@ -11,7 +11,6 @@ import messages.Request;
 
 public class Router {
 
-  private HashMap<String, RequestHandler> routeAndHandlerMap;
   private String serverDir;
 
   public Router (String serverDir){
@@ -20,7 +19,7 @@ public class Router {
 
   private Map createRouteAndHandlerMap() {
 
-    routeAndHandlerMap = new HashMap<>();
+    HashMap<String, RequestHandler> routeAndHandlerMap = new HashMap<>();
 
     routeAndHandlerMap.put("/form", new FormDataHandler(new String[] {"GET", "POST", "PUT", "HEAD"}));
     routeAndHandlerMap.put("/method_options", new OptionsRequestHandler(new String[] {"GET", "POST", "PUT", "HEAD", "OPTIONS"}));
@@ -31,32 +30,30 @@ public class Router {
     routeAndHandlerMap.put("/coffee", new TeapotHandler());
     routeAndHandlerMap.put("/tea", new TeapotHandler());
     routeAndHandlerMap.put("/redirect", new RedirectHandler());
+    routeAndHandlerMap.put("/logs", new ProtectedRouteHandler(new LogFileHandler()));
 
     return routeAndHandlerMap;
   }
 
-  Map handlerMap = createRouteAndHandlerMap();
+  private Map handlerMap = createRouteAndHandlerMap();
 
   public RequestHandler getHandler(Request request) {
     if (!routeExistsInMap(request.getSimpleUri())) {
 
       File file = new File(serverDir + request.getSimpleUri());
-      System.out.println("This is the path: " + file.toString());
-      System.out.println("Does the path exist? " + file.exists());
+      //System.out.println("This is the path: " + file.toString());
+      //System.out.println("Does the path exist? " + file.exists());
 
       if(isPartialContentRequest(request) & isValidPathAndFile(file)){
-        PartialContentHandler partialContentHandler = new PartialContentHandler(file);
-        return partialContentHandler;
+        return new PartialContentHandler(file);
       }
 
       if(isValidPathAndFile(file)){
-        FileSystemHandler fileSystemHandler = new FileSystemHandler(file);
-        return fileSystemHandler;
+        return new FileSystemHandler(new String[] {"GET"}, file);
       }
 
       if(isValidPathAndDirectory(file)){
-        DirectoryHandler directoryHandler = new DirectoryHandler(file);
-        return directoryHandler;
+        return new DirectoryHandler(file);
       }
         return new BadRouteHandler();
 
@@ -65,19 +62,19 @@ public class Router {
     }
   }
 
-  Boolean routeExistsInMap(String route) {
+  private Boolean routeExistsInMap(String route) {
     return handlerMap.containsKey(route);
   }
 
-  Boolean isValidPathAndFile(File file) {
+  private Boolean isValidPathAndFile(File file) {
     return file.exists() && file.isFile();
   }
 
-  Boolean isValidPathAndDirectory(File file) {
+  private Boolean isValidPathAndDirectory(File file) {
     return file.exists() && file.isDirectory();
   }
 
-  Boolean isPartialContentRequest(Request request){
+  private Boolean isPartialContentRequest(Request request){
     return request.getHeadersMap().containsKey("Range");
   }
 }
