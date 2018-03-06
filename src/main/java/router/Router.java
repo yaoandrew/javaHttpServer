@@ -21,9 +21,9 @@ public class Router {
 
     HashMap<String, RequestHandler> routeAndHandlerMap = new HashMap<>();
 
-    routeAndHandlerMap.put("/form", new FormDataHandler(new String[] {"GET", "POST", "PUT", "HEAD"}));
-    routeAndHandlerMap.put("/method_options", new OptionsRequestHandler(new String[] {"GET", "POST", "PUT", "HEAD", "OPTIONS"}));
-    routeAndHandlerMap.put("/method_options2", new RootRequestHandler(new String[] {"GET", "OPTIONS"}));
+    routeAndHandlerMap.put("/form", new FormDataHandler());
+    routeAndHandlerMap.put("/method_options", new OptionsRequestHandler());
+    routeAndHandlerMap.put("/method_options2", new RootRequestHandler());
     routeAndHandlerMap.put("/cookie", new CookieHandler());
     routeAndHandlerMap.put("/eat_cookie", new CookieHandler());
     routeAndHandlerMap.put("/parameters", new ParameterHandler());
@@ -49,7 +49,7 @@ public class Router {
       }
 
       if(isValidPathAndFile(file)){
-        return new FileSystemHandler(new String[] {"GET"}, file);
+        return new FileSystemHandler(file);
       }
 
       if(isValidPathAndDirectory(file)){

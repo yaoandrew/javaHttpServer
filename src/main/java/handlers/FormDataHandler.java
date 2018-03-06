@@ -5,12 +5,11 @@ import messages.Request;
 import messages.Response;
 
 public class FormDataHandler implements RequestHandler {
-  private String[] supportedHttpMethods;
+  private String[] supportedHttpMethods = {"GET", "POST", "PUT", "HEAD"};
   private Response response = new Response();
   String formData;
 
-  public FormDataHandler (String[] supportedHttpMethods) {
-    this.supportedHttpMethods = supportedHttpMethods;
+  public FormDataHandler () {
     this.formData = "";
   }
 
