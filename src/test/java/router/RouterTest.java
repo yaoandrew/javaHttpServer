@@ -39,7 +39,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsCorrectHandlerForForm() {
     Request request = parser.parse("GET /form HTTP/1.1\r\n");
-    RequestHandler expected = new FormDataHandler(new String[]{"GET", "PUT", "POST"});
+    RequestHandler expected = new FormDataHandler();
     Router router = new Router(serverDir);
 
     assertEquals(expected.getClass(), router.getHandler(request).getClass());
@@ -48,7 +48,7 @@ public class RouterTest {
   @Test
   public void RouterReturnsCorrectHandlerForOptions() {
     Request request = parser.parse("OPTIONS /method_options HTTP/1.1\r\n");
-    RequestHandler expected = new OptionsRequestHandler(new String[]{"GET", "PUT", "POST"});
+    RequestHandler expected = new OptionsRequestHandler();
     Router router = new Router(serverDir);
 
     assertEquals(expected.getClass(), router.getHandler(request).getClass());

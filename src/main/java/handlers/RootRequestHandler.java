@@ -5,11 +5,7 @@ import messages.Request;
 import messages.Response;
 
 public class RootRequestHandler implements RequestHandler{
-    private String[] supportedHttpMethods;
-
-    public RootRequestHandler (String[] supportedHttpMethods){
-        this.supportedHttpMethods = supportedHttpMethods;
-    }
+    private String[] supportedHttpMethods = {"GET", "OPTIONS"};
 
     @Override
     public Response getResponse(Request request) {
