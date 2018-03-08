@@ -1,6 +1,8 @@
 package io;
 
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -17,7 +19,20 @@ public class InputReaderTest {
     ByteArrayInputStream inputStream = new ByteArrayInputStream(basicRequest.getBytes());
     InputReader reader = new InputReader(inputStream);
 
+    reader.setupReader();
+
     assertEquals(reader.readLine(), basicRequest);
+  }
+
+  @Test
+  public void InputReaderReadsMultiLineRequest() throws IOException {
+
+    ByteArrayInputStream inputStream = new ByteArrayInputStream(requestWithHeaders.getBytes());
+    InputReader reader = new InputReader(inputStream);
+
+    reader.setupReader();
+
+    assertThat(reader.readFullRequest(), equalTo(requestWithHeaders));
   }
 
 }
