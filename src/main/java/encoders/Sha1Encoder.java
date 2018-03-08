@@ -11,7 +11,7 @@ public class Sha1Encoder {
             byte[] hash = messageDigest.digest(data);
             StringBuffer stringBuffer = new StringBuffer();
             for (byte b : hash)  {
-                stringBuffer.append(String.format("%02x", b & 0xff));
+                stringBuffer.append(String.format("%02x", b));
             }
             return stringBuffer.toString();
         } catch (NoSuchAlgorithmException e) {
