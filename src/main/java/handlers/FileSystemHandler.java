@@ -20,15 +20,6 @@ public class FileSystemHandler implements RequestHandler {
 
   public FileSystemHandler (File file){
     this.file = file;
-
-    if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName().contains(".gif")){
-      isImageFile = true;
-      imageFileExtension = file.getName().split("\\.")[1];
-    }
-
-    if (file.getName().contains(".txt")){
-      isTxtFile = true;
-    }
   }
 
 
@@ -36,10 +27,19 @@ public class FileSystemHandler implements RequestHandler {
   public Response getResponse(Request request) {
     Response response = new Response();
 
+    if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName().contains(".gif")){
+      isImageFile = true;
+      imageFileExtension = file.getName().split("\\.")[1];
+    }
+
+    if (file.getName().contains(".txt")) {
+      isTxtFile = true;
+    }
+
     if (requestIsSupported(request.getHttpMethod())) {
 
       if (request.getHttpMethod().equals("PATCH")) {
-        patchContents(file, "patched content");
+        patchContents(file, request.getBody());
         response.setStatusLine(HTTPStatus.NO_CONTENT.getStatusLine());
 
       } else {
