@@ -9,16 +9,30 @@ import java.nio.Buffer;
 public class InputReader {
 
   private InputStream inputStream;
+  private BufferedReader bufferedReader;
 
   public InputReader (InputStream inputStream) {
     this.inputStream = inputStream;
   }
 
-  public String readLine() throws IOException {
+  public void setupReader() {
     InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+    bufferedReader = new BufferedReader(inputStreamReader);
+  }
 
+  public String readLine() throws IOException {
     return bufferedReader.readLine();
+  }
+
+  public String readFullRequest() throws IOException {
+    String rawRequest = "";
+    rawRequest += readLine();
+    rawRequest += "\r\n";
+    while (bufferedReader.ready()){
+      rawRequest += (char) bufferedReader.read();
+    }
+
+    return rawRequest;
   }
 
 }
