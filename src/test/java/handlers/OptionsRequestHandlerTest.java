@@ -8,7 +8,7 @@ import parsers.RequestParser;
 
 public class OptionsRequestHandlerTest {
 
-  private OptionsRequestHandler orh = new OptionsRequestHandler(new String[] {"OPTIONS", "POST"});
+  private OptionsRequestHandler orh = new OptionsRequestHandler();
   private RequestParser parser = new RequestParser();
 
   private String request = "OPTIONS / HTTP.1.1";

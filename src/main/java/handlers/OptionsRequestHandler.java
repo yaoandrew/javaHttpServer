@@ -5,11 +5,7 @@ import messages.Request;
 import messages.Response;
 
 public class OptionsRequestHandler implements RequestHandler {
-    private String[] supportedHttpMethods;
-
-    public OptionsRequestHandler (String[] supportedHttpMethods){
-        this.supportedHttpMethods = supportedHttpMethods;
-    }
+    private String[] supportedHttpMethods = {"GET", "POST", "PUT", "HEAD", "OPTIONS"};
 
     public Response getResponse(Request request) {
         Response response = new Response();

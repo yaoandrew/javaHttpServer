@@ -26,7 +26,7 @@ public class FileSystemHandlerTest {
     RequestParser parser = new RequestParser();
     File serverFile = tempFolder.newFile("image.jpeg");
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(new String[] {"GET"}, serverFile);
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
     assertEquals("Content-type: image/jpeg", fileResponse.getHeaders());
@@ -39,7 +39,7 @@ public class FileSystemHandlerTest {
     RequestParser parser = new RequestParser();
     File serverFile = tempFolder.newFile("image.png");
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(new String[] {"GET"}, serverFile);
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
     assertEquals("Content-type: image/png", fileResponse.getHeaders());
@@ -52,7 +52,7 @@ public class FileSystemHandlerTest {
     RequestParser parser = new RequestParser();
     File serverFile = tempFolder.newFile("image.gif");
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(new String[] {"GET"}, serverFile);
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
     assertEquals("Content-type: image/gif", fileResponse.getHeaders());
@@ -65,7 +65,7 @@ public class FileSystemHandlerTest {
     RequestParser parser = new RequestParser();
     File serverFile = tempFolder.newFile("text-file.txt");
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(new String[] {"GET"}, serverFile);
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
     assertEquals("Content-type: text/plain", fileResponse.getHeaders());
@@ -78,7 +78,7 @@ public class FileSystemHandlerTest {
     RequestParser parser = new RequestParser();
     File serverFile = tempFolder.newFile("file1");
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(new String[] {"GET"}, serverFile);
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
     assertEquals("Content-type: application/octet-stream", fileResponse.getHeaders());
@@ -91,9 +91,23 @@ public class FileSystemHandlerTest {
     RequestParser parser = new RequestParser();
     File serverFile = tempFolder.newFile("file1");
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(new String[] {"GET"}, serverFile);
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
     assertEquals(HTTPStatus.NOT_ALLOWED.getStatusLine(), fileResponse.getStatusLine());
   }
+
+  @Test
+  public void FileSystemHandlerTestReturns200ForPatchContentTxt() throws IOException {
+
+    String requestString = "GET /patch-content.txt HTTP/1.1";
+    RequestParser parser = new RequestParser();
+    File serverFile = tempFolder.newFile("patch-content.txt");
+
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
+    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+
+    assertEquals(HTTPStatus.OK.getStatusLine(), fileResponse.getStatusLine());
+  }
+
 }

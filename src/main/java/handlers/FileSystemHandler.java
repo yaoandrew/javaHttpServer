@@ -1,8 +1,12 @@
 package handlers;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
+
+import encoders.Sha1Encoder;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
@@ -12,25 +16,11 @@ public class FileSystemHandler implements RequestHandler {
   private Boolean isImageFile = false;
   private Boolean isTxtFile = false;
   private String imageFileExtension;
-  private long contentLength;
-  private String[] supportedHttpMethods;
+  private String[] supportedHttpMethods = {"GET", "PATCH"};
 
 
-  public FileSystemHandler (String[] supportedHttpMethods, File file){
+  public FileSystemHandler (File file){
     this.file = file;
-    this.supportedHttpMethods = supportedHttpMethods;
-
-    if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName().contains(".gif")){
-      isImageFile = true;
-      imageFileExtension = file.getName().split("\\.")[1];
-    }
-
-    if (file.getName().contains(".txt")){
-      isTxtFile = true;
-    }
-   //need to redo response header [] to set content length
-    contentLength = file.length();
-
   }
 
 
@@ -38,9 +28,24 @@ public class FileSystemHandler implements RequestHandler {
   public Response getResponse(Request request) {
     Response response = new Response();
 
-    if (requestIsSupported(supportedHttpMethods, request.getHttpMethod())) {
+    if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName().contains(".gif")){
+      isImageFile = true;
+      imageFileExtension = file.getName().split("\\.")[1];
+    }
 
-      response.setStatusLine(HTTPStatus.OK.getStatusLine());
+    if (file.getName().contains(".txt")) {
+      isTxtFile = true;
+    }
+
+    if (requestIsSupported(request.getHttpMethod())) {
+
+      if (request.getHttpMethod().equals("PATCH")) {
+        patchContents(file, request);
+        response.setStatusLine(HTTPStatus.NO_CONTENT.getStatusLine());
+
+      } else {
+        response.setStatusLine(HTTPStatus.OK.getStatusLine());
+      }
 
       if (isImageFile) {
         response.setHeaders("Content-type: image/" + imageFileExtension);
@@ -65,5 +70,29 @@ public class FileSystemHandler implements RequestHandler {
       response.setStatusLine(HTTPStatus.NOT_ALLOWED.getStatusLine());
       return response;
     }
+  }
+
+  private boolean requestIsSupported(String method) {
+      return Arrays.asList(supportedHttpMethods).contains(method);
+  }
+
+  private void patchContents(File file, Request request) {
+    try {
+      if (getEtagFromHeader(request).equals(getEtagFromFile(file))) {
+        FileWriter fileWriter = new FileWriter(file);
+        fileWriter.write(request.getBody());
+        fileWriter.close();
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private String getEtagFromHeader (Request request) {
+    return request.getHeaderValue("If-Match");
+  }
+
+  private String getEtagFromFile (File file) throws IOException {
+    return Sha1Encoder.encode(Files.readAllBytes(file.toPath()));
   }
 }
