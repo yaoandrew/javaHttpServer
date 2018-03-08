@@ -1,9 +1,11 @@
 package handlers;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
+
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
@@ -37,7 +39,9 @@ public class FileSystemHandler implements RequestHandler {
     if (requestIsSupported(request.getHttpMethod())) {
 
       if (request.getHttpMethod().equals("PATCH")) {
+        patchContents(file, "patched content");
         response.setStatusLine(HTTPStatus.NO_CONTENT.getStatusLine());
+
       } else {
         response.setStatusLine(HTTPStatus.OK.getStatusLine());
       }
@@ -69,5 +73,15 @@ public class FileSystemHandler implements RequestHandler {
 
   private boolean requestIsSupported(String method) {
       return Arrays.asList(supportedHttpMethods).contains(method);
+  }
+
+  private void patchContents(File file, String contents) {
+    try {
+      FileWriter fileWriter = new FileWriter(file);
+      fileWriter.write(contents);
+      fileWriter.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
