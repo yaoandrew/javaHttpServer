@@ -11,6 +11,6 @@ public class Sha1EncoderTest {
         byte[] dataToBeEncoded = "default content".getBytes();
         String expectedCode = "dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec";
 
-        assertEquals(Sha1Encoder.encode(dataToBeEncoded), expectedCode);
+        assertEquals(expectedCode, Sha1Encoder.encode(dataToBeEncoded));
     }
 }

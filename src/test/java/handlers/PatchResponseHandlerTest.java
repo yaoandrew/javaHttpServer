@@ -64,4 +64,19 @@ public class PatchResponseHandlerTest {
     assertThat(new String(fileResponse.getBody()), equalTo("patched content"));
   }
 
+  @Test
+  public void PatchDoesNotChangeResourceIfEtagNotSame() throws IOException {
+    String defaultContentSha1Hash = "dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec";
+    String requestString  = "PATCH /patch-content.txt HTTP/1.1\r\nIf-Match: " +
+            defaultContentSha1Hash + "\r\n\r\npatched content";
+    File serverFile = tempFolder.newFile("patch-content.txt");
+    FileWriter fileWriter = new FileWriter(serverFile);
+    fileWriter.write("foobar");
+    fileWriter.close();
+
+    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
+    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+
+    assertThat(new String(fileResponse.getBody()), equalTo("foobar"));
+  }
 }

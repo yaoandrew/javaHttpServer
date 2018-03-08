@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import encoders.Sha1Encoder;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
@@ -76,15 +77,14 @@ public class FileSystemHandler implements RequestHandler {
   }
 
   private void patchContents(File file, Request request) {
-
-    if (getEtagFromHeader(request).equals(getEtagFromFile(file))) {
-      try {
+    try {
+      if (getEtagFromHeader(request).equals(getEtagFromFile(file))) {
         FileWriter fileWriter = new FileWriter(file);
         fileWriter.write(request.getBody());
         fileWriter.close();
-      } catch (IOException e) {
-        e.printStackTrace();
       }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
@@ -92,9 +92,7 @@ public class FileSystemHandler implements RequestHandler {
     return request.getHeaderValue("If-Match");
   }
 
-  private String getEtagFromFile (File file) {
-
-
-    return "dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec";
+  private String getEtagFromFile (File file) throws IOException {
+    return Sha1Encoder.encode(Files.readAllBytes(file.toPath()));
   }
 }
