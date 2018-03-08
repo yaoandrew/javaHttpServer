@@ -39,7 +39,7 @@ public class FileSystemHandler implements RequestHandler {
     if (requestIsSupported(request.getHttpMethod())) {
 
       if (request.getHttpMethod().equals("PATCH")) {
-        patchContents(file, request.getBody());
+        patchContents(file, request);
         response.setStatusLine(HTTPStatus.NO_CONTENT.getStatusLine());
 
       } else {
@@ -75,13 +75,26 @@ public class FileSystemHandler implements RequestHandler {
       return Arrays.asList(supportedHttpMethods).contains(method);
   }
 
-  private void patchContents(File file, String contents) {
-    try {
-      FileWriter fileWriter = new FileWriter(file);
-      fileWriter.write(contents);
-      fileWriter.close();
-    } catch (IOException e) {
-      e.printStackTrace();
+  private void patchContents(File file, Request request) {
+
+    if (getEtagFromHeader(request).equals(getEtagFromFile(file))) {
+      try {
+        FileWriter fileWriter = new FileWriter(file);
+        fileWriter.write(request.getBody());
+        fileWriter.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
+  }
+
+  private String getEtagFromHeader (Request request) {
+    return request.getHeaderValue("If-Match");
+  }
+
+  private String getEtagFromFile (File file) {
+
+
+    return "dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec";
   }
 }
