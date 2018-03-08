@@ -1,5 +1,6 @@
 package handlers;
 
+import io.InputReader;
 import java.io.*;
 import java.net.Socket;
 import messages.Request;
@@ -12,6 +13,8 @@ public class ClientHandler implements Runnable {
 
   private Socket client;
   private Router router;
+  private InputReader reader;
+  private String rawRequest;
 
   public ClientHandler(Socket client, Router router) {
     this.client = client;
@@ -19,40 +22,28 @@ public class ClientHandler implements Runnable {
   }
 
   public void run() {
+    MyLogger myLogger = MyLogger.getInstance();
+    RequestParser parser = new RequestParser();
+
     try {
+      reader = new InputReader(client.getInputStream());
+      reader.setupReader();
+      rawRequest = reader.readFullRequest();
+    } catch (IOException e) {
+      System.out.println(e);
+    }
 
-//wrap inside reader Takes inputStream - returns rawRequest
-      String rawRequest = "";
-      BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-      OutputStream writer = client.getOutputStream();
-      RequestParser parser = new RequestParser();
-      rawRequest += reader.readLine();
-      rawRequest += "\r\n";
-
-      while (reader.ready()){
-        rawRequest += (char) reader.read();
-      }
-
-      MyLogger myLogger = MyLogger.getInstance();
-
-
-//return a raw request
-
-      System.out.println("RAW REQUEST: " + rawRequest);
-
-      Request parsedRequest = parser.parse(rawRequest);
-
-      myLogger.add(parsedRequest.getHttpMethod() + " " + parsedRequest.getRawUri() + " " +parsedRequest.getHttpVersion());
+    Request parsedRequest = parser.parse(rawRequest);
+    myLogger.add(parsedRequest.getHttpMethod() + " " + parsedRequest.getRawUri() + " " +parsedRequest.getHttpVersion());
 
       System.out.println("Request data: " + parsedRequest.getBody());
       System.out.println("Request received");
 
-      RequestHandler handler = router.getHandler(parsedRequest);
+    RequestHandler handler = router.getHandler(parsedRequest);
+    Response response = handler.getResponse(parsedRequest);
 
-
-//wrap inside a writer
-
-      Response response = handler.getResponse(parsedRequest);
+    try {
+      OutputStream writer = client.getOutputStream();
       writer.write(response.getStatusLine().getBytes());
       writer.write(System.lineSeparator().getBytes());
 
@@ -74,7 +65,7 @@ public class ClientHandler implements Runnable {
       reader.close();
 
     } catch (IOException e) {
-      System.out.println(e);
+        System.out.println(e);
     }
   }
 }
