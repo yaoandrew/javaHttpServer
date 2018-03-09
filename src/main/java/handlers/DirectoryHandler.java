@@ -15,7 +15,6 @@ public class DirectoryHandler extends RequestHandler {
   }
 
   public Response getResponse(Request request) {
-    Response response = new Response();
     StringBuffer bodyContents = new StringBuffer();
     String[] sortedDirContents = file.list();
 
