@@ -13,7 +13,6 @@ public class PartialContentHandler extends FileSystemHandler {
 
   private int contentLength;
   private File file;
-  private byte[] fullContent;
 
   enum Range {
     FULL_RANGE {
@@ -34,6 +33,7 @@ public class PartialContentHandler extends FileSystemHandler {
         return Pattern.matches("\\d+-", rangeValues);
       }
     };
+
     abstract boolean canBeParsedToNumber(String rangeValues);
   }
 
@@ -44,14 +44,15 @@ public class PartialContentHandler extends FileSystemHandler {
 
   public Response getResponse(Request request) {
     byte[] partialContent;
+    byte[] fullContent;
     Response response = new Response();
-    contentLength = (int)file.length();
+    contentLength = (int) file.length();
     String rangeValues = request.getHeaderValue("Range").replace("bytes=", "");
     Range rangeType = getRangeType(rangeValues);
 
     try {
       fullContent = readFileContents();
-    } catch (IOException e){
+    } catch (IOException e) {
       System.out.println("Failed to read file");
       response.setStatusLine(HTTPStatus.NOT_FOUND.getStatusLine());
       return response;
@@ -95,11 +96,11 @@ public class PartialContentHandler extends FileSystemHandler {
   }
 
   private int parseEndOfRange(String rangeValues, Range rangeType) {
-      if (rangeType == Range.VALUE_TO_END || rangeType == Range.VALUE_FROM_END) {
-        return contentLength - 1;
-      } else {
-        return new Integer(rangeValues.split("-")[1]);
-      }
+    if (rangeType == Range.VALUE_TO_END || rangeType == Range.VALUE_FROM_END) {
+      return contentLength - 1;
+    } else {
+      return new Integer(rangeValues.split("-")[1]);
+    }
   }
 
   private Boolean canBeParsedToNumber(String rangeValues, Range rangeType) {
@@ -114,10 +115,10 @@ public class PartialContentHandler extends FileSystemHandler {
   }
 
   private Boolean rangeIsValid(int begin, int end) {
-    return (begin>= 0 & begin < contentLength) & (end > begin & end < contentLength);
+    return (begin >= 0 & begin < contentLength) & (end > begin & end < contentLength);
   }
 
-  private byte[] getPartialContent (byte[] content, int begin, int end) {
+  private byte[] getPartialContent(byte[] content, int begin, int end) {
     return Arrays.copyOfRange(content, begin, end + 1);
   }
 

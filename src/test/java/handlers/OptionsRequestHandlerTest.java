@@ -1,6 +1,9 @@
 package handlers;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 
 import messages.Response;
@@ -23,7 +26,7 @@ public class OptionsRequestHandlerTest {
 
   @Test
   public void OptionsRequestHandlerReturnsCorrectHeader() {
-    assertEquals(expected_header, actual.getHeaders());
+    assertThat(actual.getHeaders(), containsString(expected_header));
   }
 
 }

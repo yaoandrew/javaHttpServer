@@ -16,7 +16,6 @@ public class ClientHandler implements Runnable {
   private Router router;
   private InputReader inputReader;
   private String rawRequest;
-  private OutputWriter outputWriter;
 
   public ClientHandler(Socket client, Router router) {
     this.client = client;
@@ -32,7 +31,7 @@ public class ClientHandler implements Runnable {
       inputReader.setupReader();
       rawRequest = inputReader.readFullRequest();
     } catch (IOException e) {
-      System.out.println(e);
+      System.out.println("Unable to read request input stream");
     }
 
     Request parsedRequest = parser.parse(rawRequest);
@@ -42,7 +41,7 @@ public class ClientHandler implements Runnable {
     Response response = handler.getResponse(parsedRequest);
 
     try {
-      outputWriter = new OutputWriter(client.getOutputStream());
+      OutputWriter outputWriter = new OutputWriter(client.getOutputStream());
       outputWriter.write(response.getStatusLine().getBytes());
       outputWriter.write(System.lineSeparator().getBytes());
 
@@ -60,7 +59,7 @@ public class ClientHandler implements Runnable {
       inputReader.close();
 
     } catch (IOException e) {
-        System.out.println(e);
+        System.out.println("Unable to write response output stream");
     }
   }
 }

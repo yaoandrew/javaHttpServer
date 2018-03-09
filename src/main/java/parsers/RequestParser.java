@@ -9,11 +9,10 @@ public class RequestParser {
 
   public Request parse(String rawRequest) {
 
-    String bodyData;
     Request request = new Request();
 
     String[] requestParts = rawRequest.split("\r\n\r\n");
-    List <String> statusLineAndHeaders = Arrays.asList(requestParts[0].split("\r\n"));
+    List<String> statusLineAndHeaders = Arrays.asList(requestParts[0].split("\r\n"));
 
     //has body info
     if (requestParts.length > 1) {
@@ -36,7 +35,7 @@ public class RequestParser {
 
     if (request.hasParams()) {
       request.setSimpleUri(request.getRawUri().split("\\?")[0]);
-      List <String>params = Arrays.asList(request.getRawUri().split("\\?")[1].split("&"));
+      List<String> params = Arrays.asList(request.getRawUri().split("\\?")[1].split("&"));
       Iterator<String> iterator = params.listIterator();
       while (iterator.hasNext()) {
         String[] param = iterator.next().split("=");

@@ -7,12 +7,12 @@ public class MyLogger {
   private static MyLogger instance;
   private ArrayList<String> log = new ArrayList<>();
 
-  protected MyLogger(){
+  protected MyLogger() {
 
   }
 
   public static MyLogger getInstance() {
-    if(instance == null) {
+    if (instance == null) {
       instance = new MyLogger();
     }
     return instance;
@@ -27,11 +27,7 @@ public class MyLogger {
   }
 
   public String getLog() {
-    return String.join (System.lineSeparator(), log);
-  }
-
-  public void clearLog() {
-    log.clear();
+    return String.join(System.lineSeparator(), log);
   }
 
 }

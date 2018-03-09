@@ -2,37 +2,37 @@ package messages;
 
 public class Response {
 
-    private String statusLine = "";
-    private String headers = "";
-    private byte[] body;
-    private String newLine = System.lineSeparator();
+  private String statusLine = "";
+  private String headers = "";
+  private byte[] body;
+  private String newLine = System.lineSeparator();
 
 
-    public String getStatusLine() {
-        return statusLine;
-    }
+  public String getStatusLine() {
+    return statusLine;
+  }
 
-    public String getHeaders() {
-        return headers;
-    }
+  public String getHeaders() {
+    return headers;
+  }
 
-    public String getSeparator() {
-        return newLine + newLine;
-    }
+  public String getSeparator() {
+    return newLine + newLine;
+  }
 
-    public byte[] getBody() {
-        return body;
-    }
+  public byte[] getBody() {
+    return body;
+  }
 
-    public void setStatusLine(String statusLine) {
-        this.statusLine = statusLine;
-    }
+  public void setStatusLine(String statusLine) {
+    this.statusLine = statusLine;
+  }
 
-    public void setHeaders(String headers) {
-        this.headers = headers;
-    }
+  public void setHeaders(String headers) {
+    this.headers = headers;
+  }
 
-    public void setBody(byte[] body) {
-        this.body = body;
-    }
+  public void setBody(byte[] body) {
+    this.body = body;
+  }
 }

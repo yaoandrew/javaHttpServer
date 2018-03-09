@@ -5,7 +5,7 @@ import messages.Request;
 import messages.Response;
 import servers.MyLogger;
 
-public class LogFileHandler implements RequestHandler {
+public class LogFileHandler extends RequestHandler {
 
   @Override
   public Response getResponse(Request request) {
@@ -13,7 +13,6 @@ public class LogFileHandler implements RequestHandler {
     Response response = new Response();
     response.setStatusLine(HTTPStatus.OK.getStatusLine());
     response.setBody(myLogger.getLog().getBytes());
-
 
     return response;
   }

@@ -11,7 +11,8 @@ import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
-public class FileSystemHandler implements RequestHandler {
+public class FileSystemHandler extends RequestHandler {
+
   private File file;
   private Boolean isImageFile = false;
   private Boolean isTxtFile = false;
@@ -19,7 +20,7 @@ public class FileSystemHandler implements RequestHandler {
   private String[] supportedHttpMethods = {"GET", "PATCH"};
 
 
-  public FileSystemHandler (File file){
+  public FileSystemHandler(File file) {
     this.file = file;
   }
 
@@ -28,7 +29,8 @@ public class FileSystemHandler implements RequestHandler {
   public Response getResponse(Request request) {
     Response response = new Response();
 
-    if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName().contains(".gif")){
+    if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName()
+        .contains(".gif")) {
       isImageFile = true;
       imageFileExtension = file.getName().split("\\.")[1];
     }
@@ -62,7 +64,8 @@ public class FileSystemHandler implements RequestHandler {
       try {
         response.setBody(Files.readAllBytes(file.toPath()));
       } catch (IOException e) {
-        System.out.println(e);
+        System.out.println("Unable to set data to response body");
+        e.printStackTrace();
       }
 
       return response;
@@ -73,7 +76,7 @@ public class FileSystemHandler implements RequestHandler {
   }
 
   private boolean requestIsSupported(String method) {
-      return Arrays.asList(supportedHttpMethods).contains(method);
+    return Arrays.asList(supportedHttpMethods).contains(method);
   }
 
   private void patchContents(File file, Request request) {
@@ -84,15 +87,16 @@ public class FileSystemHandler implements RequestHandler {
         fileWriter.close();
       }
     } catch (IOException e) {
+      System.out.println("Patch of file contents failed");
       e.printStackTrace();
     }
   }
 
-  private String getEtagFromHeader (Request request) {
+  private String getEtagFromHeader(Request request) {
     return request.getHeaderValue("If-Match");
   }
 
-  private String getEtagFromFile (File file) throws IOException {
+  private String getEtagFromFile(File file) throws IOException {
     return Sha1Encoder.encode(Files.readAllBytes(file.toPath()));
   }
 }
