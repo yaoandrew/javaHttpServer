@@ -5,14 +5,13 @@ import messages.Request;
 import messages.Response;
 
 
-public class BadRouteHandler implements RequestHandler{
+public class BadRouteHandler extends RequestHandler {
 
-    @Override
-    public Response getResponse(Request request) {
-        Response response = new Response();
-        response.setStatusLine(HTTPStatus.NOT_FOUND.getStatusLine());
+  public Response getResponse(Request request) {
+    Response response = new Response();
+    response.setStatusLine(HTTPStatus.NOT_FOUND.getStatusLine());
 
-        return response;
-    }
+    return response;
+  }
 }
 

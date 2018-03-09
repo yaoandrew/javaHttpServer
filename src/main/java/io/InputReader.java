@@ -10,7 +10,7 @@ public class InputReader {
   private InputStream inputStream;
   private BufferedReader bufferedReader;
 
-  public InputReader (InputStream inputStream) {
+  public InputReader(InputStream inputStream) {
     this.inputStream = inputStream;
   }
 
@@ -27,7 +27,7 @@ public class InputReader {
     String rawRequest = "";
     rawRequest += readLine();
     rawRequest += "\r\n";
-    while (bufferedReader.ready()){
+    while (bufferedReader.ready()) {
       rawRequest += (char) bufferedReader.read();
     }
 
