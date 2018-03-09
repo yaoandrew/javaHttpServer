@@ -63,7 +63,7 @@ public class FileSystemHandler extends RequestHandler {
       try {
         response.setBody(Files.readAllBytes(file.toPath()));
       } catch (IOException e) {
-        System.out.println("Unable to set data to response body");
+        System.err.println("Unable to set data to response body");
         e.printStackTrace();
       }
 
@@ -86,7 +86,7 @@ public class FileSystemHandler extends RequestHandler {
         fileWriter.close();
       }
     } catch (IOException e) {
-      System.out.println("Patch of file contents failed");
+      System.err.println("Patch of file contents failed");
       e.printStackTrace();
     }
   }

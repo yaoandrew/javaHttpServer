@@ -31,7 +31,8 @@ public class ClientHandler implements Runnable {
       inputReader.setupReader();
       rawRequest = inputReader.readFullRequest();
     } catch (IOException e) {
-      System.out.println("Unable to read request input stream");
+      System.err.println("Unable to read request input stream");
+      e.printStackTrace();
     }
 
     Request parsedRequest = parser.parse(rawRequest);
@@ -59,7 +60,8 @@ public class ClientHandler implements Runnable {
       inputReader.close();
 
     } catch (IOException e) {
-        System.out.println("Unable to write response output stream");
+        System.err.println("Unable to write response output stream");
+        e.printStackTrace();
     }
   }
 }
