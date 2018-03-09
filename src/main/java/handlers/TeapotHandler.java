@@ -43,7 +43,6 @@ public class TeapotHandler extends RequestHandler {
           + "                          :7ZZZZZZZZZZ$~\n";
 
   public Response getResponse(Request request) {
-    Response response = new Response();
 
     if (request.getSimpleUri().equals("/coffee")) {
       response.setStatusLine(HTTPStatus.IM_A_TEAPOT.getStatusLine());

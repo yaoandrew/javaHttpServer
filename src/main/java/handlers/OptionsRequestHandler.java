@@ -9,7 +9,6 @@ public class OptionsRequestHandler extends RequestHandler {
   private String[] supportedHttpMethods = {"GET", "HEAD", "POST", "OPTIONS", "PUT"};
 
   public Response getResponse(Request request) {
-    Response response = new Response();
     response.setStatusLine(HTTPStatus.OK.getStatusLine());
     response.setHeaders("Allow: " + String.join(",", supportedHttpMethods) + "\r\n");
 

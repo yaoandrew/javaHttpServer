@@ -12,7 +12,6 @@ public class CookieHandler extends RequestHandler {
 
 
   public Response getResponse(Request request) {
-    Response response = new Response();
 
     if (request.getParamMap().size() >= 1) {
       request.getParamMap().entrySet()

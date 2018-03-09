@@ -45,7 +45,6 @@ public class PartialContentHandler extends FileSystemHandler {
   public Response getResponse(Request request) {
     byte[] partialContent;
     byte[] fullContent;
-    Response response = new Response();
     contentLength = (int) file.length();
     String rangeValues = request.getHeaderValue("Range").replace("bytes=", "");
     Range rangeType = getRangeType(rangeValues);

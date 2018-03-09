@@ -6,7 +6,6 @@ import messages.Response;
 
 public class FormDataHandler extends RequestHandler {
 
-  private Response response = new Response();
   private String formData;
 
   public FormDataHandler() {

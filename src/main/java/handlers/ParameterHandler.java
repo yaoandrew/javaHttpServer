@@ -13,7 +13,6 @@ public class ParameterHandler extends RequestHandler {
   private String parameterValues = "";
 
   public Response getResponse(Request request) {
-    Response response = new Response();
     if (request.hasParams()) {
       for (Map.Entry<String, String> entry : request.getParamMap().entrySet()) {
         try {

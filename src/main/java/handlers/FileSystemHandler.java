@@ -27,7 +27,6 @@ public class FileSystemHandler extends RequestHandler {
 
   @Override
   public Response getResponse(Request request) {
-    Response response = new Response();
 
     if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName()
         .contains(".gif")) {
