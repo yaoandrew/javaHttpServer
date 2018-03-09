@@ -6,7 +6,7 @@ import messages.Request;
 import messages.Response;
 import java.io.File;
 
-public class DirectoryHandler implements RequestHandler {
+public class DirectoryHandler extends RequestHandler {
 
   private File file;
 
@@ -15,7 +15,6 @@ public class DirectoryHandler implements RequestHandler {
   }
 
   public Response getResponse(Request request) {
-    Response response = new Response();
     StringBuffer bodyContents = new StringBuffer();
     String[] sortedDirContents = file.list();
 
@@ -27,7 +26,7 @@ public class DirectoryHandler implements RequestHandler {
     bodyContents.append("<!DOCTYPE html><html>");
     bodyContents.append("<title>Directory Listing for " + file.getName() + "</title>");
     bodyContents.append("<body><ul>");
-    bodyContents.append("<h2>Directory listing for " +file.getName() + "</h2><hr>");
+    bodyContents.append("<h2>Directory listing for " + file.getName() + "</h2><hr>");
 
     for (String item : sortedDirContents) {
       bodyContents.append("<li><a href=\"/" + item + "\">" + item + "</a></li>");

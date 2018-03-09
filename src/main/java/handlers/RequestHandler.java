@@ -3,6 +3,9 @@ package handlers;
 import messages.Request;
 import messages.Response;
 
-public interface RequestHandler {
-  Response getResponse(Request request);
+public abstract class RequestHandler {
+
+  Response response = new Response();
+
+  abstract Response getResponse(Request request);
 }

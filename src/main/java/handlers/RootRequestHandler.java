@@ -4,15 +4,15 @@ import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 
-public class RootRequestHandler implements RequestHandler{
-    private String[] supportedHttpMethods = {"GET", "OPTIONS"};
+public class RootRequestHandler extends RequestHandler {
 
-    @Override
-    public Response getResponse(Request request) {
-        Response response = new Response();
-        response.setStatusLine(HTTPStatus.OK.getStatusLine());
-        response.setHeaders("Allow: GET,OPTIONS");
+  private String[] supportedHttpMethods = {"GET", "OPTIONS"};
 
-        return response;
-    }
+  @Override
+  public Response getResponse(Request request) {
+    response.setStatusLine(HTTPStatus.OK.getStatusLine());
+    response.setHeaders("Allow: " + String.join(",", supportedHttpMethods));
+
+    return response;
+  }
 }

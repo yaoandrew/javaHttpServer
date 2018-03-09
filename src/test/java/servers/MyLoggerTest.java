@@ -27,9 +27,9 @@ public class MyLoggerTest {
     mylogger.add(requestStringTwo);
     mylogger.add(requestStringThree);
 
-
-    assertEquals(requestStringOne + System.lineSeparator() + requestStringTwo + System.lineSeparator()
-        + requestStringThree, mylogger.getLog());
+    assertEquals(
+        requestStringOne + System.lineSeparator() + requestStringTwo + System.lineSeparator()
+            + requestStringThree, mylogger.getLog());
   }
 
 }

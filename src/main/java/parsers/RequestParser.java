@@ -9,19 +9,16 @@ public class RequestParser {
 
   public Request parse(String rawRequest) {
 
-    String bodyData;
     Request request = new Request();
 
     String[] requestParts = rawRequest.split("\r\n\r\n");
-    List <String> statusLineAndHeaders = Arrays.asList(requestParts[0].split("\r\n"));
+    List<String> statusLineAndHeaders = Arrays.asList(requestParts[0].split("\r\n"));
 
-    //has body info
-    if (requestParts.length > 1) {
+    if (hasBodyData(requestParts)) {
       request.setBody(requestParts[1]);
     }
 
-    //has headers
-    if (statusLineAndHeaders.size() > 1) {
+    if (requestHasHeaders(statusLineAndHeaders)) {
       Iterator<String> iterator = statusLineAndHeaders.listIterator(1);
       while (iterator.hasNext()) {
         String[] head = iterator.next().split(":");
@@ -36,7 +33,7 @@ public class RequestParser {
 
     if (request.hasParams()) {
       request.setSimpleUri(request.getRawUri().split("\\?")[0]);
-      List <String>params = Arrays.asList(request.getRawUri().split("\\?")[1].split("&"));
+      List<String> params = Arrays.asList(request.getRawUri().split("\\?")[1].split("&"));
       Iterator<String> iterator = params.listIterator();
       while (iterator.hasNext()) {
         String[] param = iterator.next().split("=");
@@ -46,4 +43,13 @@ public class RequestParser {
 
     return request;
   }
+
+  private boolean requestHasHeaders(List<String> statusLineAndHeaders) {
+    return statusLineAndHeaders.size() > 1;
+  }
+
+  private boolean hasBodyData(String[] requestParts) {
+    return requestParts.length > 1;
+  }
+
 }

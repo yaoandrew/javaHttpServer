@@ -13,7 +13,7 @@ public class Router {
 
   private String serverDir;
 
-  public Router (String serverDir){
+  public Router(String serverDir) {
     this.serverDir = serverDir;
   }
 
@@ -41,24 +41,22 @@ public class Router {
     if (!routeExistsInMap(request.getSimpleUri())) {
 
       File file = new File(serverDir + request.getSimpleUri());
-      //System.out.println("This is the path: " + file.toString());
-      //System.out.println("Does the path exist? " + file.exists());
 
-      if(isPartialContentRequest(request) & isValidPathAndFile(file)){
+      if (isPartialContentRequest(request) & isValidPathAndFile(file)) {
         return new PartialContentHandler(file);
       }
 
-      if(isValidPathAndFile(file)){
+      if (isValidPathAndFile(file)) {
         return new FileSystemHandler(file);
       }
 
-      if(isValidPathAndDirectory(file)){
+      if (isValidPathAndDirectory(file)) {
         return new DirectoryHandler(file);
       }
-        return new BadRouteHandler();
+      return new BadRouteHandler();
 
     } else {
-       return (RequestHandler) handlerMap.get(request.getSimpleUri());
+      return (RequestHandler) handlerMap.get(request.getSimpleUri());
     }
   }
 
@@ -74,7 +72,7 @@ public class Router {
     return file.exists() && file.isDirectory();
   }
 
-  private Boolean isPartialContentRequest(Request request){
+  private Boolean isPartialContentRequest(Request request) {
     return request.getHeadersMap().containsKey("Range");
   }
 }
