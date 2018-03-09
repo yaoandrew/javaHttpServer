@@ -1,6 +1,5 @@
 package parsers;
 
-import messages.Request;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;

@@ -1,10 +1,7 @@
 package handlers;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
-import messages.HTTPStatus;
 import messages.Request;
 import org.junit.Test;
 import parsers.RequestParser;
