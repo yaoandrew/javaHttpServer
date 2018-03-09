@@ -1,6 +1,7 @@
 package handlers;
 
 import io.InputReader;
+import io.OutputWriter;
 import java.io.*;
 import java.net.Socket;
 import messages.Request;
@@ -13,8 +14,9 @@ public class ClientHandler implements Runnable {
 
   private Socket client;
   private Router router;
-  private InputReader reader;
+  private InputReader inputReader;
   private String rawRequest;
+  private OutputWriter outputWriter;
 
   public ClientHandler(Socket client, Router router) {
     this.client = client;
@@ -26,9 +28,9 @@ public class ClientHandler implements Runnable {
     RequestParser parser = new RequestParser();
 
     try {
-      reader = new InputReader(client.getInputStream());
-      reader.setupReader();
-      rawRequest = reader.readFullRequest();
+      inputReader = new InputReader(client.getInputStream());
+      inputReader.setupReader();
+      rawRequest = inputReader.readFullRequest();
     } catch (IOException e) {
       System.out.println(e);
     }
@@ -36,33 +38,26 @@ public class ClientHandler implements Runnable {
     Request parsedRequest = parser.parse(rawRequest);
     myLogger.add(parsedRequest.getHttpMethod() + " " + parsedRequest.getRawUri() + " " +parsedRequest.getHttpVersion());
 
-      System.out.println("Request data: " + parsedRequest.getBody());
-      System.out.println("Request received");
-
     RequestHandler handler = router.getHandler(parsedRequest);
     Response response = handler.getResponse(parsedRequest);
 
     try {
-      OutputStream writer = client.getOutputStream();
-      writer.write(response.getStatusLine().getBytes());
-      writer.write(System.lineSeparator().getBytes());
+      outputWriter = new OutputWriter(client.getOutputStream());
+      outputWriter.write(response.getStatusLine().getBytes());
+      outputWriter.write(System.lineSeparator().getBytes());
 
       if (response.getHeaders().length() > 0) {
-        writer.write(response.getHeaders().getBytes());
+        outputWriter.write(response.getHeaders().getBytes());
       }
 
-      writer.write(response.getSeparator().getBytes());
+      outputWriter.write(response.getSeparator().getBytes());
 
-      if (response.getBody() != null){
-        System.out.println("Response data: " + response.getBody().toString());
-        writer.write(response.getBody());
+      if (response.getBody() != null) {
+        outputWriter.write(response.getBody());
       }
-      System.out.println("Response sent\r\n\r\n-------------");
 
-//clean up
-
-      writer.close();
-      reader.close();
+      outputWriter.close();
+      inputReader.close();
 
     } catch (IOException e) {
         System.out.println(e);
