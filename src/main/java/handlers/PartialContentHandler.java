@@ -52,7 +52,8 @@ public class PartialContentHandler extends FileSystemHandler {
     try {
       fullContent = readFileContents();
     } catch (IOException e) {
-      System.out.println("Failed to read file");
+      e.printStackTrace();
+      System.err.println("Failed to read file");
       response.setStatusLine(HTTPStatus.NOT_FOUND.getStatusLine());
       return response;
     }

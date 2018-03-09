@@ -41,8 +41,6 @@ public class Router {
     if (!routeExistsInMap(request.getSimpleUri())) {
 
       File file = new File(serverDir + request.getSimpleUri());
-      //System.out.println("This is the path: " + file.toString());
-      //System.out.println("Does the path exist? " + file.exists());
 
       if (isPartialContentRequest(request) & isValidPathAndFile(file)) {
         return new PartialContentHandler(file);

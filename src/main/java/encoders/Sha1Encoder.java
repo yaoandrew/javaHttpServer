@@ -15,7 +15,7 @@ public class Sha1Encoder {
       }
       return stringBuffer.toString();
     } catch (NoSuchAlgorithmException e) {
-      System.out.println("Could not find encoding algorithm");
+      System.err.println("Could not find encoding algorithm");
     }
     return null;
   }
