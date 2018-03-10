@@ -10,13 +10,11 @@ import encoders.Sha1Encoder;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
+import messages.ResponseHeaderField;
 
 public class FileSystemHandler extends RequestHandler {
 
   private File file;
-  private Boolean isImageFile = false;
-  private Boolean isTxtFile = false;
-  private String imageFileExtension;
   private String[] supportedHttpMethods = {"GET", "PATCH"};
 
 
@@ -27,68 +25,64 @@ public class FileSystemHandler extends RequestHandler {
 
   @Override
   public Response getResponse(Request request) {
+    String statusLine = getStatusLine(request);
+    response.setStatusLine(statusLine);
+    writeToFile(file, request);
+    String header = getHeader(file);
+    response.setHeaders(header);
 
-    if (file.getName().contains(".jpeg") || file.getName().contains(".png") || file.getName()
-        .contains(".gif")) {
-      isImageFile = true;
-      imageFileExtension = file.getName().split("\\.")[1];
+    try {
+      response.setBody(Files.readAllBytes(file.toPath()));
+    } catch (IOException e) {
+      System.err.println("Unable to set data to response body");
+      e.printStackTrace();
     }
 
-    if (file.getName().contains(".txt")) {
-      isTxtFile = true;
-    }
+    return response;
+  }
 
+  private String getStatusLine(Request request) {
     if (requestIsSupported(request.getHttpMethod())) {
-
       if (request.getHttpMethod().equals("PATCH")) {
-        patchContents(file, request);
-        response.setStatusLine(HTTPStatus.NO_CONTENT.getStatusLine());
-
-      } else {
-        response.setStatusLine(HTTPStatus.OK.getStatusLine());
+        return HTTPStatus.NO_CONTENT.getStatusLine();
       }
+      return HTTPStatus.OK.getStatusLine();
+    } else {
+      return HTTPStatus.NOT_ALLOWED.getStatusLine();
+    }
+  }
 
-      if (isImageFile) {
-        response.setHeaders("Content-type: image/" + imageFileExtension);
-      }
-
-      if (isTxtFile) {
-        response.setHeaders("Content-type: text/plain");
-      }
-
-      if (!isTxtFile && !isImageFile) {
-        response.setHeaders("Content-type: application/octet-stream");
-      }
-
+  private void writeToFile(File file, Request request) {
+    if (request.getHttpMethod().equals("PATCH")) {
       try {
-        response.setBody(Files.readAllBytes(file.toPath()));
+        if (getEtagFromHeader(request).equals(getEtagFromFile(file))) {
+          FileWriter fileWriter = new FileWriter(file);
+          fileWriter.write(request.getBody());
+          fileWriter.close();
+        }
       } catch (IOException e) {
-        System.err.println("Unable to set data to response body");
+        System.err.println("Patch of file contents failed");
         e.printStackTrace();
       }
+    }
+  }
 
-      return response;
+  private String getHeader(File file) {
+    if (isImageFile(file)) {
+      String imageFileExtension = file.getName().split("\\.")[1];
+      return ResponseHeaderField.CONTENT_TYPE.getHeaderField()
+          + "image/" + imageFileExtension;
+    } else if (isTxtFile(file)) {
+      return ResponseHeaderField.CONTENT_TYPE.getHeaderField()
+          + "text/plain";
     } else {
-      response.setStatusLine(HTTPStatus.NOT_ALLOWED.getStatusLine());
-      return response;
+      return ResponseHeaderField.CONTENT_TYPE.getHeaderField()
+          + "application/octet-stream";
     }
   }
 
   private boolean requestIsSupported(String method) {
     return Arrays.asList(supportedHttpMethods).contains(method);
-  }
-
-  private void patchContents(File file, Request request) {
-    try {
-      if (getEtagFromHeader(request).equals(getEtagFromFile(file))) {
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(request.getBody());
-        fileWriter.close();
-      }
-    } catch (IOException e) {
-      System.err.println("Patch of file contents failed");
-      e.printStackTrace();
-    }
   }
 
   private String getEtagFromHeader(Request request) {
@@ -97,5 +91,14 @@ public class FileSystemHandler extends RequestHandler {
 
   private String getEtagFromFile(File file) throws IOException {
     return Sha1Encoder.encode(Files.readAllBytes(file.toPath()));
+  }
+
+  private boolean isImageFile(File file) {
+    return file.getName().contains(".jpeg") || file.getName().contains(".png") ||
+        file.getName().contains(".gif");
+  }
+
+  private boolean isTxtFile(File file) {
+    return file.getName().contains(".txt");
   }
 }

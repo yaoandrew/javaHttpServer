@@ -5,6 +5,7 @@ import java.util.Base64;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
+import messages.ResponseHeaderField;
 
 public class ProtectedRouteHandler extends RequestHandler {
 
@@ -22,7 +23,7 @@ public class ProtectedRouteHandler extends RequestHandler {
       return authorizedHandler.getResponse(request);
     } else {
       response.setStatusLine(HTTPStatus.UNAUTHORIZED.getStatusLine());
-      response.setHeaders("WWW-Authenticate: Basic realm=\"" + realm);
+      response.setHeaders(ResponseHeaderField.WWW_AUTH.getHeaderField() + "Basic realm=\"" + realm +"\"");
     }
     return response;
   }

@@ -5,6 +5,7 @@ import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
 import java.io.File;
+import messages.ResponseHeaderField;
 
 public class DirectoryHandler extends RequestHandler {
 
@@ -21,7 +22,7 @@ public class DirectoryHandler extends RequestHandler {
     Arrays.sort(sortedDirContents);
 
     response.setStatusLine(HTTPStatus.OK.getStatusLine());
-    response.setHeaders("Content-Type: text/html; charset=utf-8");
+    response.setHeaders(ResponseHeaderField.CONTENT_TYPE.getHeaderField() + "text/html; charset=utf-8");
 
     bodyContents.append("<!DOCTYPE html><html>");
     bodyContents.append("<title>Directory Listing for " + file.getName() + "</title>");
