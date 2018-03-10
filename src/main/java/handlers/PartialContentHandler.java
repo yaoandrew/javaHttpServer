@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
+import messages.ResponseHeaderField;
 
 public class PartialContentHandler extends FileSystemHandler {
 
@@ -65,7 +66,7 @@ public class PartialContentHandler extends FileSystemHandler {
       if (rangeIsValid(beginOfRange, endOfRange)) {
         partialContent = getPartialContent(fullContent, beginOfRange, endOfRange);
         response.setStatusLine(HTTPStatus.PARTIAL_CONTENT.getStatusLine());
-        response.setHeaders("Content-type: text/plain");
+        response.setHeaders(ResponseHeaderField.CONTENT_TYPE.getHeaderField() + "text/plain");
         response.setBody(partialContent);
       } else {
         response.setStatusLine(HTTPStatus.RANGE_NOT_SATISFIABLE.getStatusLine());

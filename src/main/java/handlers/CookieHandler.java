@@ -3,6 +3,7 @@ package handlers;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
+import messages.ResponseHeaderField;
 
 public class CookieHandler extends RequestHandler {
 
@@ -26,7 +27,7 @@ public class CookieHandler extends RequestHandler {
     if (setCookie) {
       response.setStatusLine(HTTPStatus.OK.getStatusLine());
       response.setBody("Eat".getBytes());
-      response.setHeaders("Set-Cookie: " + cookieValue);
+      response.setHeaders(ResponseHeaderField.SET_COOKIE.getHeaderField() + cookieValue);
     } else {
       response.setStatusLine(HTTPStatus.OK.getStatusLine());
       if (headerHasCookie) {

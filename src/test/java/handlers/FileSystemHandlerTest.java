@@ -29,7 +29,7 @@ public class FileSystemHandlerTest {
     FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
-    assertEquals("Content-type: image/jpeg", fileResponse.getHeaders());
+    assertEquals("Content-Type: image/jpeg", fileResponse.getHeaders());
   }
 
   @Test
@@ -42,7 +42,7 @@ public class FileSystemHandlerTest {
     FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
-    assertEquals("Content-type: image/png", fileResponse.getHeaders());
+    assertEquals("Content-Type: image/png", fileResponse.getHeaders());
   }
 
   @Test
@@ -55,7 +55,7 @@ public class FileSystemHandlerTest {
     FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
-    assertEquals("Content-type: image/gif", fileResponse.getHeaders());
+    assertEquals("Content-Type: image/gif", fileResponse.getHeaders());
   }
 
   @Test
@@ -68,7 +68,7 @@ public class FileSystemHandlerTest {
     FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
-    assertEquals("Content-type: text/plain", fileResponse.getHeaders());
+    assertEquals("Content-Type: text/plain", fileResponse.getHeaders());
   }
 
   @Test
@@ -81,7 +81,7 @@ public class FileSystemHandlerTest {
     FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
     Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
 
-    assertEquals("Content-type: application/octet-stream", fileResponse.getHeaders());
+    assertEquals("Content-Type: application/octet-stream", fileResponse.getHeaders());
   }
 
   @Test

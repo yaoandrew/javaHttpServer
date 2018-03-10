@@ -3,6 +3,7 @@ package handlers;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
+import messages.ResponseHeaderField;
 
 public class OptionsRequestHandler extends RequestHandler {
 
@@ -10,7 +11,8 @@ public class OptionsRequestHandler extends RequestHandler {
 
   public Response getResponse(Request request) {
     response.setStatusLine(HTTPStatus.OK.getStatusLine());
-    response.setHeaders("Allow: " + String.join(",", supportedHttpMethods) + "\r\n");
+    response.setHeaders(ResponseHeaderField.ALLOW.getHeaderField() +
+        String.join(",", supportedHttpMethods));
 
     return response;
   }
