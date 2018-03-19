@@ -1,5 +1,6 @@
 package handlers;
 
+import messages.HTTPStatus;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -58,6 +59,16 @@ public class CookieHandlerTest {
     CookieHandler ch = new CookieHandler();
     String expected = "mmmm chocolate";
     String actual = new String(ch.getResponse(parser.parse(requestString)).getBody());
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  public void CookieHandlerWithNoHeadersAvoidsNPE() {
+    String requestString = "GET /eat_cookie HTTP/1.1\r\nContent-type: text\r\n";
+    CookieHandler ch = new CookieHandler();
+    String expected = HTTPStatus.OK.getStatusLine();
+    String actual = new String(ch.getResponse(parser.parse(requestString)).getStatusLine());
 
     assertEquals(expected, actual);
   }
