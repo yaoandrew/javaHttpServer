@@ -22,11 +22,11 @@ public class CliArgParser {
     }
   }
 
-  public Boolean hasUserDirSet() {
+  public boolean hasUserDirSet() {
     return argumentMap.containsKey(dirSwitch);
   }
 
-  public Boolean hasUserPortSet() {
+  public boolean hasUserPortSet() {
     return argumentMap.containsKey(portSwitch);
   }
 

@@ -77,7 +77,7 @@ public class Request {
     this.simpleUri = uri;
   }
 
-  public Boolean hasParams() {
+  public boolean hasParams() {
     return rawUri.contains("?");
   }
 }

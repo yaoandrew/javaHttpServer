@@ -28,7 +28,7 @@ public class ProtectedRouteHandler extends RequestHandler {
     return response;
   }
 
-  private Boolean isAuthorized(Request request) {
+  private boolean isAuthorized(Request request) {
     if (request.getHeaderValue("Authorization") != null && isValidUser(
         getUserInfo(request.getHeaderValue("Authorization")))) {
       return true;
@@ -37,7 +37,7 @@ public class ProtectedRouteHandler extends RequestHandler {
     }
   }
 
-  private Boolean isValidUser(String userInfo) {
+  private boolean isValidUser(String userInfo) {
     return Arrays.equals(Base64.getMimeDecoder().decode(userInfo.getBytes()),
         (USERNAME + ":" + PASSWORD).getBytes());
   }
