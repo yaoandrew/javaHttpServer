@@ -7,34 +7,29 @@ import messages.ResponseHeaderField;
 
 public class CookieHandler extends RequestHandler {
 
-  private Boolean setCookie = false;
-  private Boolean headerHasCookie = false;
-  private String cookieValue = null;
-
-
   public Response getResponse(Request request) {
 
-    if (request.getParamMap().size() >= 1) {
-      request.getParamMap().entrySet()
-          .forEach(entry -> cookieValue = entry.getKey() + "=" + entry.getValue());
-      setCookie = true;
-    }
-
-    if (request.getHeadersMap().containsKey("Cookie")) {
-      cookieValue = request.getHeaderValue("Cookie");
-      headerHasCookie = true;
-    }
-    if (setCookie) {
+    if (requestHasParams(request)) {
       response.setStatusLine(HTTPStatus.OK.getStatusLine());
       response.setBody("Eat".getBytes());
-      response.setHeaders(ResponseHeaderField.SET_COOKIE.getHeaderField() + cookieValue);
+      response.setHeaders(ResponseHeaderField.SET_COOKIE.getHeaderField() + getCookieType(request));
     } else {
-      response.setStatusLine(HTTPStatus.OK.getStatusLine());
-      if (headerHasCookie) {
-        response.setBody(("mmmm " + cookieValue.split("=")[1]).getBytes());
-      }
+        response.setStatusLine(HTTPStatus.OK.getStatusLine());
+        if (request.getHeaderValue("Cookie") != null) {
+          String cookieValue = request.getHeaderValue("Cookie");
+          response.setBody(("mmmm " + cookieValue.split("=")[1]).getBytes());
+        }
     }
-
     return response;
+  }
+
+  boolean requestHasParams(Request request) {
+    return request.getParamMap().size() >= 1;
+  }
+
+  private String getCookieType(Request request) {
+    String typeKey = "type";
+    String typeValue = request.getParamValue(typeKey);
+    return typeKey + "=" + typeValue;
   }
 }
