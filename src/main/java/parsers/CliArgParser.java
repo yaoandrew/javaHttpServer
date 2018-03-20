@@ -8,7 +8,7 @@ public class CliArgParser {
   private static String dirSwitch = "-d";
   private static String portSwitch = "-p";
 
-  HashMap<String, String> argumentMap = new HashMap<>();
+  private HashMap<String, String> argumentMap = new HashMap<>();
 
   public CliArgParser(String[] args) {
     parse(args);
