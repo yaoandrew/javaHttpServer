@@ -1,7 +1,8 @@
-package server;
+package logging;
 
 import static org.junit.Assert.assertEquals;
 
+import logging.MyLogger;
 import org.junit.Test;
 
 public class MyLoggerTest {

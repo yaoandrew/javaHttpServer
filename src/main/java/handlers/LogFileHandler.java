@@ -3,7 +3,7 @@ package handlers;
 import messages.HTTPStatus;
 import messages.Request;
 import messages.Response;
-import server.MyLogger;
+import logging.MyLogger;
 
 public class LogFileHandler extends RequestHandler {
 
