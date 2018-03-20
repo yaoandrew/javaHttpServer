@@ -7,20 +7,17 @@ import router.Router;
 
 public class App {
 
-  private static int SERVER_PORT = 5000;
-  private static String SERVER_DIR = System.getProperty("user.home") + "/public";
+  private static final int DEFAULT_SERVER_PORT = 5000;
+  private static final String DEFAULT_SERVER_DIR = System.getProperty("user.home") + "/public";
 
   public static void main(String[] args) throws IOException {
+    String SERVER_DIR;
+    int SERVER_PORT;
 
     CliArgParser cliArgParser = new CliArgParser(args);
 
-    if (cliArgParser.hasUserDirSet()) {
-      SERVER_DIR = cliArgParser.getUserDir();
-    }
-
-    if (cliArgParser.hasUserPortSet()) {
-      SERVER_PORT = Integer.parseInt(cliArgParser.getUserPort());
-    }
+    SERVER_DIR = cliArgParser.hasUserDirSet() ? cliArgParser.getUserDir() : DEFAULT_SERVER_DIR;
+    SERVER_PORT = cliArgParser.hasUserPortSet() ? Integer.parseInt(cliArgParser.getUserPort()) : DEFAULT_SERVER_PORT;
 
     ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
     Router router = new Router(SERVER_DIR);
