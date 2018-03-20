@@ -3,6 +3,7 @@ package server;
 import java.net.ServerSocket;
 import java.io.IOException;
 import parsers.CliArgParser;
+import router.Router;
 
 public class App {
 
@@ -22,7 +23,8 @@ public class App {
     }
 
     ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-    Server server = new Server(serverSocket, SERVER_DIR);
+    Router router = new Router(SERVER_DIR);
+    Server server = new Server(serverSocket, router);
     System.out.println("Server started...");
     System.out.println("Using: " + SERVER_DIR + " on port " + SERVER_PORT);
     server.run();

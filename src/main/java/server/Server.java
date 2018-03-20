@@ -9,15 +9,14 @@ import router.Router;
 public class Server {
 
   private ServerSocket serverSocket;
-  private String serverDir;
+  private Router router;
 
-  Server(ServerSocket serverSocket, String serverDir) {
+  Server(ServerSocket serverSocket, Router router) {
     this.serverSocket = serverSocket;
-    this.serverDir = serverDir;
+    this.router = router;
   }
 
   public void run() throws IOException {
-    Router router = new Router(serverDir);
 
     while (true) {
       Socket clientSocket = serverSocket.accept();
