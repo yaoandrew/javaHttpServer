@@ -1,4 +1,4 @@
-package servers;
+package server;
 
 import static org.junit.Assert.assertEquals;
 

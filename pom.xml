@@ -42,7 +42,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>servers.App</mainClass>
+              <mainClass>server.App</mainClass>
             </manifest>
           </archive>
         </configuration>

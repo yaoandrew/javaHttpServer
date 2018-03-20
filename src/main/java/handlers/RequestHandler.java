@@ -7,5 +7,5 @@ public abstract class RequestHandler {
 
   Response response = new Response();
 
-  abstract Response getResponse(Request request);
+  public abstract Response getResponse(Request request);
 }

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import messages.Request;
 import org.junit.Test;
 import parsers.RequestParser;
-import servers.MyLogger;
+import server.MyLogger;
 
 public class LogFileHandlerTest {
 

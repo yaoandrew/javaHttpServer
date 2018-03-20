@@ -1,10 +1,9 @@
-package servers;
+package server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import handlers.ClientHandler;
 import router.Router;
 
 public class Server {
@@ -22,7 +21,7 @@ public class Server {
 
     while (true) {
       Socket clientSocket = serverSocket.accept();
-      ClientHandler clientHandler = new ClientHandler(clientSocket, router);
+      ClientWorker clientHandler = new ClientWorker(clientSocket, router);
       (new Thread(clientHandler)).start();
     }
   }

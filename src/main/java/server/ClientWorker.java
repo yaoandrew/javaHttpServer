@@ -1,5 +1,6 @@
-package handlers;
+package server;
 
+import handlers.RequestHandler;
 import io.InputReader;
 import io.OutputWriter;
 import java.io.*;
@@ -8,16 +9,15 @@ import messages.Request;
 import messages.Response;
 import parsers.RequestParser;
 import router.Router;
-import servers.MyLogger;
 
-public class ClientHandler implements Runnable {
+public class ClientWorker implements Runnable {
 
   private Socket client;
   private Router router;
   private InputReader inputReader;
   private String rawRequest;
 
-  public ClientHandler(Socket client, Router router) {
+  public ClientWorker(Socket client, Router router) {
     this.client = client;
     this.router = router;
   }
