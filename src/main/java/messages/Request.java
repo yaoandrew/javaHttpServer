@@ -8,7 +8,6 @@ public class Request {
   private String rawUri;
   private String httpVersion;
   private String simpleUri;
-  private String cookie;
   private String body;
   HashMap<String, String> params = new HashMap<>();
   HashMap<String, String> headers = new HashMap<>();
@@ -58,14 +57,6 @@ public class Request {
     this.httpMethod = httpMethod;
   }
 
-  public String getCookie() {
-    return cookie;
-  }
-
-  public void setCookie(String cookie) {
-    this.cookie = cookie;
-  }
-
   public String getParamValue(String key) {
     return this.params.get(key);
   }
@@ -86,7 +77,7 @@ public class Request {
     this.simpleUri = uri;
   }
 
-  public Boolean hasParams() {
+  public boolean hasParams() {
     return rawUri.contains("?");
   }
 }

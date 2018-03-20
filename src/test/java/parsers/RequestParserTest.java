@@ -61,4 +61,14 @@ public class RequestParserTest {
     assertEquals(expected, parser.parse(testStringWithParams).getParamValue("greeting"));
 
   }
+
+  @Test
+  public void ParserSetsMultipleParamsInRequestObject() {
+
+    String testStringWithParams = "POST /params?greeting=hello&goodbye=farewell HTTP/1.1";
+    int expected = 2;
+
+    assertEquals(expected, parser.parse(testStringWithParams).getParamMap().size());
+
+  }
 }

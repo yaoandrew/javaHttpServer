@@ -60,19 +60,19 @@ public class Router {
     }
   }
 
-  private Boolean routeExistsInMap(String route) {
+  private boolean routeExistsInMap(String route) {
     return handlerMap.containsKey(route);
   }
 
-  private Boolean isValidPathAndFile(File file) {
+  private boolean isValidPathAndFile(File file) {
     return file.exists() && file.isFile();
   }
 
-  private Boolean isValidPathAndDirectory(File file) {
+  private boolean isValidPathAndDirectory(File file) {
     return file.exists() && file.isDirectory();
   }
 
-  private Boolean isPartialContentRequest(Request request) {
+  private boolean isPartialContentRequest(Request request) {
     return request.getHeadersMap().containsKey("Range");
   }
 }

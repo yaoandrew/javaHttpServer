@@ -104,7 +104,7 @@ public class PartialContentHandler extends FileSystemHandler {
     }
   }
 
-  private Boolean canBeParsedToNumber(String rangeValues, Range rangeType) {
+  private boolean canBeParsedToNumber(String rangeValues, Range rangeType) {
     if (rangeType == Range.VALUE_TO_END) {
       return Range.VALUE_TO_END.canBeParsedToNumber(rangeValues);
     }
@@ -115,7 +115,7 @@ public class PartialContentHandler extends FileSystemHandler {
     }
   }
 
-  private Boolean rangeIsValid(int begin, int end) {
+  private boolean rangeIsValid(int begin, int end) {
     return (begin >= 0 & begin < contentLength) & (end > begin & end < contentLength);
   }
 
