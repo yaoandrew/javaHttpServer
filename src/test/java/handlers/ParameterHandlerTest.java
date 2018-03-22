@@ -17,14 +17,14 @@ public class ParameterHandlerTest {
   private String expectedBodyVar2 = "variable_2 = stuff";
 
   @Test
-  public void ParameterHandlerResponseContainsVariable1() {
+  public void ResponseBodyContainsVariable1() {
     String actualBody = new String (ph.getResponse(parsedRequest).getBody());
 
     assertTrue(actualBody.contains(expectedBodyVar1));
   }
 
   @Test
-  public void ParameterHandlerResponseContainsVariable2() {
+  public void ResponseBodyContainsVariable2() {
     String actualBody = new String (ph.getResponse(parsedRequest).getBody());
 
     assertTrue(actualBody.contains(expectedBodyVar2));

@@ -13,7 +13,7 @@ public class BadRouteHandlerTest {
   private String actual = brh.getResponse(parser.parse(request)).getStatusLine();
 
   @Test
-  public void BadRouteHandlerReturns404(){
+  public void Returns404(){
    assertEquals(expected, actual);
   }
 

@@ -20,12 +20,12 @@ public class OptionsRequestHandlerTest {
   private String expected_header = "Allow: GET,HEAD,POST,OPTIONS,PUT";
 
   @Test
-  public void OptionsRequestHandlerReturnsCorrectStatus() {
+  public void ReturnsCorrectStatus() {
     assertEquals(expected_status, actual.getStatusLine());
   }
 
   @Test
-  public void OptionsRequestHandlerReturnsCorrectHeader() {
+  public void ReturnsCorrectHeader() {
     assertThat(actual.getHeaders(), containsString(expected_header));
   }
 

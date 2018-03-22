@@ -11,7 +11,7 @@ public class RedirectHandlerTest {
   RequestParser parser = new RequestParser();
 
   @Test
-  public void RedirectHandlerSetsStatusCode304(){
+  public void SetsStatusCode304(){
 
     String expectedStatusLine =  "HTTP/1.1 302 Found";
 
@@ -20,7 +20,7 @@ public class RedirectHandlerTest {
   }
 
   @Test
-  public void RedirectHandlerSetsProperHeader(){
+  public void SetsProperHeader(){
 
     String expectedHeader = "Location: /";
 

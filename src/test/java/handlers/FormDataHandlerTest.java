@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class FormDataHandlerTest {
 
   @Test
-  public void FormDataHandlerReturnsCorrectResponseStatus() {
+  public void ReturnsCorrectResponseStatus() {
 
     String requestWithData = "GET /form HTTP/1.1\r\n";
     RequestParser parser = new RequestParser();
@@ -21,7 +21,7 @@ public class FormDataHandlerTest {
   }
 
   @Test
-  public void FormDataHandlerReturnsCorrectResponse(){
+  public void ReturnsCorrectResponse(){
 
     String requestWithData = "POST /form HTTP/1.1\r\n\r\ndata=fatcat";
     RequestParser parser = new RequestParser();

@@ -11,7 +11,7 @@ public class CookieHandlerTest {
   private RequestParser parser = new RequestParser();
 
   @Test
-  public void CookieHandlerReturnsCorrectBodyWhenCookieSentAsParam() {
+  public void ReturnsCorrectBodyWhenCookieSentAsParam() {
     String requestString = "GET /cookie?type=chocolate HTTP/1.1";
     CookieHandler ch = new CookieHandler();
     String expected = "Eat";
@@ -22,7 +22,7 @@ public class CookieHandlerTest {
   }
 
   @Test
-  public void CookieHandlerReturnsCorrectHeaderWhenCookieSentAsParam() {
+  public void ReturnsCorrectHeaderWhenCookieSentAsParam() {
     String requestString = "GET /cookie?type=chocolate HTTP/1.1";
     CookieHandler ch = new CookieHandler();
     String expected = "Set-Cookie: type=chocolate";
@@ -33,7 +33,7 @@ public class CookieHandlerTest {
   }
 
   @Test
-  public void CookieHandlerReturnsCorrectHeaderWhenMultipleCookiesSentAsParams() {
+  public void ReturnsCorrectHeaderWhenMultipleCookiesSentAsParams() {
     String requestString = "GET /cookie?foo=bar&type=chocolate HTTP/1.1";
     CookieHandler ch = new CookieHandler();
     String expected = "Set-Cookie: type=chocolate";
@@ -44,7 +44,7 @@ public class CookieHandlerTest {
   }
 
   @Test
-  public void CookieHandlerUsesCookieSentViaHeader() {
+  public void UsesCookieSentViaHeader() {
     String requestString = "GET /eat_cookie HTTP/1.1\r\nCookie: type=chocolate\r\n";
     CookieHandler ch = new CookieHandler();
     String expected = "mmmm chocolate";
@@ -54,7 +54,7 @@ public class CookieHandlerTest {
   }
 
   @Test
-  public void CookieHandlerUsesCookieWithMultipleHeaders() {
+  public void UsesCookieWithMultipleHeaders() {
     String requestString = "GET /eat_cookie HTTP/1.1\r\nCookie: type=chocolate\r\nContent-type: text\r\n";
     CookieHandler ch = new CookieHandler();
     String expected = "mmmm chocolate";
@@ -64,7 +64,7 @@ public class CookieHandlerTest {
   }
 
   @Test
-  public void CookieHandlerWithNoHeadersAvoidsNPE() {
+  public void AvoidsNPEWithNoHeadersSent() {
     String requestString = "GET /eat_cookie HTTP/1.1\r\nContent-type: text\r\n";
     CookieHandler ch = new CookieHandler();
     String expected = HTTPStatus.OK.getStatusLine();

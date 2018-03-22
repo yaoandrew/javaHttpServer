@@ -9,7 +9,7 @@ import parsers.RequestParser;
 public class TeapotHandlerTest {
 
   private RequestParser parser = new RequestParser();
-  private String teapot =
+  private static final String TEAPOT =
       "                       (\n"
           + "            _           ) )\n"
           + "         _,(_)._        ((\n"
@@ -21,7 +21,7 @@ public class TeapotHandlerTest {
           + "  `. :           :    /\n"
           + "    `.            :.,'\n"
           + "      `-.________,-'";
-  private String angryPot =
+  private static final String ANGRY_POT =
       "                              $ZZZ+\n"
           + "                              ZZZZI\n"
           + "                              IZZZ:  .\n"
@@ -63,7 +63,7 @@ public class TeapotHandlerTest {
 
     Response response = tph.getResponse(parser.parse(coffeeRequestString));
 
-    assertEquals("I'm a teapot\r\n" + angryPot, new String (response.getBody()));
+    assertEquals("I'm a teapot\r\n" + ANGRY_POT, new String (response.getBody()));
   }
 
   @Test
@@ -84,7 +84,7 @@ public class TeapotHandlerTest {
 
     Response response = tph.getResponse(parser.parse(teaRequestString));
 
-    assertEquals(teapot, new String (response.getBody()));
+    assertEquals(TEAPOT, new String (response.getBody()));
   }
 
 }

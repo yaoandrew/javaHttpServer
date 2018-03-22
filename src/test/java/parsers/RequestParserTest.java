@@ -10,7 +10,7 @@ public class RequestParserTest {
   private RequestParser parser = new RequestParser();
 
   @Test
-  public void ParserTakesRawRequestStringAndReturnsRequestObject() {
+  public void TakesRawRequestStringAndReturnsRequestObject() {
 
     String testString = "GET /foobar HTTP/1.1";
 
@@ -18,7 +18,7 @@ public class RequestParserTest {
   }
 
   @Test
-  public void ParserSetsHttpMethodInRequestObject() {
+  public void SetsHttpMethodInRequestObject() {
 
     String testString = "GET /aboutus HTTP/1.1";
 
@@ -26,7 +26,7 @@ public class RequestParserTest {
   }
 
   @Test
-  public void ParserSetsURIInRequestObject() {
+  public void SetsURIInRequestObject() {
 
     String testString = "GET /aboutus HTTP/1.1";
 
@@ -35,7 +35,7 @@ public class RequestParserTest {
   }
 
   @Test
-  public void ParserSetsHTTPVersionInRequestObject() {
+  public void SetsHTTPVersionInRequestObject() {
 
     String testString = "GET /aboutus HTTP/1.1";
 
@@ -44,7 +44,7 @@ public class RequestParserTest {
   }
 
   @Test
-  public void ParserSetsHeadersInRequestObject() {
+  public void SetsHeadersInRequestObject() {
 
     String testString = "GET /aboutus HTTP/1.1\r\nHello : World\r\nContent : text\r\n\r\n";
 
@@ -53,7 +53,7 @@ public class RequestParserTest {
   }
 
   @Test
-  public void ParserSetsParamsInRequestObject() {
+  public void SetsParamsInRequestObject() {
 
     String testStringWithParams = "POST /params?greeting=hello HTTP/1.1";
     String expected = "hello";
@@ -63,7 +63,7 @@ public class RequestParserTest {
   }
 
   @Test
-  public void ParserSetsMultipleParamsInRequestObject() {
+  public void SetsMultipleParamsInRequestObject() {
 
     String testStringWithParams = "POST /params?greeting=hello&goodbye=farewell HTTP/1.1";
     int expected = 2;

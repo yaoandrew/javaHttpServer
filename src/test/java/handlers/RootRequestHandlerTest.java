@@ -14,7 +14,7 @@ public class RootRequestHandlerTest {
   String actual = rrh.getResponse(parser.parse(request)).getStatusLine();
 
   @Test
-  public void RootRequestHandlerReturnsCorrectStatus() {
+  public void ReturnsCorrectStatus() {
     assertEquals(expected, actual);
   }
 }

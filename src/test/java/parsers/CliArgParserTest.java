@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class CliArgParserTest {
 
     @Test
-    public void CliArgParserReturnsPublicDirLocation() {
+    public void ReturnsPublicDirLocation() {
         String[] args = {"-p", "5000", "-d",
             "/Users/andrew/Documents/code/8thlight/cob_spec/public"};
 
@@ -20,7 +20,7 @@ public class CliArgParserTest {
     }
 
     @Test
-    public void CliArgParserReturnsPort() {
+    public void ReturnsPort() {
         String[] args = {"-p", "5000", "-d",
             "/Users/andrew/Documents/code/8thlight/cob_spec/public"};
 
@@ -30,7 +30,7 @@ public class CliArgParserTest {
     }
 
     @Test
-    public void CliArgParserDoesntCareAboutArgOrder() {
+    public void DoesntCareAboutArgOrder() {
         String[] args = {"-d", "/Users/andrew/Documents/code/8thlight/cob_spec/public",
             "-p", "5000"};
 
@@ -40,7 +40,7 @@ public class CliArgParserTest {
     }
 
     @Test
-    public void CliArgParserReturnsDirSetting() {
+    public void ReturnsDirSetting() {
         String[] args = {"-d", "/Users/andrew/Documents/code/8thlight/cob_spec/public",
             "-p", "5000"};
 
@@ -50,7 +50,7 @@ public class CliArgParserTest {
     }
 
     @Test
-    public void CliArgParserReturnsPortSetting() {
+    public void ReturnsPortSetting() {
         String[] args = {"-d", "/Users/andrew/Documents/code/8thlight/cob_spec/public",
             "-p", "5000"};
 
@@ -60,7 +60,7 @@ public class CliArgParserTest {
     }
 
     @Test
-    public void CliArgParserReturnsFalseIfPortNotSet() {
+    public void ReturnsFalseIfPortNotSet() {
         String[] args = {"-d", "/Users/andrew/Documents/code/8thlight/cob_spec/public"};
 
         CliArgParser cliArgParser = new CliArgParser(args);
@@ -69,7 +69,7 @@ public class CliArgParserTest {
     }
 
     @Test
-    public void CliArgParserReturnsFalseIfDirectoryNotSet() {
+    public void ReturnsFalseIfDirectoryNotSet() {
         String[] args = {"-p", "5000"};
 
         CliArgParser cliArgParser = new CliArgParser(args);

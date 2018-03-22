@@ -20,7 +20,7 @@ public class DirectoryHandlerTest {
   public TemporaryFolder tempFolder = new TemporaryFolder();
 
   @Test
-  public void DirectoryHandlerHasFileInDirectoryList() throws IOException {
+  public void HasFileInDirectoryList() throws IOException {
 
     tempFolder.newFile("hello.txt");
     String fileNameInDir= "<a href=\"/hello.txt\">hello.txt";

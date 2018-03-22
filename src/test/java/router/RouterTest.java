@@ -19,7 +19,7 @@ public class RouterTest {
   public TemporaryFolder tempFolder = new TemporaryFolder();
 
   @Test
-  public void RouterReturnsCorrectHandlerForGoodRoute() throws IOException {
+  public void ReturnsCorrectHandlerForGoodRoute() throws IOException {
     Request request = parser.parse("GET / HTTP/1.1\r\n");
     RequestHandler expected = new DirectoryHandler(tempFolder.newFolder());
     Router router = new Router(serverDir);
@@ -28,7 +28,7 @@ public class RouterTest {
   }
 
   @Test
-  public void RouterReturnsCorrectHandlerForBadRoute() {
+  public void ReturnsCorrectHandlerForBadRoute() {
     Request request = parser.parse("GET /foobar HTTP/1.1\r\n");
     RequestHandler expected = new BadRouteHandler();
     Router router = new Router(serverDir);
@@ -37,7 +37,7 @@ public class RouterTest {
   }
 
   @Test
-  public void RouterReturnsCorrectHandlerForForm() {
+  public void ReturnsCorrectHandlerForForm() {
     Request request = parser.parse("GET /form HTTP/1.1\r\n");
     RequestHandler expected = new FormDataHandler();
     Router router = new Router(serverDir);
@@ -46,7 +46,7 @@ public class RouterTest {
   }
 
   @Test
-  public void RouterReturnsCorrectHandlerForOptions() {
+  public void ReturnsCorrectHandlerForOptions() {
     Request request = parser.parse("OPTIONS /method_options HTTP/1.1\r\n");
     RequestHandler expected = new OptionsRequestHandler();
     Router router = new Router(serverDir);
@@ -55,7 +55,7 @@ public class RouterTest {
   }
 
   @Test
-  public void RouterReturnsCorrectHandlerForCookies() {
+  public void ReturnsCorrectHandlerForCookies() {
     Request request = parser.parse("GET /cookie HTTP/1.1\r\n");
     RequestHandler expected = new CookieHandler();
     Router router = new Router(serverDir);
@@ -64,7 +64,7 @@ public class RouterTest {
   }
 
   @Test
-  public void RouterReturnsCorrectHandlerForParameterRequests() {
+  public void ReturnsCorrectHandlerForParameterRequests() {
     Request request = parser.parse("GET /parameters?variable1=abc HTTP/1.1\r\n");
     RequestHandler expected = new ParameterHandler();
     Router router = new Router(serverDir);
@@ -73,7 +73,7 @@ public class RouterTest {
   }
 
   @Test
-  public void RouterReturnsCorrectHandlerForRedirect() {
+  public void ReturnsCorrectHandlerForRedirect() {
     Request request = parser.parse("GET /redirect HTTP/1.1\r\n");
     RequestHandler expected = new RedirectHandler();
     Router router = new Router(serverDir);
