@@ -17,7 +17,7 @@ public class FileHandlerTest {
   public TemporaryFolder tempFolder = new TemporaryFolder();
 
   @Test
-  public void FileSystemHandlerTestReturnsCorrectContentTypeJPG() throws IOException {
+  public void ReturnsCorrectContentTypeJPG() throws IOException {
 
     String requestString = "GET /image.jpeg HTTP/1.1";
     RequestParser parser = new RequestParser();
@@ -30,7 +30,7 @@ public class FileHandlerTest {
   }
 
   @Test
-  public void FileSystemHandlerTestReturnsCorrectContentTypePNG() throws IOException {
+  public void ReturnsCorrectContentTypePNG() throws IOException {
 
     String requestString = "GET /image.png HTTP/1.1";
     RequestParser parser = new RequestParser();
@@ -43,7 +43,7 @@ public class FileHandlerTest {
   }
 
   @Test
-  public void FileSystemHandlerTestReturnsCorrectContentTypeGIF() throws IOException {
+  public void ReturnsCorrectContentTypeGIF() throws IOException {
 
     String requestString = "GET /image.gif HTTP/1.1";
     RequestParser parser = new RequestParser();
@@ -56,7 +56,7 @@ public class FileHandlerTest {
   }
 
   @Test
-  public void FileSystemHandlerTestReturnsCorrectContentTypeTXT() throws IOException {
+  public void ReturnsCorrectContentTypeTXT() throws IOException {
 
     String requestString = "GET /text-file.txt HTTP/1.1";
     RequestParser parser = new RequestParser();
@@ -69,7 +69,7 @@ public class FileHandlerTest {
   }
 
   @Test
-  public void FileSystemHandlerTestReturnsCorrectContentTypeNoExtension() throws IOException {
+  public void ReturnsCorrectContentTypeNoExtension() throws IOException {
 
     String requestString = "GET /file1 HTTP/1.1";
     RequestParser parser = new RequestParser();
@@ -82,7 +82,7 @@ public class FileHandlerTest {
   }
 
   @Test
-  public void FileSystemHandlerTestReturns405() throws IOException {
+  public void Returns405() throws IOException {
 
     String requestString = "POST /file1 HTTP/1.1";
     RequestParser parser = new RequestParser();
@@ -95,7 +95,7 @@ public class FileHandlerTest {
   }
 
   @Test
-  public void FileSystemHandlerTestReturns200ForPatchContentTxt() throws IOException {
+  public void Returns200ForPatchContentTxt() throws IOException {
 
     String requestString = "GET /patch-content.txt HTTP/1.1";
     RequestParser parser = new RequestParser();
