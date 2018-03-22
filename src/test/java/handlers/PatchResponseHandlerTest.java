@@ -26,8 +26,8 @@ public class PatchResponseHandlerTest {
     String requestString = "GET /patch-content.txt HTTP/1.1";
     File serverFile = tempFolder.newFile("patch-content.txt");
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
-    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+    FileHandler fileHandler = new FileHandler(serverFile);
+    Response fileResponse = fileHandler.getResponse(parser.parse(requestString));
 
     assertEquals(HTTPStatus.OK.getStatusLine(), fileResponse.getStatusLine());
   }
@@ -42,8 +42,8 @@ public class PatchResponseHandlerTest {
     fileWriter.write("default content");
     fileWriter.close();
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
-    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+    FileHandler fileHandler = new FileHandler(serverFile);
+    Response fileResponse = fileHandler.getResponse(parser.parse(requestString));
 
     assertEquals(HTTPStatus.NO_CONTENT.getStatusLine(), fileResponse.getStatusLine());
   }
@@ -58,8 +58,8 @@ public class PatchResponseHandlerTest {
     fileWriter.write("default content");
     fileWriter.close();
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
-    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+    FileHandler fileHandler = new FileHandler(serverFile);
+    Response fileResponse = fileHandler.getResponse(parser.parse(requestString));
 
     assertThat(new String(fileResponse.getBody()), equalTo("patched content"));
   }
@@ -74,8 +74,8 @@ public class PatchResponseHandlerTest {
     fileWriter.write("foobar");
     fileWriter.close();
 
-    FileSystemHandler fileSystemHandler = new FileSystemHandler(serverFile);
-    Response fileResponse = fileSystemHandler.getResponse(parser.parse(requestString));
+    FileHandler fileHandler = new FileHandler(serverFile);
+    Response fileResponse = fileHandler.getResponse(parser.parse(requestString));
 
     assertThat(new String(fileResponse.getBody()), equalTo("foobar"));
   }

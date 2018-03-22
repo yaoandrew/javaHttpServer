@@ -47,7 +47,7 @@ public class Router {
       }
 
       if (isValidPathAndFile(file)) {
-        return new FileSystemHandler(file);
+        return new FileHandler(file);
       }
 
       if (isValidPathAndDirectory(file)) {

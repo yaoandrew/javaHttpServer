@@ -12,13 +12,13 @@ import messages.Request;
 import messages.Response;
 import messages.ResponseHeaderField;
 
-public class FileSystemHandler extends RequestHandler {
+public class FileHandler extends RequestHandler {
 
   private File file;
   private String[] supportedHttpMethods = {"GET", "PATCH"};
 
 
-  public FileSystemHandler(File file) {
+  public FileHandler(File file) {
     this.file = file;
   }
 

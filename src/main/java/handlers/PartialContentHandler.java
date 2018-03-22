@@ -10,7 +10,7 @@ import messages.Request;
 import messages.Response;
 import messages.ResponseHeaderField;
 
-public class PartialContentHandler extends FileSystemHandler {
+public class PartialContentHandler extends FileHandler {
 
   private int contentLength;
   private File file;
