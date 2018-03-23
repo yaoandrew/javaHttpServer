@@ -35,10 +35,11 @@ public class Router {
     return routeAndHandlerMap;
   }
 
-  private Map handlerMap = createRouteAndHandlerMap();
 
   public RequestHandler getHandler(Request request) {
-    if (!routeExistsInMap(request.getSimpleUri())) {
+    Map handlerMap = createRouteAndHandlerMap();
+
+    if (!handlerMap.containsKey(request.getSimpleUri())) {
 
       File file = new File(serverDir + request.getSimpleUri());
 
@@ -58,10 +59,6 @@ public class Router {
     } else {
       return (RequestHandler) handlerMap.get(request.getSimpleUri());
     }
-  }
-
-  private boolean routeExistsInMap(String route) {
-    return handlerMap.containsKey(route);
   }
 
   private boolean isValidPathAndFile(File file) {
