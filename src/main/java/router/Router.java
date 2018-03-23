@@ -37,7 +37,7 @@ public class Router {
 
 
   public RequestHandler getHandler(Request request) {
-    Map handlerMap = createRouteAndHandlerMap();
+    Map<String, RequestHandler> handlerMap = createRouteAndHandlerMap();
 
     if (!handlerMap.containsKey(request.getSimpleUri())) {
 
@@ -57,7 +57,7 @@ public class Router {
       return new BadRouteHandler();
 
     } else {
-      return (RequestHandler) handlerMap.get(request.getSimpleUri());
+      return handlerMap.get(request.getSimpleUri());
     }
   }
 
