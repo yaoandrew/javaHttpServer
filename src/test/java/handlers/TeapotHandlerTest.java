@@ -46,7 +46,7 @@ public class TeapotHandlerTest {
           + "                          :7ZZZZZZZZZZ$~\n";
 
   @Test
-  public void TeapotHandlerReturnsStatus418() {
+  public void ReturnsStatus418() {
     String coffeeRequestString = "GET /coffee HTTP/1.1";
     RequestHandler tph = new TeapotHandler();
     String expectedStatus = "HTTP/1.1 418 I'm a Teapot";
@@ -57,7 +57,7 @@ public class TeapotHandlerTest {
   }
 
   @Test
-  public void TeapotHandlerReturnsCorrectBodyContent() {
+  public void ReturnsCorrectBodyContent() {
     String coffeeRequestString = "GET /coffee HTTP/1.1";
     RequestHandler tph = new TeapotHandler();
 
@@ -67,7 +67,7 @@ public class TeapotHandlerTest {
   }
 
   @Test
-  public void TeapotHandlerReturnsCorrectStatusForTea() {
+  public void ReturnsCorrectStatusForTea() {
     String teaRequestString = "GET /tea HTTP/1.1";
     RequestHandler tph = new TeapotHandler();
     String expectedStatus = "HTTP/1.1 200 OK";
@@ -78,7 +78,7 @@ public class TeapotHandlerTest {
   }
 
   @Test
-  public void TeapotHandlerReturnsCorrectBodyContentForTea() {
+  public void ReturnsCorrectBodyContentForTea() {
     String teaRequestString = "GET /tea HTTP/1.1";
     RequestHandler tph = new TeapotHandler();
 
