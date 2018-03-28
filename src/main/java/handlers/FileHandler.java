@@ -25,6 +25,7 @@ public class FileHandler extends RequestHandler {
 
   @Override
   public Response getResponse(Request request) {
+    Response response = new Response();
     String statusLine = getStatusLine(request);
     response.setStatusLine(statusLine);
     writeToFile(file, request);

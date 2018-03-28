@@ -19,6 +19,7 @@ public class ProtectedRouteHandler extends RequestHandler {
   }
 
   public Response getResponse(Request request) {
+    Response response = new Response();
     if (isAuthorized(request)) {
       return authorizedHandler.getResponse(request);
     } else {

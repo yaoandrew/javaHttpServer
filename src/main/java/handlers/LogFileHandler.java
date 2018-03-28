@@ -9,6 +9,7 @@ public class LogFileHandler extends RequestHandler {
 
   @Override
   public Response getResponse(Request request) {
+    Response response = new Response();
     MyLogger myLogger = MyLogger.getInstance();
     response.setStatusLine(HTTPStatus.OK.getStatusLine());
     response.setBody(myLogger.getLog().getBytes());

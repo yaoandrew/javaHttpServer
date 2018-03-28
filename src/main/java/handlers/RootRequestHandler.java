@@ -11,6 +11,7 @@ public class RootRequestHandler extends RequestHandler {
 
   @Override
   public Response getResponse(Request request) {
+    Response response = new Response();
     response.setStatusLine(HTTPStatus.OK.getStatusLine());
     response.setHeaders(ResponseHeaderField.ALLOW.getHeaderField()
         + String.join(",", supportedHttpMethods));

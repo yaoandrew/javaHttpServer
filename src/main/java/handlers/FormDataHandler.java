@@ -8,6 +8,7 @@ import server.Server;
 public class FormDataHandler extends RequestHandler {
 
   public Response getResponse(Request request) {
+    Response response = new Response();
     if (request.getHttpMethod().equals("POST") || request.getHttpMethod().equals("PUT") || request
         .getHttpMethod().equals("DELETE")) {
       Server.setDataStore(request.getBody());

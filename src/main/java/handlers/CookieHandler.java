@@ -8,6 +8,7 @@ import messages.ResponseHeaderField;
 public class CookieHandler extends RequestHandler {
 
   public Response getResponse(Request request) {
+    Response response = new Response();
 
     if (requestHasParams(request)) {
       response.setStatusLine(HTTPStatus.OK.getStatusLine());

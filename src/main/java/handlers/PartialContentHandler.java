@@ -44,6 +44,7 @@ public class PartialContentHandler extends FileHandler {
   }
 
   public Response getResponse(Request request) {
+    Response response = new Response();
     byte[] partialContent;
     byte[] fullContent;
     contentLength = (int) file.length();
