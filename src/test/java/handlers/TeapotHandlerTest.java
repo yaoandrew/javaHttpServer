@@ -10,7 +10,7 @@ public class TeapotHandlerTest {
 
   private RequestParser parser = new RequestParser();
   private static final String TEAPOT =
-      "                       (\n"
+            "                       (\n"
           + "            _           ) )\n"
           + "         _,(_)._        ((\n"
           + "    ___,(_______).        )\n"
@@ -22,7 +22,7 @@ public class TeapotHandlerTest {
           + "    `.            :.,'\n"
           + "      `-.________,-'";
   private static final String ANGRY_POT =
-      "                              $ZZZ+\n"
+            "                              $ZZZ+\n"
           + "                              ZZZZI\n"
           + "                              IZZZ:  .\n"
           + "           :          =OZZZZZZZZZZZZZZOZ:\n"

@@ -6,8 +6,8 @@ import messages.Response;
 
 public class TeapotHandler extends RequestHandler {
 
-  private String teapot =
-      "                       (\n"
+  private final static String teapot =
+            "                       (\n"
           + "            _           ) )\n"
           + "         _,(_)._        ((\n"
           + "    ___,(_______).        )\n"
@@ -18,8 +18,8 @@ public class TeapotHandler extends RequestHandler {
           + "  `. :           :    /\n"
           + "    `.            :.,'\n"
           + "      `-.________,-'";
-  private String angryPot =
-      "                              $ZZZ+\n"
+  private final static String angryPot =
+            "                              $ZZZ+\n"
           + "                              ZZZZI\n"
           + "                              IZZZ:  .\n"
           + "           :          =OZZZZZZZZZZZZZZOZ:\n"

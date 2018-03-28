@@ -6,8 +6,9 @@ import java.security.NoSuchAlgorithmException;
 public class Sha1Encoder {
 
   public static String encode(byte[] data) {
+    String hashFunction = "SHA-1";
     try {
-      MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+      MessageDigest messageDigest = MessageDigest.getInstance(hashFunction);
       byte[] hash = messageDigest.digest(data);
       StringBuffer stringBuffer = new StringBuffer();
       for (byte b : hash) {
