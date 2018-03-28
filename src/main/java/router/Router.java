@@ -17,7 +17,7 @@ public class Router {
     this.serverDir = serverDir;
   }
 
-  private Map createRouteAndHandlerMap() {
+  private HashMap<String, RequestHandler> createRouteAndHandlerMap() {
 
     HashMap<String, RequestHandler> routeAndHandlerMap = new HashMap<>();
 
@@ -37,7 +37,7 @@ public class Router {
 
 
   public RequestHandler getHandler(Request request) {
-    Map<String, RequestHandler> handlerMap = createRouteAndHandlerMap();
+    HashMap<String, RequestHandler> handlerMap = createRouteAndHandlerMap();
 
     if (!handlerMap.containsKey(request.getSimpleUri())) {
 
