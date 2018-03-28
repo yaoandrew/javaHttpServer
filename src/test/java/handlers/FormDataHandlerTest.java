@@ -1,6 +1,7 @@
 package handlers;
 
 import messages.Request;
+import org.junit.Ignore;
 import org.junit.Test;
 import parsers.RequestParser;
 

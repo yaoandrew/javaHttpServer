@@ -10,6 +10,7 @@ public class Server {
 
   private ServerSocket serverSocket;
   private Router router;
+  static String dataStore;
 
   Server(ServerSocket serverSocket, Router router) {
     this.serverSocket = serverSocket;
@@ -24,4 +25,13 @@ public class Server {
       (new Thread(clientHandler)).start();
     }
   }
+
+  public static String getDataStore() {
+    return dataStore;
+  }
+
+  public static void setDataStore(String data) {
+    dataStore = data;
+  }
+
 }
