@@ -1,6 +1,8 @@
 package router;
 
 import java.io.IOException;
+
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -21,16 +23,7 @@ public class RouterTest {
   @Test
   public void ReturnsCorrectHandlerForGoodRoute() throws IOException {
     Request request = parser.parse("GET / HTTP/1.1\r\n");
-    RequestHandler expected = new DirectoryHandler(tempFolder.newFolder());
-    Router router = new Router(serverDir);
-
-    assertEquals(expected.getClass(), router.getHandler(request).getClass());
-  }
-
-  @Test
-  public void ReturnsCorrectHandlerForBadRoute() {
-    Request request = parser.parse("GET /foobar HTTP/1.1\r\n");
-    RequestHandler expected = new BadRouteHandler();
+    RequestHandler expected = new FileSystemHandler(serverDir, request);
     Router router = new Router(serverDir);
 
     assertEquals(expected.getClass(), router.getHandler(request).getClass());

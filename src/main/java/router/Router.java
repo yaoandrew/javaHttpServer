@@ -3,9 +3,7 @@ package router;
 
 import handlers.*;
 
-import java.io.File;
 import java.util.HashMap;
-import java.util.Map;
 
 import messages.Request;
 
@@ -40,36 +38,9 @@ public class Router {
     HashMap<String, RequestHandler> handlerMap = createRouteAndHandlerMap();
 
     if (!handlerMap.containsKey(request.getSimpleUri())) {
-
-      File file = new File(serverDir + request.getSimpleUri());
-
-      if (isPartialContentRequest(request) & isValidPathAndFile(file)) {
-        return new PartialContentHandler(file);
-      }
-
-      if (isValidPathAndFile(file)) {
-        return new FileHandler(file);
-      }
-
-      if (isValidPathAndDirectory(file)) {
-        return new DirectoryHandler(file);
-      }
-      return new BadRouteHandler();
-
+      return new FileSystemHandler(serverDir, request);
     } else {
       return handlerMap.get(request.getSimpleUri());
     }
-  }
-
-  private boolean isValidPathAndFile(File file) {
-    return file.exists() && file.isFile();
-  }
-
-  private boolean isValidPathAndDirectory(File file) {
-    return file.exists() && file.isDirectory();
-  }
-
-  private boolean isPartialContentRequest(Request request) {
-    return request.getHeadersMap().containsKey("Range");
   }
 }
