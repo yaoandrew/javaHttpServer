@@ -18,6 +18,6 @@ public class Sha1Encoder {
     } catch (NoSuchAlgorithmException e) {
       System.err.println("Could not find encoding algorithm");
     }
-    return null;
+    return "";
   }
 }
